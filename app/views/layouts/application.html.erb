@@ -2,12 +2,59 @@
 <html>
 <head>
   <title>TestApp <%= full_title(yield(:title)) %></title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
+  
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial scale 1.0">
+
+  		<link href="http://immense-mesa-9585.herokuapp.com/bootstrap.css" rel="stylesheet" type="text/css" media="screen">
+		<link href="http://immense-mesa-9585.herokuapp.com/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="screen">
 </head>
-<body style="background-color:gray">
+<body>
+<div class='container-fluid'
+<header class="row-fluid">
+				<div class="span12" style="margin-top:15px">
+					<nav class="navbar">
+						<div class="navbar-inner">
+						<a href="home.html" class="brand">AppFact</a>
+						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar">Link1</span>
+							<span class="icon-bar">Link2</span>
+							<span class="icon-bar">Link3</span>
+						</a>
+							
+							<div class="nav-collapse collapse">
+							<ul class="nav">
+								<li class="divider-vertical"></li>
+								<li><a href="#">Home</a></li>
+								<li><a href="#">Link 2</a></li>
+								
+								<li class="dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
+									<b class="caret"></b>
+									</a>
+									
+									<ul class="dropdown-menu">
+										<li><a href="#">Dropdown1</a></li>
+										<li><a href="#">Dropdown2</a></li>
+										</ul>
+									</li>
+									
+								<li class="divider vertical"></li>
+							</ul>
+						</div>
+						</div>
+					</nav>
+				</div>
+			</header>
+</div>
+<div class='container-fluid'>
+			<div class="row-fluid" id="main-content">
 
 <%= yield %>
+</div>
+</div>
+				<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="http://immense-mesa-9585.herokuapp.com/bootstrap.js"></script>
+
 </body>
 </html>
