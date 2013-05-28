@@ -50,9 +50,15 @@
 </div>
 <div class='container-fluid'>
 			<div class="row-fluid" id="main-content">
-
+ <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key %>"><%= value %></div>
+      <% end %>
 <%= yield %>
+<p></p>
+<p></p>
+<%= debug(params) if Rails.env.development? %>
 </div>
+
 </div>
 				<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script src="http://immense-mesa-9585.herokuapp.com/bootstrap.js"></script>
