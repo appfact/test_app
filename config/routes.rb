@@ -1,11 +1,14 @@
 TestApp::Application.routes.draw do
 
-resources :users
-root to: 'static_pages#home'
+  resources :users
+  root to: 'static_pages#home'
+  resources :sessions, only: [:new, :create, :destroy]
 
-match '/home', to: 'static_pages#home', via: 'get'
-match '/contact', to: 'static_pages#contact', via: 'get'
-match '/signup', to: 'users#new'
+  match '/home', to: 'static_pages#home', via: 'get'
+  match '/contact', to: 'static_pages#contact', via: 'get'
+  match '/signup', to: 'users#new'
+  match '/signin',  to: 'sessions#new'
+  match '/signout', to: 'sessions#destroy', via: :delete
   
 
 
