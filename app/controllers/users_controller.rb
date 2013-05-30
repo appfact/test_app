@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update]
+  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
   # by default before filters apply to every action in the controller
   # so here it's restricted just to edit and update
   before_filter :correct_user,   only: [:edit, :update]
   # correct_user private method ensures users can only edit their own info
   before_filter :admin_user,     only: :destroy
+
 
   def show
     @user = User.find(params[:id])
@@ -67,4 +68,6 @@ class UsersController < ApplicationController
     def admin_user
       redirect_to(root_path) unless current_user.admin?
     end
+
+
 end
