@@ -8,8 +8,9 @@
 
   		<%= javascript_include_tag "application" %>
   		<link href="https://immense-mesa-9585.herokuapp.com/bootstrap.css" rel="stylesheet" type="text/css" media="screen">
-		<link href="https://immense-mesa-9585.herokuapp.com/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="screen">
+		<link href="https://immense-mesa-9585.herokuapp.com/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="screen"> 
 		<%= render 'layouts/shim' %>
+		<%= csrf_meta_tags %>
 		
 </head>
 <body>
@@ -20,7 +21,10 @@
 						<div class="navbar-inner">
 						<%= link_to "LOGO", home_path, class: "brand" %>
 						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-							
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+
 
 						</a>
 							
@@ -67,8 +71,8 @@
 </div>
 
 </div>
-				<script src="https://immense-mesa-9585.herokuapp.com/jquery-latest.js"></script>
-		<script src="https://immense-mesa-9585.herokuapp.com/bootstrap.js"></script>
+			<script src="https://immense-mesa-9585.herokuapp.com/jquery-latest.js"></script>
+		<script src="https://immense-mesa-9585.herokuapp.com/bootstrap.js"></script> 
 
 </body>
 </html>
