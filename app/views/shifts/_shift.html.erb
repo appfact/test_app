@@ -1,0 +1,14 @@
+<li>
+  <span class="role"><%= shift.role %></span>
+  <span class="start_time">
+    Start time: <%= shift.start_time %>.
+  </span>
+  <span class="end_time">
+    Start time: <%= shift.end_time %>.
+  </span>
+  <% if current_user?(shift.user) %>
+  	<%= link_to "delete", shift, method: :delete,
+  					data: { confirm: "You sure?"},
+  					title: shift.start_time %>
+  	<% end %>
+</li>

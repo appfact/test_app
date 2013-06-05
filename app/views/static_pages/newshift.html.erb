@@ -1,0 +1,20 @@
+<% if signed_in? %>
+ 
+   
+      <section>
+        <%= render 'shared/user_info' %>
+        <!-- probably want to change this to business info when it is available -->
+      </section>
+      <section>
+        <%= render 'shared/shift_form' %>
+      </section>
+    
+ 
+<% else %>
+ 
+    <h1>Please sign up or sign in before creating a new shift</h1>
+
+    <%= link_to "Sign up now!", signup_path, 
+                                class: "btn btn-large btn-primary" %>
+ 
+<% end %> 

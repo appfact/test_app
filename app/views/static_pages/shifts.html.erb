@@ -1,0 +1,16 @@
+<h1>Your shifts</h1>
+ <% if @user.shifts.any? %>
+      <h3>Shifts (<%= @user.shifts.count %>)</h3>
+      <ol class="shifts">
+        <%= render @shifts %>
+      </ol>
+      <%= will_paginate @shifts %>
+    <% end %>
+
+<!-- testing the feed by adding it here as well -->
+ <% if signed_in? %>
+ <h3>Micropost Feed</h3>
+      <%= render 'shared/feed' %>
+      <% else %>
+      <h3>No feed to display because no shifts</h3>
+      <% end %>

@@ -2,12 +2,15 @@ TestApp::Application.routes.draw do
 
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :shifts, only: [:create, :destroy]
 
   match '/home', to: 'static_pages#home', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
   match '/signup', to: 'users#new'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
+  match '/shifts', to: 'static_pages#shifts', via: 'get'
+  match '/newshift', to: 'static_pages#newshift', via: 'get'
   
   root to: 'static_pages#home'
 
