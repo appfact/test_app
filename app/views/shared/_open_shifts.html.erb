@@ -1,0 +1,6 @@
+<% if @open_shift_items.any? %>
+  <ol class="open shifts">
+    <%= render partial: 'shared/open_shift_items', collection: @open_shift_items %>
+  </ol>
+  <%= will_paginate @open_shift_items %>
+<% end %>

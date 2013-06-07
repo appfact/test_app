@@ -1,11 +1,44 @@
 <li>
-  <span class="role"><%= shift.role %></span>
+  <%= "##{shift.id} - #{shift.role}" %>
+  <%= link_to "(view info)", shift %><br>
+  <span class="date">
+    Date: <%= shift.start_date %> - 
+  </span>
   <span class="start_time">
-    Start time: <%= shift.start_time %>.
+    Start time: <%= shift.start_time.strftime('%H:%M') %> - 
   </span>
-  <span class="end_time">
-    Start time: <%= shift.end_time %>.
+  <span class="duration">
+    Length: <%= Time.at(shift.duration_mins*60).utc.strftime('%Hhr %Mmin') %>.
   </span>
+  
+  <!-- shift request forms -->
+<% @shift = shift %>
+<% if !@shift.fk_user_worker.nil? %>
+<%= "Shift has been allocated to #{User.find(@shift.fk_user_worker).name}" %>
+<% else %>
+  
+  <% if @shift.requested?(current_user) %>
+  <!-- cancel shift request partial -->
+    <% @shift_request = @shift.shift_requests.find_by_worker_id(current_user.id) %>
+    <%= form_for(@shift_request,
+             html: { method: :delete }) do |f| %>
+    <%= f.hidden_field :worker_id, value: @user.id %>
+    <%= f.hidden_field :shiftx_id, value: @shift.id %>
+    You have requested this shift 
+        <%= f.submit "Cancel Request", class: "btn btn-medium" %>
+    <% end %>
+  <% else %>
+  <!-- shift request partial -->
+    <%= form_for(@shift.shift_requests.build(worker_id: @user.id)) do |f| %>
+    <%= f.hidden_field :worker_id %>
+    <%= f.hidden_field :shiftx_id, value: @shift.id %>
+    Shift is AVAILABLE <%= f.submit "Request Shift", 
+                    class: "btn btn-medium btn-primary" %>
+    <% end %>
+    <!-- end of shift request partial -->
+  <% end %>
+<% end %>
+  <!-- end of shift request form -->
   <% if current_user?(shift.user) %>
   	<%= link_to "delete", shift, method: :delete,
   					data: { confirm: "You sure?"},

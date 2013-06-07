@@ -1,0 +1,42 @@
+<li id="<%= open_shift_items.id %>">
+  <%= link_to gravatar_for(open_shift_items.user), open_shift_items.user %>
+  <span class="user">
+    
+  </span>
+  <span class="role"><%= link_to open_shift_items.role, open_shift_items %></span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(open_shift_items.created_at) %> ago by
+    <%= link_to open_shift_items.user.name, open_shift_items.user %>
+  </span>
+    <!-- shift request forms -->
+<% @shift = open_shift_items %>
+<% if !@shift.fk_user_worker.nil? %>
+<%= "Shift has been allocated to #{User.find(@shift.fk_user_worker).name}" %>
+<% else %>
+  
+  <% if @shift.requested?(current_user) %>
+  <!-- cancel shift request partial -->
+    <% @shift_request = @shift.shift_requests.find_by_worker_id(current_user.id) %>
+    <%= form_for(@shift_request,
+             html: { method: :delete }) do |f| %>
+    <%= f.hidden_field :worker_id, value: @user.id %>
+    <%= f.hidden_field :shiftx_id, value: @shift.id %>
+    <%= f.submit "Cancel Request", class: "btn btn-medium" %>
+    <% end %>
+  <% else %>
+  <!-- shift request partial -->
+    <%= form_for(@shift.shift_requests.build(worker_id: @user.id)) do |f| %>
+    <%= f.hidden_field :worker_id %>
+    <%= f.hidden_field :shiftx_id, value: @shift.id %>
+    <%= f.submit "Request Shift", 
+                    class: "btn btn-medium btn-primary"%>
+    <% end %>
+    <!-- end of shift request partial -->
+  <% end %>
+<% end %>
+    <% if current_user?(open_shift_items.user) %>
+    <%= link_to "delete shift", open_shift_items, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: open_shift_items.role, class:"btn btn-danger btn-medium" %>
+  <% end %>
+</li>

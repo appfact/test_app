@@ -1,0 +1,10 @@
+<% @shift = Shift.find(params[:id]) %>
+<div class="stats">
+  <a href="<%= requests_shift_path(@shift) %>">
+    <strong id="requests" class="stat">
+      <%= @shift.requests_for_this_shift.count %>
+    </strong>
+    requests
+  </a>
+ 
+</div>

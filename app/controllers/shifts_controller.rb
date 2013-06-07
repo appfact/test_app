@@ -4,19 +4,24 @@ class ShiftsController < ApplicationController
 
  def create
     @shift = current_user.shifts.build(params[:shift])
+    @shift.business_id = current_user.business_id
     if @shift.save
       flash[:success] = "Shift created!"
       redirect_to '/shifts'
     else
-      @feed_items = []
-      flash[:error] = "Shift could not be created - please try again"
-      render '/shifts'
+     # flash[:error] = "Shift could not be created - please try again"
+     # taking out the flash error because think it interferes with validation errors
+      render 'static_pages/newshift'
     end
  end
 
   def destroy
     @shift.destroy
     redirect_to '/shifts'
+  end
+
+  def show
+    @shift = Shift.find(params[:id])
   end
 
   private

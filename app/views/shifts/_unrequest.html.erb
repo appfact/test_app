@@ -1,0 +1,9 @@
+<% @user = current_user %>
+<% @shift = Shift.find(params[:id]) %>
+<% @shift_request = @shift.shift_requests.find_by_worker_id(@user.id) %>
+<%= form_for(@shift_request,
+             html: { method: :delete }) do |f| %>
+  <div><%= f.hidden_field :worker_id, value: @user.id %></div>
+  <div><%= f.hidden_field :shiftx_id, value: @shift.id %></div>
+  You have requested this shift <%= f.submit "Cancel Request", class: "btn btn-medium" %>
+<% end %>

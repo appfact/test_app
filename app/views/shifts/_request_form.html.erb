@@ -1,0 +1,12 @@
+<% @user = current_user %>
+<% if !@shift.fk_user_worker.nil? %>
+<%= "Shift has been allocated to #{User.find(@shift.fk_user_worker).name}" %>
+<% else %>
+  <div id="request_form">
+  <% if @shift.requested?(@user) %>
+    <%= render 'unrequest' %>
+  <% else %>
+    <%= render 'request' %>
+  <% end %>
+  </div>
+<% end %>

@@ -12,7 +12,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :email, :name, :phone, :password, :password_confirmation
+  attr_accessible :email, :name, :phone, :password, :password_confirmation, :business_id
   has_secure_password
   has_many :shifts, dependent: :destroy
 
@@ -27,8 +27,12 @@ class User < ActiveRecord::Base
   validates :password_confirmation, presence: true
 
   def feed
-    # This is preliminary. See "Following users" for the full implementation.
-    Shift.where("user_id = ?", id)
+  Shift.from_feed_logic(self)
+  # from_feed_logic is a method that takes variable self
+  end
+
+  def open_shifts
+    Shift.open_shifts_logic(self)
   end
 
   private

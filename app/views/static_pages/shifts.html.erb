@@ -1,16 +1,33 @@
+<% if current_user.admin? %>
+<div class="container">
+  <div class="nav pull-right"><%= link_to "Create a new shift", '/newshift', 
+                                class: "btn btn-medium btn-primary" %>
+                            </div>
+                          </div>
+<% end %>
+
 <h1>Your shifts</h1>
  <% if @user.shifts.any? %>
       <h3>Shifts (<%= @user.shifts.count %>)</h3>
-      <ol class="shifts">
+      <ul class="shifts">
         <%= render @shifts %>
-      </ol>
+      </ul>
       <%= will_paginate @shifts %>
     <% end %>
 
 <!-- testing the feed by adding it here as well -->
  <% if signed_in? %>
- <h3>Micropost Feed</h3>
+ <h3>Shifts for your business (<%= @user.feed.count %>)</h3>
       <%= render 'shared/feed' %>
       <% else %>
       <h3>No feed to display because no shifts</h3>
       <% end %>
+
+
+<!-- new feed for open shifts -->
+<% if signed_in? %>
+  Available shifts
+  <%= render 'shared/open_shifts' %>
+  <% else %>
+  No open shifts available
+  <% end %>

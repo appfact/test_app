@@ -1,11 +1,12 @@
 <li id="<%= feed_item.id %>">
   <%= link_to gravatar_for(feed_item.user), feed_item.user %>
   <span class="user">
-    <%= link_to feed_item.user.name, feed_item.user %>
+    
   </span>
-  <span class="role"><%= feed_item.role %></span>
+  <span class="role"><%= link_to feed_item.role, feed_item %></span>
   <span class="timestamp">
-    Posted <%= time_ago_in_words(feed_item.created_at) %> ago.
+    Posted <%= time_ago_in_words(feed_item.created_at) %> ago by
+    <%= link_to feed_item.user.name, feed_item.user %>
   </span>
     <% if current_user?(feed_item.user) %>
     <%= link_to "delete", feed_item, method: :delete,
