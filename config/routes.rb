@@ -9,7 +9,7 @@ TestApp::Application.routes.draw do
     end
   end
   
-  resources :shift_requests, only: [:create, :destroy, :show]
+  resources :shift_requests
 
   match '/home', to: 'static_pages#home', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'

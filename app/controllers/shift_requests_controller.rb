@@ -1,4 +1,5 @@
 class ShiftRequestsController < ApplicationController
+  
   def create
     @shift = Shift.find(params[:shift_request][:shiftx_id])
     @shift.request!(params[:shift_request][:worker_id])
@@ -14,6 +15,17 @@ class ShiftRequestsController < ApplicationController
   end
 
   def update
+    @shift = Shift.find(params[:shift_request][:shiftx_id])
+    @shift_request = @shift.shift_requests.find_by_worker_id(params[:shift_request][:worker_id])
+    @shift_request.manager_id = params[:shift_request][:manager_id]
+    @shift_request.manager_status = params[:shift_request][:manager_status]
+    if @shift_request.save
+      flash[:success] = "you approved this shift"
+      redirect_to @shift
+    else
+      flash[:error] = "something went wrong"
+      redirect_to '/shifts'
+    end
   end
 
   def show

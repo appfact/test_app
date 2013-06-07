@@ -24,6 +24,13 @@ class ShiftsController < ApplicationController
     @shift = Shift.find(params[:id])
   end
 
+  def requests
+    @shift = Shift.find(params[:id])
+    @title = "Requests for shift #{@shift.id} - #{@shift.role} - #{@shift.start_date}"
+    @shift_requests = @shift.shift_requests.paginate(page: params[:page])
+    render 'show_requests'
+  end
+
   private
 
   def correct_user

@@ -22,7 +22,7 @@ class Shift < ActiveRecord::Base
   end
 
   def request!(workerx)
-    self.shift_requests.create!(worker_id: workerx)
+    self.shift_requests.create!(worker_id: workerx, worker_status: true)
   end
   #note the self here is optional
 

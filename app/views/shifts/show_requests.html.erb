@@ -1,0 +1,27 @@
+<% provide(:title, @title) %>
+<% @shift = Shift.find(params[:id]) %>
+
+      <h1><%= @shift.id %></h1>
+      <% if @shift_requests.any? %>
+        <%= "Yes shift requests variable working" %><br><br>
+        <%= "#{pluralize(@shift_requests.count, "person")} requested this shift" %><br>
+        <ul><% @shift_requests.each do |request| %>
+        <li><%= link_to "#{User.find(request.worker_id).name}", 
+                  User.find(request.worker_id) %>
+                  <% @shift_request = request %>
+       
+
+        <%= form_for(@shift_request) do |f| %>
+        <%= f.hidden_field :manager_id, value: current_user.id %>
+        <%= f.hidden_field :manager_status, value: true %>
+        <%= f.hidden_field :worker_id, value: @shift_request.worker_id %>
+        <%= f.hidden_field :shiftx_id, value: @shift_request.shift_id %>
+        <%= f.submit "Approve request", class: "btn btn-medium btn-primary" %>
+        <% end %> 
+        </li>
+        <% end %>
+        </ul>
+
+      
+      <% end %>
+      
