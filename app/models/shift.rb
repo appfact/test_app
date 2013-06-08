@@ -26,6 +26,11 @@ class Shift < ActiveRecord::Base
   end
   #note the self here is optional
 
+  def offer!(workerx,managerx)
+    self.shift_requests.create!(worker_id: workerx, manager_id: managerx, manager_status: true)
+  end
+
+
   def unfollow!(workerx)
     shift_requests.find_by_worker_id(workerx.id).destroy
   end

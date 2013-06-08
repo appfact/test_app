@@ -1,0 +1,14 @@
+<% @offers_count = @shift.shift_requests.find_all_by_worker_status_and_manager_status(nil,true).count %>
+<%= "There are currently #{pluralize(@offers_count, "offers")} outstanding for this shift" %>
+
+<!-- shift offer code -->
+    <%= form_for(@shift.shift_requests.build(manager_id: current_user.id)) do |f| %>
+    <%= f.hidden_field :manager_id %>
+    <%= f.label :worker_id, "Worker ID" %>
+    <%= f.number_field :worker_id %>
+    <%= f.hidden_field :shiftx_id, value: @shift.id %>
+    <%= f.submit "Offer Shift", 
+                    class: "btn btn-medium btn-primary"%>
+    <% end %>
+<!-- end of shift offer code -->
+

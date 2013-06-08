@@ -34,7 +34,7 @@
     <!-- end of shift request partial -->
   <% end %>
 <% end %>
-    <% if current_user?(open_shift_items.user) %>
+    <% if can_delete_shift(@shift) %>
     <%= link_to "delete shift", open_shift_items, method: :delete,
                                      data: { confirm: "You sure?" },
                                      title: open_shift_items.role, class:"btn btn-danger btn-medium" %>

@@ -1,11 +1,32 @@
-<div class="container">
+<div class="container-fluid">
 	<div class="nav pull-right"><%= link_to "Back to shifts page", '/shifts', 
                                 class: "btn btn-medium btn-primary" %>
                             </div>
+
+<% if can_delete_shift(@shift) %>
+<%= link_to "delete shift", @shift, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: @shift.role, class:"btn btn-danger btn-medium" %>
+<% end %>
+
+<% if (!shift_filled?(@shift.id) && current_user.admin?) %>
+<%= render 'shared/stats' %>
+<%= render 'shared/offer_button' %>
+<% end %>
+<% if (shift_filled?(@shift.id) && current_user.admin?) %>
+<%= render 'shift_remove_user' %>
+<% end %>
+	
+end
+
 </div>
 <%= @shift.id %> - <%= @shift.role %><br>
 Posted by <%= @shift.user.name %><br>
+Shift filled? <%= shift_filled?(@shift.id) %>
 
 <br>
-<%= render 'shared/stats' %><br>
+
 <%= render 'request_form' if signed_in? %>
+
+<strong><%= "Shift Description"%></strong><br>
+<%= "#{@shift.description}" %>

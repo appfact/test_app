@@ -1,10 +1,7 @@
 <% @shift = Shift.find(params[:id]) %>
 <div class="stats">
-  <a href="<%= requests_shift_path(@shift) %>">
-    <strong id="requests" class="stat">
-      <%= @shift.requests_for_this_shift.count %>
-    </strong>
-    requests
-  </a>
+<%= link_to "Assign shift (#{pluralize(@shift.shift_requests.find_all_by_worker_status_and_manager_status(true,nil).count,"request")})",requests_shift_path(@shift), class: "btn btn-medium primary" %>
+    
+
  
 </div>

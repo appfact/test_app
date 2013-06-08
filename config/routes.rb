@@ -6,6 +6,8 @@ TestApp::Application.routes.draw do
   resources :shifts, only: [:create, :destroy, :show] do
     member do
       get :requests
+      get :offers
+      get :remove_worker
     end
   end
   
