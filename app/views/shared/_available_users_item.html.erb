@@ -1,0 +1,9 @@
+  <% if @shift.shift_requests.find_by_worker_id(available_users_item.id).nil? %>  
+  <% end %>
+  <!-- note - set some variables here so that the div will be displayed depending on whether the user's already been offered -->
+
+  <div class="span3" style="border:1px solid gray; border-radius:5px; margin:5px">
+  <%= gravatar_for(available_users_item) %>
+  <%= link_to available_users_item.name, available_users_item.name %>
+  </div>
+  

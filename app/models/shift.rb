@@ -17,6 +17,10 @@ class Shift < ActiveRecord::Base
   	where("business_id = ? AND fk_user_worker is null", usery.business_id) 
   end
 
+  def available_users
+    User.available_users_logic(self)
+  end
+
   def requested?(workerx)
     self.shift_requests.find_by_worker_id(workerx.id)
   end

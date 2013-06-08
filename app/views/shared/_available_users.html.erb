@@ -1,0 +1,6 @@
+<% if @available_users_items.any? %>
+  <%= render partial: 'shared/available_users_item', collection: @available_users_items %>
+  <%= will_paginate @available_users_items %>
+  <% else %>
+  No available users found
+<% end %>

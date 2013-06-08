@@ -35,6 +35,11 @@ class User < ActiveRecord::Base
     Shift.open_shifts_logic(self)
   end
 
+  def self.available_users_logic(shiftx)
+    where("business_id = ?", shiftx.business_id)
+  end
+
+
   private
 
     def create_remember_token

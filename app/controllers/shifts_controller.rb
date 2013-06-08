@@ -35,6 +35,7 @@ class ShiftsController < ApplicationController
 
   def offers
     @shift = Shift.find(params[:id])
+    @available_users_items = @shift.available_users.paginate(page: params[:page])
     @title = "Offers for shift #{@shift.id} - #{@shift.role} - #{@shift.start_date}"
     @shift_offers = @shift.shift_requests.find_all_by_worker_status_and_manager_status(nil,true)
     render 'show_offers'
@@ -43,9 +44,13 @@ class ShiftsController < ApplicationController
   def remove_worker
     @shift = Shift.find(params[:id])
     @shift.fk_user_worker = nil
-    @shift.save
-    flash[:success] = "You cleared this shift, user has been informed"
-    redirect_back_or @shift
+    if @shift.save
+      flash[:success] = "You cleared this shift, user has been informed"
+      redirect_back_or @shift
+    else
+      flash[:error] = "Something went wrong, worker not removed, please try again"
+      redirect_back_or @shift
+    end
   end
 
 
