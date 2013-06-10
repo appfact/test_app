@@ -1,9 +1,42 @@
-  <% if @shift.shift_requests.find_by_worker_id(available_users_item.id).nil? %>  
-  <% end %>
-  <!-- note - set some variables here so that the div will be displayed depending on whether the user's already been offered -->
+  <% @user = available_users_item %>
+  <% @shiftrequest = @shift.shift_requests.find_by_worker_id(@user.id) %>
 
-  <div class="span3" style="border:1px solid gray; border-radius:5px; margin:5px">
-  <%= gravatar_for(available_users_item) %>
-  <%= link_to available_users_item.name, available_users_item.name %>
-  </div>
+  <% if @shiftrequest.nil? %>  
+
+  	<div class="span3 unoffered" style="margin:5px">
+  	<%= gravatar_for(available_users_item) %>
+  	<%= link_to available_users_item.name, @user %>
+  	<!-- shift offer code -->
+    <%= form_for(@shift.shift_requests.build(manager_id: current_user.id)) do |f| %>
+    <%= f.hidden_field :manager_id %>
+    <%= f.hidden_field :worker_id, value: @user.id %>
+    <%= f.hidden_field :shiftx_id, value: @shift.id %>
+    <%= f.submit "offer shift", 
+                    class: "btn btn-medium btn-primary pull-right"%>
+    <% end %>
+<!-- end of shift offer code -->
+  	</div>
+  <% end %>
   
+  <% if !@shiftrequest.nil? %>
+  	<% if @shiftrequest.worker_status ==false %>
+  		<div class="span3 offeredrejected" style="margin:5px">
+  		<%= gravatar_for(available_users_item) %>
+  		<%= link_to available_users_item.name, @user %>
+  		Offer made but rejected
+  		</div>
+  		<% else %>
+
+  		<% if (@shiftrequest.worker_status.nil? &&
+  			!@shiftrequest.nil?) %>
+  			<div class="span3 offered" style="margin:5px">
+  			<%= gravatar_for(available_users_item) %>
+  			<%= link_to available_users_item.name, @user %>
+  			<%= link_to "cancel offer", offerdestroy_shift_request_path, 
+  				class: "btn btn-medium btn-danger pull-right"  %>
+  			</div>
+  		<% end %>
+  	<% end %>
+  	
+
+  <% end %>

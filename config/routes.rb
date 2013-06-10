@@ -11,7 +11,11 @@ TestApp::Application.routes.draw do
     end
   end
   
-  resources :shift_requests
+  resources :shift_requests do
+    member do
+      get :offerdestroy
+    end
+  end
 
   match '/home', to: 'static_pages#home', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'

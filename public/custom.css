@@ -64,6 +64,27 @@ input {
 }
 
 .offered {
-  background-color: green;
-  color:red
+  border:1px solid gray; 
+  border-radius:5px; 
+  margin:5px;
+  background-color: #C7DBA9;
 }
+.offered:hover{
+  background-color: #B2C2B9;
+  }
+
+.unoffered {
+  border:1px solid gray; 
+  border-radius:5px; 
+  margin:5px
+}
+.unoffered:hover{
+  background-color: #C7DBA9;
+  }
+
+.offeredrejected {
+  border:1px solid gray; 
+  border-radius:5px; 
+  margin:5px;
+  background-color: #EDEBD6;
+} 

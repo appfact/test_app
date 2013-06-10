@@ -1,1 +1,1 @@
-<%= link_to "Offer shift", offers_shift_path(@shift), class: "btn btn-medium primary" %>
+<%= link_to "offers (#{@shift.shift_requests.find_all_by_manager_status_and_worker_status(true,nil).count})", offers_shift_path(@shift), class: "btn btn-medium btn-primary" %>

@@ -11,9 +11,8 @@ class ShiftRequestsController < ApplicationController
       else
         if !params[:shift_request][:manager_id].nil?
           @shift.offer!(params[:shift_request][:worker_id],current_user.id)
-          flash[:success] = "Shift has been 
-                offered to"
-          redirect_back_or @shift
+          flash[:success] = "Shift has been offered to #{User.find(params[:shift_request][:worker_id]).name}"
+          redirect_to "/shifts/" + @shift.id.to_s + "/offers"
         end
       end
   end
@@ -25,6 +24,18 @@ class ShiftRequestsController < ApplicationController
     redirect_back_or @shift
   end
 
+  def offerdestroy
+    @shift = Shift.find(params[:id])
+    if @shift.shift_requests.find_by_manager_id(current_user.id).destroy
+      flash[:success] = "You have cancelled the offer - user has been informed"
+      redirect_to "/shifts/" + @shift.id.to_s + "/offers"
+    else
+      flash[:error] = "Something went wrong, please try again"
+      redirect_back_or @shift
+    end
+  end
+
+ 
   def update
     @shift = Shift.find(params[:shift_request][:shiftx_id])
     @shift_request = @shift.shift_requests.find_by_worker_id(params[:shift_request][:worker_id])
