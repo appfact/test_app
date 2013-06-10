@@ -5,8 +5,8 @@
       <% if @shift_requests.any? %>
         <%= "Yes shift requests variable working" %><br><br>
         <%= "#{pluralize(@shift_requests.count, "person")} requested this shift" %><br>
-        <ul><% @shift_requests.each do |request| %>
-        <li><%= link_to "#{User.find(request.worker_id).name}", 
+        <% @shift_requests.each do |request| %>
+        <div class="span3 request12"><%= link_to "#{User.find(request.worker_id).name}", 
                   User.find(request.worker_id) %>
                   <% @shift_request = request %>
        
@@ -16,11 +16,11 @@
         <%= f.hidden_field :manager_status, value: true %>
         <%= f.hidden_field :worker_id, value: @shift_request.worker_id %>
         <%= f.hidden_field :shiftx_id, value: @shift_request.shift_id %>
-        <%= f.submit "Approve request", class: "btn btn-medium btn-primary" %>
+        <%= f.submit "Approve request", class: "btn btn-medium btn-primary pull-right" %>
         <% end %> 
-        </li>
+        
         <% end %>
-        </ul>
+        </div>
 
       
       <% end %>

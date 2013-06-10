@@ -10,6 +10,8 @@ TestApp::Application.routes.draw do
       get :remove_worker
     end
   end
+
+  resources :firms
   
   resources :shift_requests do
     member do
@@ -20,6 +22,7 @@ TestApp::Application.routes.draw do
   match '/home', to: 'static_pages#home', via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
   match '/signup', to: 'users#new'
+  match '/signupuser', to: 'users#newuser'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
   match '/shifts', to: 'static_pages#shifts', via: 'get'

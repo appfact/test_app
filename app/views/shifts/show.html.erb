@@ -20,8 +20,8 @@
 
 </div>
 <h3>#<%= @shift.id %> - <%= @shift.role %></h3>
-<h3>/ <%= Date::DAYNAMES[@shift.start_date.wday] %> <%= @shift.start_date.to_formatted_s(:rfc822) %> 
-	/ <%= @shift.start_time %> </h3>
+<h3>/ <%= Date::DAYNAMES[@shift.start_datetime.wday] %> <%= @shift.start_datetime.to_formatted_s(:rfc822) %> 
+	/ <%= @shift.start_datetime %> </h3>
 
 	<br>
 Posted by <%= @shift.user.name %><br>
@@ -30,6 +30,6 @@ Shift filled? <%= shift_filled?(@shift.id) %>
 <br>
 
 
-
-<strong><%= "Shift Description"%></strong><br>
-<%= "#{@shift.description}" %>
+<% @shiftdescription = @shift.description || "(none given)" %>
+<strong><%= "More information about the shift"%></strong><br>
+<%= "#{@shiftdescription}" %>

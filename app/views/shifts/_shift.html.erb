@@ -2,10 +2,10 @@
   <%= "##{shift.id} - #{shift.role}" %>
   <%= link_to "(view info)", shift %><br>
   <span class="date">
-    Date: <%= shift.start_date %> - 
+    Date: <%= shift.start_datetime %> - 
   </span>
   <span class="start_time">
-    Start time: <%= shift.start_time.strftime('%H:%M') %> - 
+    Start time: <%= shift.start_datetime.strftime('%H:%M') %> - 
   </span>
   <span class="duration">
     Length: <%= Time.at(shift.duration_mins*60).utc.strftime('%Hhr %Mmin') %>.
@@ -42,6 +42,6 @@
   <% if current_user?(shift.user) %>
   	<%= link_to "delete", shift, method: :delete,
   					data: { confirm: "You sure?"},
-  					title: shift.start_time %>
+  					title: shift.start_datetime %>
   	<% end %>
 </li>

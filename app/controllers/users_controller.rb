@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   # correct_user private method ensures users can only edit their own info
   before_filter :admin_user,     only: :destroy
   before_filter :admin_user_cannot_delete_self, only: :destroy
+  before_filter :not_signed_in, only: [:new, :newuser]
 
 
   def show
@@ -11,6 +12,10 @@ class UsersController < ApplicationController
   end
 
   def new
+    @user = User.new
+  end
+
+  def newuser
     @user = User.new
   end
 
@@ -25,11 +30,17 @@ class UsersController < ApplicationController
   end
 
   def create
+    #need to add something here to check business id
     @user = User.new(params[:user])
     if @user.save
+      adminify(@user,0)
       sign_in @user
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+      if !@user.admin?
+        flash[:success] = "Welcome to the Sample App!"
+        redirect_to @user
+      else
+        redirect_to '/firms/new'
+      end
       # note - this redirect to @user should be changed.
       # because we want to do the next signup step
     else
@@ -65,6 +76,19 @@ class UsersController < ApplicationController
       if User.find(params[:id]) == current_user
         flash[:error] = "You cannot delete yourself"
         redirect_to root_path
+      end
+    end
+
+    def not_signed_in
+      if signed_in?
+        flash[:error] = "You are already signed up"
+        redirect_to root_path
+      end
+    end
+
+    def adminify(user,businessid)
+      if businessid == 0
+        user.toggle!(:admin)
       end
     end
 

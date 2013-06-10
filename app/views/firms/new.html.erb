@@ -1,0 +1,23 @@
+<% provide(:title, 'Add business information') %>
+
+
+<div class="row-fluid">
+  <div class="span4 offset4">
+    <h1>Sign up</h1>
+    <%= form_for(@firm) do |f| %>
+          <%= render 'shared/error_messages', object: f.object %>
+
+      <%= f.label :name, "Company name e.g. Oasis Cafe" %>
+      <%= f.text_field :name, placeholder: "company name" %>
+
+      <%= f.label :branch, "If your company has multiple locations, enter branch name, e.g. Trafalgar Square. If your company has only one location you can leave this blank" %>
+      <%= f.text_field :branch, placeholder: "branch name" %>
+
+      <%= f.label :sign_up_code, "Please choose a sign up code to give to your users so they can join your network
+      This is a password that will stop unauthorised people from accessing your shedules" %>
+      <%= f.text_field :sign_up_code, placeholder: "signupcode" %>	
+
+      <%= f.submit "complete sign-up", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>

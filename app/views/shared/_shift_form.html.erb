@@ -1,5 +1,5 @@
-<div class="container">
-  <div class="nav pull-right"><%= link_to "Back to shifts page", '/shifts', 
+<div class="container-fluid">
+  <div class="pull-right"><%= link_to "Back to shifts page", '/shifts', 
                                 class: "btn btn-medium btn-primary" %>
   </div>
 </div>
@@ -8,13 +8,10 @@
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
    
-  <%= f.label :start_date %>
-  <%= f.date_select :start_date %>
+  <%= f.label :start_datetime %>
+  <%= f.datetime_select :start_datetime %>
 
- 	<%= f.label :start_time %>
-  <%= f.time_select :start_time %>
-
- 	<%= f.label :duration_mins, "Duration (minutes)" %>
+  <%= f.label :duration_mins, "Length of shift in minutes" %>
   <%= f.number_field :duration_mins %>
 
  	<%= f.label :role %>

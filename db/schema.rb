@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130606135931) do
+ActiveRecord::Schema.define(:version => 20130610183136) do
+
+  create_table "firms", :force => true do |t|
+    t.string   "name"
+    t.string   "branch"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.string   "sign_up_code"
+  end
 
   create_table "shift_requests", :force => true do |t|
     t.integer  "shift_id"
@@ -31,7 +39,7 @@ ActiveRecord::Schema.define(:version => 20130606135931) do
 
   create_table "shifts", :force => true do |t|
     t.integer  "user_id"
-    t.time     "start_time"
+    t.datetime "start_datetime"
     t.string   "role"
     t.text     "description"
     t.integer  "fk_user_worker"
@@ -39,13 +47,13 @@ ActiveRecord::Schema.define(:version => 20130606135931) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.integer  "duration_mins"
-    t.date     "start_date"
+    t.datetime "end_datetime"
     t.integer  "business_id"
   end
 
   add_index "shifts", ["fk_user_worker"], :name => "index_shifts_on_fk_user_worker"
-  add_index "shifts", ["start_time", "user_id"], :name => "index_shifts_on_start_time_and_user_id"
-  add_index "shifts", ["start_time"], :name => "index_shifts_on_start_time"
+  add_index "shifts", ["start_datetime", "user_id"], :name => "index_shifts_on_start_time_and_user_id"
+  add_index "shifts", ["start_datetime"], :name => "index_shifts_on_start_time"
   add_index "shifts", ["status"], :name => "index_shifts_on_status"
   add_index "shifts", ["user_id"], :name => "index_shifts_on_user_id"
 

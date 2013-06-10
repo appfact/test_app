@@ -28,7 +28,7 @@ class ShiftsController < ApplicationController
 
   def requests
     @shift = Shift.find(params[:id])
-    @title = "Requests for shift #{@shift.id} - #{@shift.role} - #{@shift.start_date}"
+    @title = "Requests for shift #{@shift.id} - #{@shift.role} - #{@shift.start_datetime}"
     @shift_requests = @shift.shift_requests.find_all_by_worker_status_and_manager_status(true,nil)
     render 'show_requests'
   end
@@ -36,7 +36,7 @@ class ShiftsController < ApplicationController
   def offers
     @shift = Shift.find(params[:id])
     @available_users_items = @shift.available_users.paginate(page: params[:page])
-    @title = "Offers for shift #{@shift.id} - #{@shift.role} - #{@shift.start_date}"
+    @title = "Offers for shift #{@shift.id} - #{@shift.role} - #{@shift.start_datetime}"
     @shift_offers = @shift.shift_requests.find_all_by_worker_status_and_manager_status(nil,true)
     render 'show_offers'
   end

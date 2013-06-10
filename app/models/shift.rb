@@ -1,9 +1,12 @@
 class Shift < ActiveRecord::Base
   attr_accessible :description, :fk_user_worker, 
-  			:role, :start_time, :status, :start_date, :duration_mins
+  			:role, :start_datetime, :status, :end_datetime, :duration_mins
+  
   belongs_to :user
   has_many :shift_requests, dependent: :destroy
   has_many :requests_for_this_shift, through: :shift_requests, source: :shift
+
+  before_save :convert_times
 
   validates :user_id, presence: true
   validates :role, presence: true, length: {maximum:50}
@@ -37,5 +40,11 @@ class Shift < ActiveRecord::Base
 
   def unfollow!(workerx)
     shift_requests.find_by_worker_id(workerx.id).destroy
+  end
+
+  private
+
+  def convert_times
+    self.end_datetime = self.start_datetime + (self.duration_mins*60)
   end
 end

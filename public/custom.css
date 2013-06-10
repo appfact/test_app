@@ -69,7 +69,7 @@ input {
   margin:5px;
   background-color: #C7DBA9;
 }
-.offered:hover{
+.offered:hover {
   background-color: #B2C2B9;
   }
 
@@ -78,7 +78,7 @@ input {
   border-radius:5px; 
   margin:5px
 }
-.unoffered:hover{
+.unoffered:hover {
   background-color: #C7DBA9;
   }
 
@@ -88,3 +88,14 @@ input {
   margin:5px;
   background-color: #EDEBD6;
 } 
+
+.request12 {
+  padding: 10px;
+  background-color: white;
+  border:1px solid gray; 
+  border-radius:5px; 
+  margin:5px
+}
+.request12:hover {
+  background-color: #C7DBA9;
+  }
