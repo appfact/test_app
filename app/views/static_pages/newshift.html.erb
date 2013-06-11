@@ -1,13 +1,10 @@
 <% if signed_in? %>
  
-   
-      <section>
-        <%= render 'shared/user_info' %>
+<div class="span4 offset4">  
+      
+<!--        <%= render 'shared/user_info' %> -->
         <!-- probably want to change this to business info when it is available -->
-      </section>
-      <section>
         <%= render 'shared/shift_form' %>
-      </section>
     
  
 <% else %>
@@ -18,3 +15,4 @@
                                 class: "btn btn-large btn-primary" %>
  
 <% end %> 
+</div>

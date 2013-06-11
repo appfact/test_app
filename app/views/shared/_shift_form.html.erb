@@ -1,9 +1,7 @@
 <div class="container-fluid">
-  <div class="pull-right"><%= link_to "Back to shifts page", '/shifts', 
-                                class: "btn btn-medium btn-primary" %>
-  </div>
-</div>
 
+<h2>Create a new shift for <%= "#{Firm.find(current_user.business_id).name} 
+      - #{Firm.find(current_user.business_id).branch}" %></h2>
 <%= form_for(@shift) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
@@ -25,3 +23,4 @@
   </div>
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>
+</div>
