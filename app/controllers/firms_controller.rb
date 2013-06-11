@@ -9,6 +9,7 @@ class FirmsController < ApplicationController
 def create
     @firm = Firm.new(params[:firm])
     if @firm.save
+      auth_admin_user!(@firm.id)
       flash[:success] = "You created a new business"
       redirect_to @firm
           else
@@ -30,4 +31,12 @@ def create
   		redirect_to @firm
   	end
   end
+
+  def auth_admin_user!(firmid)
+    @firmx = Firm.find(firmid)
+    @permission = @firmx.firm_permissions.create!(user_id: current_user.id, type: 2)
+    @permission.toggle!(:status)
+    @permission.toggle!(:admin)
+  end
+
 end

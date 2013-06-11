@@ -39,6 +39,7 @@ class UsersController < ApplicationController
       if @user.admin?
         redirect_to '/firms/new'
       else
+        auth_normal_user!(@firmid)
         flash[:success] = "User signed up ok - business id = #{@user.business_id}"
         redirect_to users_url
       end
@@ -93,6 +94,7 @@ class UsersController < ApplicationController
     def adminify(user,businessid)
       if businessid == "ASSA{}{}{345345[]]]"
         user.toggle!(:admin)
+        user.business_id = 0
       end
     end
 
@@ -108,6 +110,12 @@ class UsersController < ApplicationController
         end
       end
     end
+
+  def auth_normal_user!(firmid)
+    @firmx = Firm.find(firmid)
+    @permission = @firmx.firm_permissions.create!(user_id: current_user.id, type: 1)
+    @permission.toggle!(:status)
+  end
 
 
   #  def business_id_misassign
