@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   before_filter :admin_user,     only: :destroy
   before_filter :admin_user_cannot_delete_self, only: :destroy
   before_filter :not_signed_in, only: [:new, :newuser]
+#  before_filter :business_id_misassign, only: :update
+  before_filter :check_if_business_account, only: [:create]
 
 
   def show
@@ -33,19 +35,22 @@ class UsersController < ApplicationController
     #need to add something here to check business id
     @user = User.new(params[:user])
     if @user.save
-      adminify(@user,0)
+      adminify(@user,@firmid)
       sign_in @user
-      if !@user.admin?
-        flash[:success] = "Welcome to the Sample App!"
-        redirect_to @user
-      else
+      if @user.admin?
         redirect_to '/firms/new'
+      else
+        flash[:success] = "User signed up ok - business id = #{@user.business_id}"
+        redirect_to 'rootpath'
       end
-      # note - this redirect to @user should be changed.
-      # because we want to do the next signup step
+    else
+      if @firmid != "ASSA{}{}{345345[]]]"
+      render 'newuser'
     else
       render 'new'
     end
+  end
+    
   end
 
   def edit
@@ -87,10 +92,28 @@ class UsersController < ApplicationController
     end
 
     def adminify(user,businessid)
-      if businessid == 0
+      if businessid == "ASSA{}{}{345345[]]]"
         user.toggle!(:admin)
       end
     end
+
+    def check_if_business_account
+      @firmid = params[:user][:business_id] || ""
+      if @firmid != "ASSA{}{}{345345[]]]"
+        @firmid = Firm.find_by_sign_up_code(params[:user][:business_id])
+        if @firmid == nil
+          @firmid == ""
+          flash[:error] = "The sign up code was not recognised"
+          redirect_to '/signupuser'
+        end
+      end
+    end
+
+
+  #  def business_id_misassign
+# fill this in to stop people misassigning businesses?
+# might be unnecessary if using relationships instead
+ #   end
 
 
 end

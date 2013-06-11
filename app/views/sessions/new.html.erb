@@ -1,8 +1,6 @@
 <% provide(:title, "Sign in") %>
-<h1>Sign in</h1>
+<div class="row-fluid span4 offset4"><h1>Sign in</h1>
 
-<div class="row">
-  <div class="span6 offset3">
     <%= form_for(:session, url: sessions_path) do |f| %>
 
       <%= f.label :email %>
@@ -14,6 +12,17 @@
       <%= f.submit "Sign in", class: "btn btn-large btn-primary" %>
     <% end %>
 
-    <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+    <h2>New user?</h2>
+
+    
+    <div class="alert alert-block alert-info">
+      <strong><%= link_to "Sign up for a new user account", signupuser_path %></strong>
+      If your manager has invited you to join, or someone has already created
+      an account for your business, please sign up here.
+      </div>
+      <div class="alert alert-block alert-info">
+        <strong><%= link_to "Sign up for a new business account", signup_path %></strong>
+        If you are a business owner or manager, and want to create a new business account,
+        please sign up here.
+      </div>
   </div>
-</div>
