@@ -1,5 +1,13 @@
 TestApp::Application.routes.draw do
 
+  get "firm_relationships/new"
+
+  get "firm_relationships/create"
+
+  get "firm_relationships/destroy"
+
+  get "firm_relationships/update"
+
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   
@@ -12,6 +20,8 @@ TestApp::Application.routes.draw do
   end
 
   resources :firms
+
+  resources :firm_permissions
   
   resources :shift_requests do
     member do
@@ -28,6 +38,7 @@ TestApp::Application.routes.draw do
   match '/shifts', to: 'static_pages#shifts', via: 'get'
   match '/newshift', to: 'static_pages#newshift', via: 'get'
   match '/shift_requests', to: 'shift_requests#index', via: 'get'
+
   
   root to: 'static_pages#home'
 

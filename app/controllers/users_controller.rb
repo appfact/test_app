@@ -32,7 +32,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    #need to add something here to check business id
     @user = User.new(params[:user])
     if @user.save
       adminify(@user,@firmid)
@@ -41,7 +40,7 @@ class UsersController < ApplicationController
         redirect_to '/firms/new'
       else
         flash[:success] = "User signed up ok - business id = #{@user.business_id}"
-        redirect_to 'rootpath'
+        redirect_to users_url
       end
     else
       if @firmid != "ASSA{}{}{345345[]]]"
@@ -105,6 +104,7 @@ class UsersController < ApplicationController
           @firmid == ""
           flash[:error] = "The sign up code was not recognised"
           redirect_to '/signupuser'
+          # can add params to redirect so something like 'signupuser? + params[:user] ???'
         end
       end
     end

@@ -15,6 +15,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :name, :phone, :password, :password_confirmation, :business_id
   has_secure_password
   has_many :shifts, dependent: :destroy
+  has_many :firm_permissions, dependent: :destroy
 
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token
@@ -25,6 +26,7 @@ class User < ActiveRecord::Base
   			format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, presence: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true
+  after_validation { self.errors.messages.delete(:password_digest) }
 
   def feed
   Shift.from_feed_logic(self)
