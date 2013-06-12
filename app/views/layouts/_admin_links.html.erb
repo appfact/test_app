@@ -1,0 +1,19 @@
+
+<li class="dropdown">
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	<strong><i class="icon-home"></i><%= " #{Firm.find(current_user.business_id).name}" %> </strong>
+	<b class="caret"></b>
+	</a>
+									
+		<ul class="dropdown-menu">
+			<li><%= link_to "Network", network_firm_path(current_user.business_id) %></li>
+			<li><%= link_to "Business Profile", firm_path(params[:id]) %></li>
+		</ul>
+</li>
+
+<li class="divider-vertical"></li>
+<li><%= link_to "Schedules", root_url %></li>
+<li><%= link_to "Shifts", '/shifts'%></li>
+</ul>
+</li>
+

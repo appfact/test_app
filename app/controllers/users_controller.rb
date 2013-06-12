@@ -32,25 +32,28 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
-    if @user.save
-      adminify(@user,@firmid)
-      sign_in @user
-      if @user.admin?
-        redirect_to '/firms/new'
+    if params[:user][:sign_up_stage] == 1
+      create_automatic_user(params[:user])
+    else
+      @user = User.new(params[:user])
+      if @user.save
+        adminify(@user,@firmid)
+        sign_in @user
+          if @user.admin?
+          redirect_to '/firms/new'
+        else
+          auth_normal_user!(@firmid)
+          flash[:success] = "User signed up ok - business id = #{@user.business_id}"
+          redirect_to users_url
+        end
       else
-        auth_normal_user!(@firmid)
-        flash[:success] = "User signed up ok - business id = #{@user.business_id}"
-        redirect_to users_url
+        if @firmid != "ASSA{}{}{345345[]]]"
+          render 'newuser'
+        else
+          render 'new'
+        end
       end
-    else
-      if @firmid != "ASSA{}{}{345345[]]]"
-      render 'newuser'
-    else
-      render 'new'
     end
-  end
-    
   end
 
   def edit

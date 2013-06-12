@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial scale 1.0">
 
   		<%= javascript_include_tag "application" %>
-  		<link href="/bootstrap.css" rel="stylesheet" type="text/css" media="screen">
-		<link href="/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="screen"> 
+  		<link href="/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" media="screen">
+		<link href="/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="screen"> 
 		<link href="/custom.css" rel="stylesheet" type="text/css" media="screen">
 		<%= render 'layouts/shim' %>
 		<%= csrf_meta_tags %>
@@ -30,28 +30,21 @@
 							<div class="nav-collapse collapse">
 							<ul class="nav">
 								<li class="divider-vertical"></li>
-								<li><%= link_to "Shifts", '/shifts' %></li>
-								<li><%= link_to "Requests", '/shifts' %></li>
-								<li><%= link_to "Users", '/users' %></li>
-								<!-- checking if the user is signed in -->
-								 <% if !signed_in? %>
-								 <li><%= link_to "Sign in", signin_path %></li>
-								 <% else %>
-<!--start of dropdown -->
-								<li class="dropdown">
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= "Signed in (#{current_user.name})" %>
-									<b class="caret"></b>
-									</a>
-									
-									<ul class="dropdown-menu">
-										<li><%= link_to "Account Settings", edit_user_path(current_user) %></li>
-										<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
-										<li class="divider"></li>
-										<li><%= link_to "Contact us", contact_path %></li>
-										</ul>
-									</li>
-									<% end %>
-<!-- end of dropdown -->
+								
+								
+								<% if signed_in? %>
+								<%= render 'layouts/signedin_links' %>
+								<% else %>
+								<%= render 'layouts/notsignedin_links' %>
+								<% end %>
+
+								<!-- end of company links -->
+								
+								
+								
+								
+								 
+
 									
 								<li class="divider vertical"></li>
 							</ul>
@@ -74,7 +67,7 @@
 
 </div>
 			<script src="/jquery-latest.js"></script>
-		<script src="/bootstrap.js"></script> 
+		<script src="/bootstrap/js/bootstrap.js"></script> 
 
 </body>
 </html>

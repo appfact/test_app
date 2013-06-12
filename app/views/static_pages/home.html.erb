@@ -1,2 +1,17 @@
-<h1>StaticPages#home</h1>
-<p>Find me in app/views/static_pages/home.html.erb</p>
+
+<div class="alert alert-info span6 offset6" style="padding:10px">
+	<div class="span3">Existing users sign in</div>
+	
+	<%= form_for(:session, url: sessions_path) do |f| %>
+	<div class="span3"><%= f.text_field :email, placeholder: "email address" %></div>
+	<div class="span3"><%= f.password_field :password, placeholder: "password" %></div>
+	<div class="span1"><%= f.submit "Sign in", class: "btn btn-medium btn-primary" %></div>
+    <% end %>
+</div>
+
+
+<div class="span6 offset3">
+	<h1>Welcome to SC</h1>
+	<p>Find me in app/views/static_pages/home.html.erb</p>
+
+</div>

@@ -1,4 +1,10 @@
-<h1>Firms#show</h1>
-<p>Find me in app/views/firms/show.html.erb</p>
+<% @firm = Firm.find(params[:id]) %>
 
-<%= @network_users_array %>
+<div class="span6 offset3">
+<h1><%= "#{@firm.name}" %></h1>
+<p><%= "Branch: #{@firm.branch}" %></p>
+<p><%= "Access code: #{@firm.sign_up_code}" %>
+
+
+
+</div>

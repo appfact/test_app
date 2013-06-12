@@ -1,15 +1,23 @@
 <% @firm = Firm.find(params[:id]) %> 
+<% @user = User.new %>
+
 <div class="span6 offset3">
 	<h1>Your network</h2>
 
-		<div class="alert alert-info"><strong>Invite people to join your network</strong><br>
-			Send people the following link <strong>https://local/signupuser/code=<%= @firm.sign_up_code %></strong>
-			or fill in emails in the box below<br>
+		<div class="alert alert-info"><h3 style="margin-bottom:5px">2 easy ways to invite people to join your network</h3>
+			<ul>
+			<li style="margin-bottom:5px">Send people the following link <strong>https://local/signupuser/code=<%= @firm.sign_up_code %></strong>.
+				Once they sign up they will be automatically added to your network.</li>
+			<li style="margin-bottom:5px">Fill in their name and email and they will receive their log in details by email. You can
+			start allocating them shifts immediately!</li>
 
-			<form class="form-inline" style="margin-bottom:0px">
-    		<input type="text" class="input-xlarge" placeholder="Enter emails separated by commas">
-    		<button type="submit" class="btn">Invite!</button>
-    		</form>
+			<%= form_for(@user) do |f| %>
+			<%= f.hidden_field :sign_up_stage, value: 1 %>
+			<%= f.text_field :name, placeholder: "enter staff's name" %>
+			<%= f.email_field :email, placeholder: "enter staff's email address" %>
+			<%= f.submit "Invite!", class: "btn btn-medium btn-primary" %>
+			<% end %>
+    		
 		</div>
 		    <table class="table table-hover">
     			<thead>
