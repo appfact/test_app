@@ -11,21 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130611175541) do
+ActiveRecord::Schema.define(:version => 20130612102910) do
 
   create_table "firm_permissions", :force => true do |t|
     t.integer  "firm_id"
     t.integer  "user_id"
     t.boolean  "status"
-    t.integer  "type"
+    t.integer  "kind"
     t.boolean  "admin"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   add_index "firm_permissions", ["firm_id"], :name => "index_firm_permissions_on_firm_id"
-  add_index "firm_permissions", ["type"], :name => "index_firm_permissions_on_type"
-  add_index "firm_permissions", ["user_id", "firm_id", "type"], :name => "index_firm_permissions_on_user_id_and_firm_id_and_type", :unique => true
+  add_index "firm_permissions", ["kind"], :name => "index_firm_permissions_on_type"
+  add_index "firm_permissions", ["user_id", "firm_id", "kind"], :name => "index_firm_permissions_on_user_id_and_firm_id_and_kind"
   add_index "firm_permissions", ["user_id"], :name => "index_firm_permissions_on_user_id"
 
   create_table "firms", :force => true do |t|

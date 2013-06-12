@@ -1,6 +1,7 @@
 class FirmsController < ApplicationController
   before_filter :signed_in_user
   before_filter :admin_user, only: [:new, :create, :update]
+  before_filter :user_can_view_firm?, only: [:show]
 
   def new
   	@firm = Firm.new
@@ -21,6 +22,10 @@ def create
   end
 
   def show
+    unless user_can_view_firm?
+      flash[:error] = "You don't have permission to view that page"
+      redirect_back_or root_url
+    end
   end
 
   private
@@ -37,6 +42,15 @@ def create
     @permission = @firmx.firm_permissions.create!(user_id: current_user.id, type: 2)
     @permission.toggle!(:status)
     @permission.toggle!(:admin)
+  end
+
+  def user_can_view_firm?
+    @firmy = Firm.find(params[:id])
+    if @firmy.firm_permissions.find_by_user_id_and_status(current_user.id,true)
+      true
+    else
+      false
+    end
   end
 
 end
