@@ -1,13 +1,5 @@
 TestApp::Application.routes.draw do
 
-  get "firm_relationships/new"
-
-  get "firm_relationships/create"
-
-  get "firm_relationships/destroy"
-
-  get "firm_relationships/update"
-
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   

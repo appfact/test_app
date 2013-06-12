@@ -1,9 +1,9 @@
-<% provide(:title, "Edit user") %> 
-<h1>Update your profile</h1>
+<% provide(:title, "Edit your account details") %> 
 
-<div class="row">
-  <div class="span6 offset3">
-    <%= form_for(@user) do |f| %>
+
+<div class="span4 offset4">
+  <h1>Update your profile</h1>
+      <%= form_for(@user) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
       <%= f.label :name %>
@@ -25,6 +25,5 @@
     <% end %>
 
     <%= gravatar_for @user %>
-    <a href="http://gravatar.com/emails" target="_blank">change</a>
+    <a href="http://gravatar.com/emails" target="_blank">change your picture</a>
   </div>
-</div>
