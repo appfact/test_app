@@ -14,6 +14,8 @@ TestApp::Application.routes.draw do
   resources :firms do
     member do
       get :network
+      get :requests
+      get :invites
     end
   end
 

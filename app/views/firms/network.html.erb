@@ -2,7 +2,16 @@
 <% @user = User.new %>
 
 <div class="span6 offset3">
+	
+	<ul class="nav nav-pills">
+    <li class="active">
+    <a href="#">Staff</a>
+    </li>
+    <li><%= link_to "Requests (4)", requests_firm_path(@firm)%></li>
+    <li><%= link_to "Invites", invites_firm_path(@firm)%></li>
+    </ul>
 	<h1>Your network</h2>
+		   
 
 		<div class="alert alert-info"><h3 style="margin-bottom:5px">2 easy ways to invite people to join your network</h3>
 			<ul>
