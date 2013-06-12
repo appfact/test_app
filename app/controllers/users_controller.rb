@@ -113,7 +113,7 @@ class UsersController < ApplicationController
 
   def auth_normal_user!(firmid)
     @firmx = Firm.find(firmid)
-    @permission = @firmx.firm_permissions.create!(user_id: current_user.id, type: 1)
+    @permission = @firmx.firm_permissions.create!(user_id: current_user.id, kind: 1)
     @permission.toggle!(:status)
   end
 

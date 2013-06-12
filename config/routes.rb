@@ -11,7 +11,11 @@ TestApp::Application.routes.draw do
     end
   end
 
-  resources :firms
+  resources :firms do
+    member do
+      get :network
+    end
+  end
 
   resources :firm_permissions
   

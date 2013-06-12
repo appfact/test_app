@@ -1,6 +1,7 @@
 <% provide(:title, @user.name) %>
 <%= link_to "edit your profile and preferences", edit_user_path(current_user), class: "btn btn-primary pull-right" %>
 <div class="span4 offset4">
+
 	
 <h2>
   <%= gravatar_for @user %>

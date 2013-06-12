@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     where("business_id = ?", shiftx.business_id)
   end
 
+  def network_users(firmxpermissions)
+    where("id in (?)", firmxpermissions)
+  end
+
 
   private
 

@@ -1,7 +1,8 @@
 class FirmsController < ApplicationController
   before_filter :signed_in_user
   before_filter :admin_user, only: [:new, :create, :update]
-  before_filter :user_can_view_firm?, only: [:show]
+  before_filter :user_can_view_firm?, only: [:show, :network]
+  #check that this before filter doesn't interfere with correct display of network page
 
   def new
   	@firm = Firm.new
@@ -28,6 +29,12 @@ def create
     end
   end
 
+  def network
+    @firm = Firm.find(params[:id])
+    @network_users = @firm.network_users
+    render 'network'
+  end
+
   private
 
   def admin_user
@@ -39,9 +46,10 @@ def create
 
   def auth_admin_user!(firmid)
     @firmx = Firm.find(firmid)
-    @permission = @firmx.firm_permissions.create!(user_id: current_user.id, type: 2)
+    @permission = @firmx.firm_permissions.create!(user_id: current_user.id, kind: 2)
     @permission.toggle!(:status)
     @permission.toggle!(:admin)
+    current_user.business_id = firmid
   end
 
   def user_can_view_firm?
@@ -52,5 +60,6 @@ def create
       false
     end
   end
+
 
 end

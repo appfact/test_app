@@ -7,5 +7,8 @@ class Firm < ActiveRecord::Base
   validates :branch, length: {maximum: 50}
   validates :sign_up_code, length: {maximum: 30}, uniqueness: true, presence: true
 
+  def network_users
+  	@network_users_array = self.firm_permissions.all
+  end
 
 end

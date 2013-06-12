@@ -1,0 +1,7 @@
+<% @user = User.find(network_user.user_id) %>
+<tr>
+	<td><%= @user.name %></td>
+	<td></td>
+	<td><%= network_user.admin? %></td>
+	<td><button class="close">&times;</button></td>
+</tr>

@@ -1,0 +1,25 @@
+<% @firm = Firm.find(params[:id]) %> 
+<div class="span6 offset3">
+	<h1>Your network</h2>
+
+		<div class="alert alert-info"><strong>Invite people to join your network</strong><br>
+			Send people the following link <strong>https://local/signupuser/code=<%= @firm.sign_up_code %></strong>
+			or fill in emails in the box below<br>
+
+			<form class="form-inline" style="margin-bottom:0px">
+    		<input type="text" class="input-xlarge" placeholder="Enter emails separated by commas">
+    		<button type="submit" class="btn">Invite!</button>
+    		</form>
+		</div>
+		    <table class="table table-hover">
+    			<thead>
+    				<tr>
+    					<th>Name</th><th>Roles</th><th>Admin?</th><th></th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<%= render 'network_users' %>
+    			</tbody>
+    		</table>
+
+	</div>
