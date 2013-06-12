@@ -1,5 +1,7 @@
 <% if current_user.admin? %>
 <%= render 'layouts/admin_links' %>
+<% else %>
+<%= render 'layouts/normal_user_links' %>
 <% end %>
 
 <!-- menu options for user account links -->
@@ -12,7 +14,7 @@
 		</a>
 									
 		<ul class="dropdown-menu">
-			<li><%= link_to "Account settings", network_firm_path(current_user.business_id) %></li>
+			<li><%= link_to "Account settings", user_path(current_user.id) %></li>
 			<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
 			<li class="divider-horizontal"></li>
 

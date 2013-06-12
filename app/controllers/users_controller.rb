@@ -120,6 +120,24 @@ class UsersController < ApplicationController
     @permission.toggle!(:status)
   end
 
+  def create_automatic_user(userz)
+    @user = userz
+    @password = ('a'..'z').to_a.shuffle[0..7].join
+    @user.password = @password
+    @user.password_confirmation = @password
+    if @user.save
+      flash[:success] = "User #{@user.name} successfully created"
+      redirect_to root_path
+      # errors here
+    else
+      flash[:error] = "There was an error, user not created"
+      redirect_to root_path
+      # errors here
+    end
+  end
+
+  end
+
 
   #  def business_id_misassign
 # fill this in to stop people misassigning businesses?
@@ -127,4 +145,4 @@ class UsersController < ApplicationController
  #   end
 
 
-end
+
