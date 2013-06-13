@@ -2,7 +2,7 @@ class Shift < ActiveRecord::Base
   attr_accessible :description, :fk_user_worker, 
   			:role, :start_datetime, :status, :end_datetime, :duration_mins
   
-  belongs_to :user
+  belongs_to :firm
   has_many :shift_requests, dependent: :destroy
   has_many :requests_for_this_shift, through: :shift_requests, source: :shift
 
@@ -13,11 +13,11 @@ class Shift < ActiveRecord::Base
   validates_numericality_of :duration_mins, :only_integer => true, :message => "can only be whole number."
 
   def self.from_feed_logic(userx)
-  	where("business_id = ?", userx.business_id)
+  	where("firm_id = ?", userx.business_id)
   end
  
   def self.open_shifts_logic(usery)
-  	where("business_id = ? AND fk_user_worker is null", usery.business_id) 
+  	where("firm_id = ? AND fk_user_worker is null", usery.business_id) 
   end
 
   def available_users

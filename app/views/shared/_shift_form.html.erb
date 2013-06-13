@@ -1,10 +1,10 @@
-<div class="container-fluid">
 
-<h2>Create a new shift for <%= "#{Firm.find(current_user.business_id).name} 
-      - #{Firm.find(current_user.business_id).branch}" %></h2>
+
+<h3>New shift - <%= "#{Firm.find(current_user.business_id).name} 
+      (#{Firm.find(current_user.business_id).branch})" %></h3>
 <%= form_for(@shift) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  <div class="field">
+  
    
   <%= f.label :start_datetime %>
   <%= f.datetime_select :start_datetime %>
@@ -19,8 +19,7 @@
   <%= f.text_field :fk_user_worker %>
 
   <%= f.label :description %>
-  <%= f.text_area :description, placeholder: "Describe the duties of this shift" %>
-  </div>
+  <%= f.text_area :description, placeholder: "Describe the duties of this shift", class: "shift_description" %>
+  
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>
-</div>

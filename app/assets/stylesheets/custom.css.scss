@@ -47,6 +47,13 @@ input {
   @extend .control-group;
   @extend .error;
 }
+/* styings for date time selects... might drop these for datepickers */
+.shift_description {
+  border-top: 10px solid black;
+  background-color: green;
+  color: red;
+  cols: 10;
+}
 
 /* users index */
 
@@ -67,3 +74,4 @@ input {
   background-color: green;
   color:red
 }
+

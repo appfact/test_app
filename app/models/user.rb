@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   end
 
   def self.available_users_logic(shiftx)
-    where("business_id = ?", shiftx.business_id)
+    where("business_id = ?", shiftx.firm_id)
   end
 
  

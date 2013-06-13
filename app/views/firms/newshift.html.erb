@@ -1,0 +1,26 @@
+<% if signed_in? %>
+ 
+<div class="span6 offset3">  
+      
+	<ul class="nav nav-pills">
+    	<li>
+    		<a href="shifts"><%= "Open Shifts (#{@firm.shifts.find_all_by_fk_user_worker(nil).count})" %></a>
+    	</li>
+    	
+    	<li><%= link_to "Requests (#{number_shift_requests})", 'requests'%></li>
+    	<li class="active"><%= link_to "New Shift (+)", '#'%></i></li>
+    	<li><%= link_to "Search shifts (?)", 'search'%></li>
+    </ul>
+
+    <%= render 'shared/shift_form' %>
+    
+ 
+<% else %>
+ 
+    <h1>Please sign up or sign in before creating a new shift</h1>
+
+    <%= link_to "Sign up now!", signup_path, 
+                                class: "btn btn-large btn-primary" %>
+ 
+<% end %> 
+</div>

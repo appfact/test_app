@@ -5,7 +5,8 @@ module ShiftsHelper
 	end
 
 	def can_delete_shift(shiftx)
-		(!current_user.admin? || current_user.business_id != shiftx.business_id) ? 
+		(!current_user.admin? || current_user.business_id != shiftx.firm_id) ? 
+		# might want to change this to be permissions instead of current_user.business.id
 		false : true
 	end
 

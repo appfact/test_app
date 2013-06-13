@@ -4,8 +4,9 @@ class ShiftsController < ApplicationController
   before_filter :correct_user,   only: :destroy
 
  def create
-    @shift = current_user.shifts.build(params[:shift])
-    @shift.business_id = current_user.business_id
+    @firm = Firm.find(current_user.business_id)
+    @shift = @firm.shifts.build(params[:shift])
+    @shift.user_id = current_user.id
     if @shift.save
       flash[:success] = "Shift created!"
       redirect_to @shift

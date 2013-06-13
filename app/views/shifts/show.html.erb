@@ -1,7 +1,5 @@
-<div class="row-fluid">
-	<div class="nav pull-right"><%= link_to "Back to shifts page", '/shifts', 
-                                class: "btn btn-medium btn-primary" %>
-                            </div>
+<div class="span6 offset3">
+
 
 <% if can_delete_shift(@shift) %>
 <%= link_to "delete", @shift, method: :delete,
@@ -18,13 +16,14 @@
 <% end %>
 <%= render 'request_form' if (signed_in? && !current_user.admin?)%>
 
-</div>
+
+
 <h3>#<%= @shift.id %> - <%= @shift.role %></h3>
 <h3>/ <%= Date::DAYNAMES[@shift.start_datetime.wday] %> <%= @shift.start_datetime.to_formatted_s(:rfc822) %> 
 	/ <%= @shift.start_datetime %> </h3>
 
 	<br>
-Posted by <%= @shift.user.name %><br>
+Posted by <%= User.find(@shift.user_id).name %><br>
 Shift filled? <%= shift_filled?(@shift.id) %>
 
 <br>

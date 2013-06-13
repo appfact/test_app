@@ -139,6 +139,7 @@ class UsersController < ApplicationController
     @permission.toggle!(:status)
   end
 
+
   
 end
 

@@ -1,0 +1,18 @@
+<% @firm = Firm.find(params[:id]) %>
+<div class="row-fluid">
+	<div class="span6 offset3">
+		
+
+		<ul class="nav nav-pills">
+    		<li>
+    			<a href="shifts"><%= "Open Shifts (#{@firm.shifts.find_all_by_fk_user_worker(nil).count})" %></a>
+    		</li>
+    	
+    		<li class="active"><%= link_to "Requests (#{number_shift_requests})", '#'%></li>
+    		<li><%= link_to "New Shift (+)", 'newshift'%></i></li>
+    		<li><%= link_to "Search shifts (?)", '/search'%></li>
+    	</ul>
+
+    <%= open_shift_requests_array %>
+	</div>
+</div>

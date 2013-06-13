@@ -3,4 +3,9 @@ class FirmPermission < ActiveRecord::Base
   belongs_to :firm
 
   validates :kind, presence: true
+
+  private
+
+
+
 end

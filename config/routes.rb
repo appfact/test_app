@@ -14,7 +14,10 @@ TestApp::Application.routes.draw do
   resources :firms do
     member do
       get :network
-      get :requests
+      get :shiftrequests
+      get :rufn
+      get :shifts
+      get :newshift
     end
   end
 
@@ -33,7 +36,6 @@ TestApp::Application.routes.draw do
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
   match '/shifts', to: 'static_pages#shifts', via: 'get'
-  match '/newshift', to: 'static_pages#newshift', via: 'get'
   match '/shift_requests', to: 'shift_requests#index', via: 'get'
   match '/invite', to: 'users#invite'
 

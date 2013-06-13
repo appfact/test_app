@@ -1,7 +1,8 @@
 class FirmsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only: [:new, :create, :update, :network]
-  before_filter :user_can_view_firm?, only: [:show, :network]
+  before_filter :admin_user, only: [:new, :create, :update, :network, :rufn]
+  before_filter :user_can_view_firm?, only: [:show, :network, :rufn]
+  before_filter :cannot_rufn_self, only: :rufn
   #check that this before filter doesn't interfere with correct display of network page
 
   def new
@@ -35,6 +36,27 @@ def create
     render 'network'
   end
 
+  def rufn
+    @firm = Firm.find(params[:id])
+    @firm.firm_permissions.find_by_user_id(params[:userid]).toggle!(:status)
+    @user = User.find(params[:userid])
+    flash[:success] = "You have removed #{@user.name} from your network"
+    redirect_to network_firm_path(@firm)
+  end
+
+  def shifts
+    @firm = Firm.find(params[:id])
+    @open_shifts = @firm.shifts.find_all_by_fk_user_worker(nil)
+  end
+
+  def shiftrequests
+  end
+
+  def newshift
+    @firm = Firm.find(params[:id])
+    @shift = Shift.new
+  end
+
   private
 
   def admin_user
@@ -56,9 +78,25 @@ def create
     if @firmy.firm_permissions.find_by_user_id_and_status(current_user.id,true)
       true
     else
-      false
+      flash[:error] = "You cannot view this page"
+      redirect_to root_url
     end
   end
 
+  def cannot_rufn_self
+    @firm = Firm.find(params[:id])
+    if params[:userid].to_i == current_user.id
+      flash[:error] = "You cannot remove yourself from the network"
+      redirect_to network_firm_path(@firm)
+    end
+  end
+
+  def rufn_correct_firm
+    @firm = Firm.find(params[:id])
+    unless !@firm.firm_permissions.find_by_user_id_and_status(current_user.id,true).nil?
+      flash[:error] = "You do not have permission to do that"
+      redirect_to network_firm_path(@firm)
+    end
+  end
 
 end

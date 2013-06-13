@@ -1,7 +1,12 @@
 <% @user = User.find(network_user.user_id) %>
+<% @firm = Firm.find(params[:id]) %>
 <tr>
-	<td><%= @user.name %></td>
+	<td><%= @user.name %>
+		<%= (@user.id == current_user.id) ? " (you)" : "" %></td>
 	<td></td>
 	<td><%= network_user.admin? %></td>
-	<td><button class="close">&times;</button></td>
+	<td><% unless @user.id == current_user.id %>
+	<%= link_to "remove", "rufn?userid=#{network_user.user_id}" %> 
+	<% end %>
+	</td>
 </tr>
