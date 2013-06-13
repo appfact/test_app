@@ -1,6 +1,6 @@
 class FirmsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only: [:new, :create, :update]
+  before_filter :admin_user, only: [:new, :create, :update, :network]
   before_filter :user_can_view_firm?, only: [:show, :network]
   #check that this before filter doesn't interfere with correct display of network page
 

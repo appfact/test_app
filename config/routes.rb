@@ -15,7 +15,6 @@ TestApp::Application.routes.draw do
     member do
       get :network
       get :requests
-      get :invites
     end
   end
 
@@ -36,6 +35,7 @@ TestApp::Application.routes.draw do
   match '/shifts', to: 'static_pages#shifts', via: 'get'
   match '/newshift', to: 'static_pages#newshift', via: 'get'
   match '/shift_requests', to: 'shift_requests#index', via: 'get'
+  match '/invite', to: 'users#invite'
 
   
   root to: 'static_pages#home'

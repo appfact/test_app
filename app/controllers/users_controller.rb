@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
   before_filter :correct_user,   only: [:edit, :update]
   # correct_user private method ensures users can only edit their own info
-  before_filter :admin_user,     only: :destroy
+  before_filter :admin_user,     only: [:destroy, :invite]
+  # might need to change this to admin user OR shift manager can do invite
   before_filter :admin_user_cannot_delete_self, only: :destroy
   before_filter :not_signed_in, only: [:new, :newuser]
 #  before_filter :business_id_misassign, only: :update
@@ -32,8 +33,17 @@ class UsersController < ApplicationController
   end
 
   def create
-    if params[:user][:sign_up_stage] == 1
-      create_automatic_user(params[:user])
+    if params[:user][:sign_up_stage] == "1"
+      @user = User.new(params[:user])
+      if @user.save
+        auth_created_user!(@user.id, current_user.business_id)
+        flash[:success] = "new user made"
+        redirect_to '/invite'
+      else
+        flash[:error] = "error - user was not created"
+        render '/invite'
+      end
+      # create_automatic_user(@userz)
     else
       @user = User.new(params[:user])
       if @user.save
@@ -67,6 +77,9 @@ class UsersController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def invite
   end
 
   private
@@ -120,23 +133,14 @@ class UsersController < ApplicationController
     @permission.toggle!(:status)
   end
 
-  def create_automatic_user(userz)
-    @user = userz
-    @password = ('a'..'z').to_a.shuffle[0..7].join
-    @user.password = @password
-    @user.password_confirmation = @password
-    if @user.save
-      flash[:success] = "User #{@user.name} successfully created"
-      redirect_to root_path
-      # errors here
-    else
-      flash[:error] = "There was an error, user not created"
-      redirect_to root_path
-      # errors here
-    end
+  def auth_created_user!(userid, firmid)
+    @firmx = Firm.find(firmid)
+    @permission = @firmx.firm_permissions.create!(user_id: userid, kind: 1)
+    @permission.toggle!(:status)
   end
 
-  end
+  
+end
 
 
   #  def business_id_misassign

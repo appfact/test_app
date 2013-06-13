@@ -1,0 +1,36 @@
+<% @firm = Firm.find(current_user.business_id) %>
+<!-- need to update firm id to be the correct firm id -->
+<% @user = User.new %>
+<div class="span6 offset3">
+
+	<ul class="nav nav-pills">
+    <li>
+    <%= link_to "Staff", network_firm_path(@firm.id) %>
+    </li>
+    <li class="active"><%= link_to "Invites", '/invite'%></li>
+    </ul>
+	
+
+		<div class="alert alert-info"><p class="lead" style="margin-bottom:5px">sign up users and start allocating shifts immediately</p>
+			<ul>
+			
+			<li style="margin-bottom:5px">Enter a name and email address to add a user to your network.
+				Once you have created a user you can start giving them shifts, and they will be notified by
+				email if you offer them a shift.</li>
+
+			<%= form_for(@user) do |f| %>
+			<%= render 'shared/error_messages', object: f.object %>
+			<%= f.hidden_field :sign_up_stage, value: 1 %>
+			<%= f.hidden_field :business_id, value: @firm.sign_up_code %>
+			<%= f.hidden_field :password, value: @firm.sign_up_code %>
+			<%= f.hidden_field :password_confirmation, value: @firm.sign_up_code %>
+			<%= f.text_field :name, placeholder: "enter staff's name" %>
+			<%= f.email_field :email, placeholder: "enter staff's email address" %>
+			<%= f.submit "Invite!", class: "btn btn-medium btn-primary" %>
+			<% end %>
+
+			<li style="margin-bottom:5px">Or send people the following link <strong>https://local/signupuser/code=<%= @firm.sign_up_code %></strong><br>
+				Once they sign up they will be automatically added to your network.
+				Make sure they use your sign up code <strong><%= @firm.sign_up_code %></strong></li>
+		</div>
+	</div>

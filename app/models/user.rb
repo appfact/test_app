@@ -12,7 +12,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :email, :name, :phone, :password, :password_confirmation, :business_id
+  attr_accessible :email, :name, :phone, :password, :password_confirmation, :business_id, :sign_up_stage
   has_secure_password
   has_many :shifts, dependent: :destroy
   has_many :firm_permissions, dependent: :destroy
@@ -41,9 +41,7 @@ class User < ActiveRecord::Base
     where("business_id = ?", shiftx.business_id)
   end
 
-  def network_users(firmxpermissions)
-    where("id in (?)", firmxpermissions)
-  end
+ 
 
 
   private
