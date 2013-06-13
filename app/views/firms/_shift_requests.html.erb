@@ -1,0 +1,11 @@
+		    <table class="table table-hover">
+    			<thead>
+    				<tr>
+    					<th>Name</th><th>Roles</th><th>Admin?</th><th></th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<%= render partial: 'shift_requests_item', collection: @shiftrequests %>
+  					<%= will_paginate @shiftrequests %>
+    			</tbody>
+    		</table>

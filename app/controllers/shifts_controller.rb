@@ -20,7 +20,8 @@ class ShiftsController < ApplicationController
   def destroy
     @shift.destroy
     flash[:success] = "You deleted the shift ##{@shift.id} - #{@shift.role}"
-    redirect_to '/shifts'
+    @firm = Firm.find(current_user.business_id)
+    redirect_to shifts_firm_path(@firm)
   end
 
   def show
@@ -59,7 +60,7 @@ class ShiftsController < ApplicationController
 
   def correct_user
     @shift = Shift.find_by_id(params[:id])
-    redirect_to root_url unless @shift.business_id == current_user.business_id 
+    redirect_to root_url unless @shift.firm_id == current_user.business_id.to_i
   end
 
   def admin_user

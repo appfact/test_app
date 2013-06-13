@@ -1,19 +1,10 @@
 <div class="span6 offset3">
 
 
-<% if can_delete_shift(@shift) %>
-<%= link_to "delete", @shift, method: :delete,
-                                     data: { confirm: "You sure?" },
-                                     title: @shift.role, class:"btn btn-danger btn-medium" %>
+<% if current_user.admin? %>
+<%= render 'shifts_admin_menu' %>
 <% end %>
 
-<% if (!shift_filled?(@shift.id) && current_user.admin?) %>
-<%= render 'shared/stats' %>
-<%= render 'shared/offer_button' %>
-<% end %>
-<% if (shift_filled?(@shift.id) && current_user.admin?) %>
-<%= render 'shift_remove_user' %>
-<% end %>
 <%= render 'request_form' if (signed_in? && !current_user.admin?)%>
 
 

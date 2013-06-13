@@ -1,12 +1,13 @@
+<% @usero = User.find(open_shift_items.user_id) %>
 <li id="<%= open_shift_items.id %>">
-  <%= link_to gravatar_for(open_shift_items.user), open_shift_items.user %>
+  <%= link_to gravatar_for(@usero), @usero %>
   <span class="user">
     
   </span>
   <span class="role"><%= link_to open_shift_items.role, open_shift_items %></span>
   <span class="timestamp">
     Posted <%= time_ago_in_words(open_shift_items.created_at) %> ago by
-    <%= link_to open_shift_items.user.name, open_shift_items.user %>
+    <%= link_to @usero.name, @usero %>
   </span>
     <!-- shift request forms -->
 <% @shift = open_shift_items %>

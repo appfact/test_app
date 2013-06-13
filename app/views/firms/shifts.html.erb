@@ -9,10 +9,39 @@
     		</li>
     	
     		<li><%= link_to "Requests (#{number_shift_requests})", 'shiftrequests'%></li>
-    		<li><%= link_to "New Shift (+)", '/newshifts'%></i></li>
+    		<li><%= link_to "New Shift (+)", 'newshift'%></i></li>
     		<li><%= link_to "Search shifts (?)", '/search'%></li>
     	</ul>
 
-    <%= @open_shifts %>
+    <% if @open_shifts.count > 0 %>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th><th>Roles</th><th>Admin?</th><th></th>
+                </tr>
+            </thead>
+            <tbody>        
+                <% @open_shifts.each do |shift| %>
+                <% @shifto = Shift.find(shift.id) %>
+                <tr>
+                    <td><%= link_to shift.id, "/shifts/#{shift.id}" %></td>
+                    <td>column2</td>
+                    <td>column 3</td>
+                    <td>Column 4</td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <% else %>
+            <div class="alert alert-info">
+            There are no open shifts.
+            
+            </div>
+        <% end %>
+    
 	</div>
 </div>
+
+
+<!-- previous method  - render 'open_shifts' -->

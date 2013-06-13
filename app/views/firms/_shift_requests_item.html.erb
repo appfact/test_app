@@ -1,0 +1,9 @@
+<%= @shift = Shift.find(@shiftrequest.shift_id) %>
+<%= @user_r = User.find(@shiftrequest.user_id) %>
+
+<tr>
+	<td><%= @shift.role %></td>
+	<td>column2</td>
+	<td><%= @user_r.admin? %></td>
+	<td>Column 3</td>
+</tr>

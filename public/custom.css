@@ -139,3 +139,7 @@ input {
 .request12:hover {
   background-color: #C7DBA9;
   }
+
+.btn-medium {
+    margin-bottom: 3px
+  }

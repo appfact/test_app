@@ -1,0 +1,29 @@
+<% @shift = Shift.find(params[:id]) %>
+<% @requestscount = @shift.shift_requests.find_all_by_worker_status_and_manager_status(true,nil).count %>
+
+<% if @requestscount == 0 %>
+	<div class="btn btn-medium disabled">Requests (0)</div>
+  <% else %>
+	<%= link_to "requests (#{@requestscount})",requests_shift_path, class: "btn btn-medium btn-success" %>
+<% end %>
+
+<% if !@shift.fk_user_worker.nil? %>
+	<div class="btn btn-medium disabled">Offers <%= "#{@shift.shift_requests.find_all_by_manager_status_and_worker_status(true,nil).count}" %></div>
+	<% else %>
+	<%= link_to "Offers (#{@shift.shift_requests.find_all_by_manager_status_and_worker_status(true,nil).count})", offers_shift_path(@shift), class: "btn btn-medium btn-primary" %>
+	<% end %>
+
+<% if shift_filled?(@shift.id) %>
+ <%= link_to "Remove", remove_worker_shift_path, class: "btn btn-medium btn-warning" %>
+ <% else %>
+ <%= link_to "Assign", root_url, class: "btn btn-medium btn-primary" %>
+<% end %>
+
+<%= link_to "Repeat", root_url, class: "btn btn-medium btn-primary" %>
+
+
+<%= link_to "Delete", @shift, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: @shift.role, class:"btn btn-danger btn-medium" %>
+
+   

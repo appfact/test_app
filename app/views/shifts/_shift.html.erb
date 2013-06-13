@@ -8,7 +8,7 @@
     Start time: <%= shift.start_datetime.strftime('%H:%M') %> - 
   </span>
   <span class="duration">
-    Length: <%= Time.at(shift.duration_mins*60).utc.strftime('%Hhr %Mmin') %>.
+    Length: <%= shift.duration_mins.hour %>.
   </span>
   
   <!-- shift request forms -->
@@ -39,7 +39,7 @@
   <% end %>
 <% end %>
   <!-- end of shift request form -->
-  <% if current_user?(shift.user) %>
+  <% if current_user?(shift.user_id) %>
   	<%= link_to "delete", shift, method: :delete,
   					data: { confirm: "You sure?"},
   					title: shift.start_datetime %>
