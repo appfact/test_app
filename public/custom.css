@@ -48,6 +48,46 @@ input {
   @extend .error;
 }
 
+#shift_description {
+  color: red;
+  height: 40px;
+}
+
+#shift_start_datetime_1i {
+  color:red;
+  width: 80px;
+  padding: 5px;
+}
+#shift_start_datetime_2i {
+  color:red;
+  width: 60px;
+   padding: 5px;
+}
+#shift_start_datetime_3i {
+  color:red;
+  width: 60px;
+   padding: 5px;
+}
+#shift_start_datetime_4i {
+  color:red;
+  width: 55px;
+   padding: 5px;
+}
+#shift_start_datetime_5i {
+  color:red;
+  width: 55px;
+   padding: 5px;
+}
+#shift_duration_mins_4i {
+  color:red;
+  width: 55px;
+   padding: 5px;
+}
+#shift_duration_mins_5i {
+  color:red;
+  width: 55px;
+   padding: 5px;
+}
 /* users index */
 
 .users {

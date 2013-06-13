@@ -10,7 +10,6 @@ class Shift < ActiveRecord::Base
 
   validates :user_id, presence: true
   validates :role, presence: true, length: {maximum:50}
-  validates_numericality_of :duration_mins, :only_integer => true, :message => "can only be whole number."
 
   def self.from_feed_logic(userx)
   	where("firm_id = ?", userx.business_id)
@@ -45,6 +44,6 @@ class Shift < ActiveRecord::Base
   private
 
   def convert_times
-    self.end_datetime = self.start_datetime + (self.duration_mins*60)
+    self.end_datetime = self.start_datetime + (self.duration_mins.hour * 3600) + (self.duration_mins.min * 60)
   end
 end

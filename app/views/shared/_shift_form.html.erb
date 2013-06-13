@@ -6,20 +6,18 @@
   <%= render 'shared/error_messages', object: f.object %>
   
    
-  <%= f.label :start_datetime %>
-  <%= f.datetime_select :start_datetime %>
+  <%= f.label :start_datetime, "Shift date @ shift start time" %>
+  <%= f.datetime_select :start_datetime, order: [:day,:month,:year], 
+          minute_step: 5, use_short_month: true, datetime_separator: " @  " %>
 
-  <%= f.label :duration_mins, "Length of shift in minutes" %>
-  <%= f.number_field :duration_mins %>
+  <%= f.label :duration_mins, "Length of shift in hours and minutes" %>
+  <%= f.time_select :duration_mins, minute_step: 5, time_separator: " : ", value: Time.now.beginning_of_day %>
 
  	<%= f.label :role %>
   <%= f.text_field :role %>
 
-  <%= f.label :fk_user_worker %>
-  <%= f.text_field :fk_user_worker %>
-
   <%= f.label :description %>
   <%= f.text_area :description, placeholder: "Describe the duties of this shift", class: "shift_description" %>
   
-  <%= f.submit "Post", class: "btn btn-large btn-primary" %>
+  <%= f.submit "Create shift", class: "btn btn-large btn-primary" %>
 <% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130613121138) do
+ActiveRecord::Schema.define(:version => 20130613180302) do
 
   create_table "firm_permissions", :force => true do |t|
     t.integer  "firm_id"
@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(:version => 20130613121138) do
     t.string   "status"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
-    t.integer  "duration_mins"
+    t.time     "duration_mins"
     t.datetime "end_datetime"
     t.integer  "firm_id"
   end
