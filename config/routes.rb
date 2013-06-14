@@ -38,6 +38,7 @@ TestApp::Application.routes.draw do
   match '/shifts', to: 'static_pages#shifts', via: 'get'
   match '/shift_requests', to: 'shift_requests#index', via: 'get'
   match '/invite', to: 'users#invite'
+  match '/pastshifts', to: 'users#pastshifts', via: 'get'
 
   
   root to: 'static_pages#home'

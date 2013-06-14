@@ -33,6 +33,11 @@ class User < ActiveRecord::Base
   # from_feed_logic is a method that takes variable self
   end
 
+  def feed2
+  Shift.from_feed_logic_past(self)
+  # from_feed_logic is a method that takes variable self
+  end
+
   def open_shifts
     Shift.open_shifts_logic(self)
   end

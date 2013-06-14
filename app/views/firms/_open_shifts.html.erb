@@ -2,11 +2,13 @@
 		    <table class="table table-hover">
     			<thead>
     				<tr>
-    					<th>Name</th><th>Roles</th><th>Admin?</th><th></th>
+    					<th>#</th><th>Role</th><th>Date</th><th>Time</th><th>Length</th>
     				</tr>
     			</thead>
     			<tbody>
-    				<%= render partial: 'open_shifts_item', collection: @open_shifts %>
+    				
+                    <%= render partial: 'open_shifts_item', collection: @open_shifts_items %>
+                    <%= will_paginate @open_shifts_items %>
   					
     			</tbody>
     		</table>

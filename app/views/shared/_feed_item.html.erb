@@ -1,17 +1,17 @@
-<% @userf = User.find(feed_item.user_id) %>
-<li id="<%= feed_item.id %>">
-  <%= link_to gravatar_for(@userf), @userf %>
-  <span class="user">
-    
-  </span>
-  <span class="role"><%= link_to feed_item.role, feed_item %></span>
-  <span class="timestamp">
-    Posted <%= time_ago_in_words(feed_item.created_at) %> ago by
-    <%= link_to @userf.name, @userf %>
-  </span>
-    <% if current_user?(@userf) %>
-    <%= link_to "delete", feed_item, method: :delete,
-                                     data: { confirm: "You sure?" },
-                                     title: feed_item.role %>
-  <% end %>
-</li>
+<% @durationhours = Time.at(feed_item.end_datetime - feed_item.start_datetime).utc.strftime("%H")%>
+<% @durationminutes = Time.at(feed_item.end_datetime - feed_item.start_datetime).utc.strftime("%M")%>
+<% @durationhours[0] == "0" ? @durationhours = @durationhours[1] : @durationhours %>
+<% @durationminutes.to_i < 1 ? @durationminutes = "" : @durationminutes = " #{@durationminutes} mins" %>
+
+<a href="#">
+<tr>
+  <td><%= "#{feed_item.id}" %></td>
+  <td><%= "#{feed_item.role}" %></td>
+  <td><%= short_date(feed_item.start_datetime) %></td>
+  <!-- DO a date format hepler!! -->
+  <td><%= "#{feed_item.start_datetime.strftime("%H:%M")} - 
+  #{feed_item.end_datetime.strftime("%H:%M")}" %>
+    </td>
+  <td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
+</tr>
+</a>

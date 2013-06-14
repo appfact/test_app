@@ -22,6 +22,11 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def pastshifts
+    @feed_items_upcoming = current_user.feed2.paginate(page: params[:page])
+    @feed_items = current_user.feed2.paginate(page: params[:page])
+  end
+
   def index
     @users = User.paginate(page: params[:page])
   end

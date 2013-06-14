@@ -12,11 +12,23 @@ class Shift < ActiveRecord::Base
   validates :role, presence: true, length: {maximum:50}
 
   def self.from_feed_logic(userx)
-  	where("firm_id = ?", userx.business_id)
+    where("fk_user_worker = ? AND end_datetime > ?", userx.id, Time.now.to_datetime).order(:start_datetime)
+  # took out line that doesn't work
+  # where("fk_user_worker = ?", userx.id)
   end
+
+  def self.from_feed_logic_past(userx)
+    where("fk_user_worker = ? AND end_datetime < ?", userx.id, Time.now.to_datetime).order(:start_datetime)
+  end
+  # first do the formatting for future shifts then add this to the static pages controller
  
   def self.open_shifts_logic(usery)
   	where("firm_id = ? AND fk_user_worker is null", usery.business_id) 
+  end
+
+  def self.open_shifts_logic2(firmy)
+    where("firm_id = ? AND fk_user_worker is null", firmy.id).order(:start_datetime)
+    #) ORDER BY start_datetime  
   end
 
   def available_users

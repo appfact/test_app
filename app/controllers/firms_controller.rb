@@ -47,6 +47,7 @@ def create
   def shifts
     @firm = Firm.find(params[:id])
     @open_shifts = @firm.shifts.find_all_by_fk_user_worker(nil)
+    @open_shifts_items = @firm.open_shifts2.paginate(page: params[:page])
   end
 
   def shiftrequests

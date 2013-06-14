@@ -12,7 +12,9 @@ class Firm < ActiveRecord::Base
   	@network_users_array = self.firm_permissions.find_all_by_status(true)
   end
 
-
+  def open_shifts2
+    Shift.open_shifts_logic2(self)
+  end
   
 
 end

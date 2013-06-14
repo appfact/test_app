@@ -13,25 +13,10 @@
     		<li><%= link_to "Search shifts (?)", '/search'%></li>
     	</ul>
 
-    <% if @open_shifts.count > 0 %>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th><th>Roles</th><th>Admin?</th><th></th>
-                </tr>
-            </thead>
-            <tbody>        
-                <% @open_shifts.each do |shift| %>
-                <% @shifto = Shift.find(shift.id) %>
-                <tr>
-                    <td><%= link_to shift.id, "/shifts/#{shift.id}" %></td>
-                    <td>column2</td>
-                    <td>column 3</td>
-                    <td>Column 4</td>
-                </tr>
-                <% end %>
-            </tbody>
-        </table>
+    <% if @open_shifts_items.count > 0 %>
+
+       <%= render '/firms/open_shifts' %>
+           
 
         <% else %>
             <div class="alert alert-info">
