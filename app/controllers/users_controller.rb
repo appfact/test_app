@@ -23,8 +23,26 @@ class UsersController < ApplicationController
   end
 
   def pastshifts
-    @feed_items_upcoming = current_user.feed2.paginate(page: params[:page])
+    @feed_items_upcoming = current_user.feed
     @feed_items = current_user.feed2.paginate(page: params[:page])
+    @feed_items_all = current_user.feed3
+  end
+
+  def allshifts
+    @feed_items_upcoming = current_user.feed
+    @feed_items_past = current_user.feed2
+    @feed_items = current_user.feed3.paginate(page: params[:page])
+  end
+
+  def availableshifts
+    @permissionsarray = []
+    @userspermissions = current_user.firm_permissions.find_all_by_status(current_user.id, true)
+    @userspermissions.each do |permission|
+      @permissionsarray.push(permission.firm_id)
+    end
+    @availableshifts = Shift.find(:all, "firm_id in (?) AND fk_user_worker is ? 
+                  AND start_datetime > ?", @permissionsarray, nil, Time.now.to_datetime)
+
   end
 
   def index

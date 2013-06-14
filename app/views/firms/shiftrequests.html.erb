@@ -1,5 +1,4 @@
-<% @firm = Firm.find(params[:id]) %>
-<% @shiftrequests = open_shift_requests_array %>
+
 <div class="row-fluid">
 	<div class="span6 offset3">
 		
@@ -9,17 +8,17 @@
     			<a href="shifts"><%= "Open Shifts (#{@firm.shifts.find_all_by_fk_user_worker(nil).count})" %></a>
     		</li>
     	
-    		<li class="active"><%= link_to "Requests (#{number_shift_requests})", '#'%></li>
+    		<li class="active"><%= link_to "Requests (#{@shift_requests_items.length})", '#'%></li>
     		<li><%= link_to "New Shift (+)", 'newshift'%></i></li>
     		<li><%= link_to "Search shifts (?)", '/search'%></li>
     	</ul>
     	
-    	<% if @shiftrequests.count > 0 %>
-    		<%= render partial: 'shift_requests' %>
-    	<% else %>
-    		<div class="alert alert-info">
-    		There are no outstanding shift requests.
-			</div>
+    	<% if @shift_requests_items.any? %>
+        
+        <%= render 'shift_requests' %>
+        <% else %>
+        <div class="alert alert-info">There are no outstanding shift requests</div>
+    	
     	<% end %>
 
 	</div>

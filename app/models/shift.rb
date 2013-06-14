@@ -20,7 +20,10 @@ class Shift < ActiveRecord::Base
   def self.from_feed_logic_past(userx)
     where("fk_user_worker = ? AND end_datetime < ?", userx.id, Time.now.to_datetime).order(:start_datetime)
   end
-  # first do the formatting for future shifts then add this to the static pages controller
+
+  def self.from_feed_logic_all(userx)
+    where("fk_user_worker = ?", userx.id).order(:start_datetime)
+  end
  
   def self.open_shifts_logic(usery)
   	where("firm_id = ? AND fk_user_worker is null", usery.business_id) 
@@ -51,6 +54,10 @@ class Shift < ActiveRecord::Base
 
   def unfollow!(workerx)
     shift_requests.find_by_worker_id(workerx.id).destroy
+  end
+
+  def futureshiftsforfirm(firm)
+    where("firm_id = ? AND start_datetime > ? AND fk_user_worker is nil",firm.id,Time.now.to_datetime).order_by(start_datetime)
   end
 
   private

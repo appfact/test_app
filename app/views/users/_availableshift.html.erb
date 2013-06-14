@@ -1,0 +1,10 @@
+
+<tr>
+  <td><%= "#{availableshift.id}" %></td>
+  <td><%= "#{availableshift.role}" %></td>
+  <td><%= short_date(availableshift.start_datetime) %></td>
+  <!-- DO a date format hepler!! -->
+  <td><%= "#{availableshift.start_datetime.strftime("%H:%M")}" %>
+    </td>
+  <td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
+</tr>

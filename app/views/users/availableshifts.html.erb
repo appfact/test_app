@@ -1,0 +1,27 @@
+<div class="span6 offset3">
+
+      <ul class="nav nav-pills">
+       
+        <li><a href="/shifts">My Shifts</i></a>
+        </li>
+      	 <li class="active"><a href="#">Available Shifts</a></li>
+        <li><%= link_to "Offers (0)", 'shiftrequests'%></li>
+        <li><%= link_to "Requests (0)", 'newshift'%></li>
+        <li><a href="#">Find a Shift</a></li>
+        
+      </ul>
+
+       <table class="table table-hover">
+    	<thead>
+    		<tr>
+    			<th>#</th><th>Role</th><th>Date</th><th>Time</th><th>Length</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+
+<%= render partial: 'availableshift', collection: @availableshifts %>
+
+</tbody>
+    </table>	
+
+</div>
