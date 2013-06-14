@@ -52,12 +52,9 @@ def create
 
   def shiftrequests
     @firm = Firm.find(params[:id])
-  #  @shift_requests_items = @firm.shift_requests.find(:all, 
-  #        conditions: ["worker_status is ? AND manager_status is ? 
-   #                       AND start_datetime > ?", true, nil, Time.now.utc.to_datetime], order: [:shift_id, :created_at])
-  @shift_requests_items = @firm.shift_requests.find(:all, 
+    @shift_requests_items = @firm.shift_requests.find(:all, 
           conditions: ["worker_status is ? AND manager_status is ? 
-                          ", true, nil], order: [:shift_id, :created_at])
+                         AND start_datetime > ?", true, nil, Time.now.to_datetime], order: [:shift_id, :created_at])
   end
 
   def newshift
