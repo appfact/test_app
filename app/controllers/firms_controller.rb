@@ -55,7 +55,7 @@ def create
     @shift_requests_items = @firm.shift_requests
                                 .where(:worker_status => true, :manager_status => nil) 
                                 .where(':start_datetime > ?', Time.now.to_datetime)
-                                .order(:shift_id, :created_at)
+                                .order(:shift_id)
   end
 
   def newshift
