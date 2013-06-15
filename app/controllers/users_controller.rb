@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   before_filter :not_signed_in, only: [:new, :newuser]
 #  before_filter :business_id_misassign, only: :update
   before_filter :check_if_business_account, only: [:create]
+  before_filter :can_view_user_profile, only: [:show]
 
 
   def show
@@ -217,6 +218,18 @@ class UsersController < ApplicationController
       end
     end
     return @requestsarray
+  end
+
+  def can_view_user_profile
+    @userprofile = User.find(params[:id])
+    if current_user != @userprofile
+      if current_user.admin?
+        if @userprofile.firm_permissions.find_by_status_and_firm_id(true,current_user.business_id.to_i).nil?
+          flash[:error] = "You don't have permission to view that page"
+          redirect_to current_user
+        end
+      end
+    end
   end
   
 end
