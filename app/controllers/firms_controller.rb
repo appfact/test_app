@@ -48,6 +48,10 @@ def create
     @firm = Firm.find(params[:id])
     @open_shifts = @firm.shifts.find_all_by_fk_user_worker(nil)
     @open_shifts_items = @firm.open_shifts2.paginate(page: params[:page])
+    @shift_requests_items = @firm.shift_requests
+                                .where(:worker_status => true, :manager_status => nil) 
+                                .where('start_datetime > ?', Time.now.to_datetime)
+                                .order(:shift_id, :created_at)
   end
 
   def shiftrequests

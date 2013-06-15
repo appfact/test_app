@@ -35,12 +35,15 @@ TestApp::Application.routes.draw do
   match '/signupuser', to: 'users#newuser'
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
-  match '/shifts', to: 'static_pages#shifts', via: 'get'
+  match '/shifts', to: 'users#shifts', via: 'get'
   match '/shift_requests', to: 'shift_requests#index', via: 'get'
   match '/invite', to: 'users#invite'
   match '/pastshifts', to: 'users#pastshifts', via: 'get'
   match '/allshifts', to: 'users#allshifts', via: 'get'
   match '/availableshifts', to: 'users#availableshifts', via: 'get'
+  match '/offers', to: 'users#offers', via: 'get'
+  match '/requests', to: 'users#requests', via: 'get'
+  match '/schedule', to: 'users#schedule', via: 'get'
 
   
   root to: 'static_pages#home'

@@ -8,7 +8,7 @@
     			<a href="#"><%= "Open Shifts (#{@firm.shifts.find_all_by_fk_user_worker(nil).count})" %></a>
     		</li>
     	
-    		<li><%= link_to "Requests (#{number_shift_requests})", 'shiftrequests'%></li>
+    		<li><%= link_to "Requests (#{@shift_requests_items.length})", 'shiftrequests'%></li>
     		<li><%= link_to "New Shift (+)", 'newshift'%></i></li>
     		<li><%= link_to "Search shifts (?)", '/search'%></li>
     	</ul>

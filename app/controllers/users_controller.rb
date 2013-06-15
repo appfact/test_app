@@ -22,6 +22,15 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def shifts
+    @user = current_user
+    @feed_items = current_user.feed.paginate(page: params[:page])
+    @feed_items_past = current_user.feed2
+    @feed_items_all = current_user.feed3
+    @open_shift_items = current_user.open_shifts.paginate(page: params[:page])
+    @availableshifts = available_shifts
+  end
+
   def pastshifts
     @feed_items_upcoming = current_user.feed
     @feed_items = current_user.feed2.paginate(page: params[:page])
@@ -35,14 +44,17 @@ class UsersController < ApplicationController
   end
 
   def availableshifts
-    @permissionsarray = []
-    @userspermissions = current_user.firm_permissions.find_all_by_status(current_user.id, true)
-    @userspermissions.each do |permission|
-      @permissionsarray.push(permission.firm_id)
-    end
-    @availableshifts = Shift.find(:all, "firm_id in (?) AND fk_user_worker is ? 
-                  AND start_datetime > ?", @permissionsarray, nil, Time.now.to_datetime)
+    @availableshifts = available_shifts
+  end
 
+  def offers
+    @offers_items = available_shifts_offers
+    @requests_items = available_shifts_requests
+  end
+
+  def requests
+    @requests_items = available_shifts_requests
+    @offers_items = available_shifts_offers
   end
 
   def index
@@ -162,7 +174,50 @@ class UsersController < ApplicationController
     @permission.toggle!(:status)
   end
 
+  def available_shifts
+    @permissionsarray = []
+    @userspermissions = current_user.firm_permissions.where(:status => true)
+    #move these variables to helpers
+    @userspermissions.each do |permission|
+      @permissionsarray.push(permission.firm_id)
+    end
+    return Shift.where("firm_id in (?) AND fk_user_worker is ? 
+                  AND start_datetime > ?", @permissionsarray, nil, Time.now.to_datetime)
+  end
 
+  def available_shifts_offers
+    @offersarray = []
+    @emptyarray = []
+    @availableshiftsx = available_shifts
+    if available_shifts.empty?
+      return @offersarray
+    else
+      @availableshiftsx.each do |shift|
+        unless shift.shift_requests.where('worker_id = ?',current_user.id).where(:worker_status => nil).empty?
+          @offersarray.push(shift.shift_requests.where('worker_id = ?',current_user.id).where(:worker_status => nil))
+        end
+      end
+    end
+    return @offersarray
+  end
+
+  def available_shifts_requests
+    @requestsarray = []
+    @emptyarray = []
+    @availableshiftsx = available_shifts
+    if available_shifts.empty?
+      return @requestsarray
+    else
+      @availableshiftsx.each do |shift|
+        unless shift.shift_requests.where('worker_id = ?',current_user.id)
+                .where(:worker_status => true).where(:manager_status => nil).empty?
+          @requestsarray.push(shift.shift_requests.where('worker_id = ?',current_user.id)
+                .where(:worker_status => true).where(:manager_status => nil))
+        end
+      end
+    end
+    return @requestsarray
+  end
   
 end
 

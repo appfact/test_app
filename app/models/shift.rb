@@ -56,9 +56,7 @@ class Shift < ActiveRecord::Base
     shift_requests.find_by_worker_id(workerx.id).destroy
   end
 
-  def futureshiftsforfirm(firm)
-    where("firm_id = ? AND start_datetime > ? AND fk_user_worker is nil",firm.id,Time.now.to_datetime).order_by(start_datetime)
-  end
+ 
 
   private
 

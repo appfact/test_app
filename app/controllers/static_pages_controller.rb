@@ -9,14 +9,7 @@ class StaticPagesController < ApplicationController
   def contact
   end
 
-  def shifts
-  	@user = current_user
-  	@shifts = current_user.shifts.paginate(page: params[:page])
-  	@feed_items = current_user.feed.paginate(page: params[:page])
-    @feed_items_past = current_user.feed2
-    @feed_items_all = current_user.feed3
-  	@open_shift_items = current_user.open_shifts.paginate(page: params[:page])
-  end
+
 
   def newshift
   	@user = current_user

@@ -14,7 +14,7 @@
         <li class="active">
           <a href="#">My Shifts <icon class="icon-tasks"></i></a>
         </li>
-        <li><%= link_to "Available Shifts (0)", 'availableshifts'%></li>
+        <li><%= link_to "Available Shifts (#{@availableshifts.length})", 'availableshifts'%></li>
         <li><%= link_to "Offers (0)", 'shiftrequests'%></li>
         <li><%= link_to "Requests (0)", 'newshift'%></li>
         <li><a href="#">Search Shifts</a></li>

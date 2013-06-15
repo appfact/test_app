@@ -1,0 +1,22 @@
+
+<div class="span6 offset3">
+
+      <ul class="nav nav-pills">
+        <li>
+          <a href="/shifts">My Shifts</a>
+        </li>
+        <li><%= link_to "Available Shifts (#{user_available_shifts_helper.length})", 'availableshifts'%></li>
+        <li class="active"><%= link_to "Offers (#{@offers_items.length})", '#'%></li>
+        <li><%= link_to "Requests (#{@requests_items.length})", 'newshift'%></li>
+        <li><a href="#">Search Shifts</a></li>
+        
+      </ul>
+
+<!-- testing the feed by adding it here as well -->
+<% if @requests_items.any? %>
+<%= render 'requests_items' %>
+<% else %>
+<div class="alert alert-info">There are no outstanding requests</div>
+<% end %>
+
+</div>
