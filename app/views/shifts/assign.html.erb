@@ -1,0 +1,19 @@
+<div class="span6 offset3">
+
+<div class="row-fluid">
+<% if current_user.admin? %>
+<%= render 'shifts_admin_menu' %>
+<% end %>
+</div>
+
+<%  %>
+<h3>Assign this shift</h3>
+
+<% if @assignable_users_items.any? %>
+	<%= render partial: 'assignable_users_item', collection: @assignable_users_items %>
+ 	<% will_paginate @assignable_users_items %>
+ <% else %>
+ 	<div class="alert alert-info">You have no available users in your network. <a href="/invite">Click here</a> to add more users to your network.</div>
+ <% end %>
+
+</div>

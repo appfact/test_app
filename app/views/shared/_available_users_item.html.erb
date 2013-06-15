@@ -3,8 +3,8 @@
 
   <% if @shiftrequest.nil? %>  
 
-  	<div class="span3 unoffered" style="margin:5px">
-  	<%= gravatar_for(available_users_item) %>
+  	<div class="span4 unoffered" style="margin:5px">
+  	
   	<%= link_to available_users_item.name, @user %>
   	<!-- shift offer code -->
     <%= form_for(@shift.shift_requests.build(manager_id: current_user.id)) do |f| %>

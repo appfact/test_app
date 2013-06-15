@@ -16,7 +16,7 @@
 <% if shift_filled?(@shift.id) %>
  <%= link_to "Remove", remove_worker_shift_path, class: "btn btn-medium btn-warning" %>
  <% else %>
- <%= link_to "Assign", root_url, class: "btn btn-medium btn-primary" %>
+ <%= link_to "Assign", assign_shift_path(@shift), class: "btn btn-medium btn-primary" %>
 <% end %>
 
 <%= link_to "Repeat", root_url, class: "btn btn-medium btn-primary" %>

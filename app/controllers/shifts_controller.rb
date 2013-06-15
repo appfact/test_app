@@ -40,7 +40,12 @@ class ShiftsController < ApplicationController
     @available_users_items = @shift.available_users.paginate(page: params[:page])
     @title = "Offers for shift #{@shift.id} - #{@shift.role} - #{@shift.start_datetime}"
     @shift_offers = @shift.shift_requests.find_all_by_worker_status_and_manager_status(nil,true)
-    render 'show_offers'
+  end
+
+  def assign
+    @shift = Shift.find(params[:id])
+    @firm = Firm.find(@shift.firm_id)
+    @assignable_users_items = @firm.firm_permissions.where(:status => true).paginate(page: params[:page])
   end
 
   def remove_worker

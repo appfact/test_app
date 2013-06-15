@@ -73,7 +73,7 @@ def create
   def admin_user
   	if !current_user.admin?
   		flash[:error] = "Only admin users can do that"
-  		redirect_to @firm
+  		redirect_to 'shifts'
   	end
   end
 

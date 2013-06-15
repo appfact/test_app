@@ -9,6 +9,7 @@ class UsersController < ApplicationController
 #  before_filter :business_id_misassign, only: :update
   before_filter :check_if_business_account, only: [:create]
   before_filter :can_view_user_profile, only: [:show]
+  before_filter :is_superadmin?, only: [:index]
 
 
   def show
@@ -229,6 +230,13 @@ class UsersController < ApplicationController
           redirect_to current_user
         end
       end
+    end
+  end
+
+  def is_superadmin?
+    unless current_user.superadmin?
+      flash[:error] = "The page was not found"
+      redirect_to root_path
     end
   end
   

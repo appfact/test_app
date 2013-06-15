@@ -1,0 +1,15 @@
+<div class="span6 offset3">
+
+<div class="row-fluid">
+<% if current_user.admin? %>
+<%= render 'shifts_admin_menu' %>
+<% end %>
+</div>
+
+<% @offers_count = @shift.shift_requests.find_all_by_worker_status_and_manager_status(nil,true).count %>
+<h3>Offer this shift to people in your network</h3>
+
+
+  <%= render 'shared/available_users' %>
+
+</div>

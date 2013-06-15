@@ -8,6 +8,7 @@ TestApp::Application.routes.draw do
       get :requests
       get :offers
       get :remove_worker
+      get :assign
     end
   end
 
