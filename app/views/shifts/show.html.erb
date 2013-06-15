@@ -1,3 +1,9 @@
+<% @durationhours = Time.at(@shift.end_datetime - @shift.start_datetime).utc.strftime("%H")%>
+<% @durationminutes = Time.at(@shift.end_datetime - @shift.start_datetime).utc.strftime("%M")%>
+<% @durationhours[0] == "0" ? @durationhours = @durationhours[1] : @durationhours %>
+<% @durationminutes.to_i < 1 ? @durationminutes = "" : @durationminutes = " #{@durationminutes} mins" %>
+<% @shiftdescription = @shift.description || "(none given)" %>
+
 <div class="span6 offset3">
 
 
@@ -9,17 +15,34 @@
 
 
 
-<h3>#<%= @shift.id %> - <%= @shift.role %></h3>
-<h3>/ <%= Date::DAYNAMES[@shift.start_datetime.wday] %> <%= @shift.start_datetime.to_formatted_s(:rfc822) %> 
-	/ <%= @shift.start_datetime %> </h3>
+<h3>
+	<%= @shift.role %> @ <%= Firm.find(@shift.firm_id).name %>
+	<%= @shift.fk_user_worker.nil? ? "(Available)" : "Shift allocated to #{User.find(@shift.fk_user_worker).name}" %>
+</h3>
 
-	<br>
-Posted by <%= User.find(@shift.user_id).name %><br>
-Shift filled? <%= shift_filled?(@shift.id) %>
+<table class="table table-hover">
+	<tbody>
+		<tr>
+			<td><strong>Start Time</strong></td><td><%= @shift.start_datetime.strftime("%a %e %B %Y, %R") %></td>
+		</tr><tr>
+			<td><strong>End Time</strong></td><td><%= @shift.end_datetime.strftime("%a %e %B %Y, %R") %></td>
+		</tr><tr> 
+			<td><strong>Length</strong></td><td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
+		</tr><tr>
+			<td><strong><%= "More info"%></strong></td><td><%= "#{@shiftdescription}" %></td>
+		</tr>
+	</tbody>
+</table>
+
 
 <br>
 
 
-<% @shiftdescription = @shift.description || "(none given)" %>
-<strong><%= "More information about the shift"%></strong><br>
-<%= "#{@shiftdescription}" %>
+
+<br>
+
+<br><br><br><br>
+<div class="alert alert-info">
+	Shift #<%= @shift.id %> posted by <%= User.find(@shift.user_id).name %><br>
+	Last updated at: <%= @shift.updated_at %>
+</div>

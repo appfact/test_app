@@ -1,5 +1,6 @@
 <div class="span3" style="padding:20px">
-  <strong>Show</strong>
+ 
+
     <ul class="nav nav-pills nav-stacked">
     <li class="active"><a href="#">Upcoming Shifts (<%= @feed_items.length %>)</a></li>
     <li><a href="/pastshifts">Past Shifts (<%= @feed_items_past.length %>)</a></li>
@@ -14,10 +15,10 @@
         <li class="active">
           <a href="#">My Shifts <icon class="icon-tasks"></i></a>
         </li>
-        <li><%= link_to "Available Shifts (#{user_available_shifts_helper.length})", 'availableshifts'%></li>
-        <li><%= link_to "Offers (0)", 'shiftrequests'%></li>
-        <li><%= link_to "Requests (0)", 'newshift'%></li>
-        <li><a href="#">Search Shifts</a></li>
+        <li><%= link_to "Available Shifts (#{user_available_shifts_helper.length})", '/availableshifts'%></li>
+        <li><%= link_to "Offers (#{@offers_items.length})", '/offers'%></li>
+        <li><%= link_to "Requests (#{@requests_items.length})", '/requests'%></li>
+        
         
       </ul>
 

@@ -1,6 +1,6 @@
 class Shift < ActiveRecord::Base
   attr_accessible :description, :fk_user_worker, 
-  			:role, :start_datetime, :status, :end_datetime, :duration_mins
+  			:role, :start_datetime, :status, :end_datetime, :duration_mins, :allocation_type
   
   belongs_to :firm
   has_many :shift_requests, dependent: :destroy

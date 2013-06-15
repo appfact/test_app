@@ -31,22 +31,30 @@ class UsersController < ApplicationController
     @feed_items_all = current_user.feed3
     @open_shift_items = current_user.open_shifts.paginate(page: params[:page])
     @availableshifts = available_shifts
+    @offers_items = available_shifts_offers
+    @requests_items = available_shifts_requests
   end
 
   def pastshifts
     @feed_items_upcoming = current_user.feed
     @feed_items = current_user.feed2.paginate(page: params[:page])
     @feed_items_all = current_user.feed3
+    @offers_items = available_shifts_offers
+    @requests_items = available_shifts_requests
   end
 
   def allshifts
     @feed_items_upcoming = current_user.feed
     @feed_items_past = current_user.feed2
     @feed_items = current_user.feed3.paginate(page: params[:page])
+    @offers_items = available_shifts_offers
+    @requests_items = available_shifts_requests
   end
 
   def availableshifts
     @availableshifts = available_shifts
+    @offers_items = available_shifts_offers
+    @requests_items = available_shifts_requests
   end
 
   def offers

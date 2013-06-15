@@ -5,9 +5,9 @@
         <li><a href="/shifts">My Shifts</i></a>
         </li>
       	 <li class="active"><a href="#">Available Shifts (<%= @availableshifts.length %>)</a></li>
-        <li><%= link_to "Offers (0)", 'shiftrequests'%></li>
-        <li><%= link_to "Requests (0)", 'newshift'%></li>
-        <li><a href="#">Find a Shift</a></li>
+        <li><%= link_to "Offers (#{@offers_items.length})", '/offers'%></li>
+        <li><%= link_to "Requests (#{@requests_items.length})", '/requests'%></li>
+        
         
       </ul>
 
