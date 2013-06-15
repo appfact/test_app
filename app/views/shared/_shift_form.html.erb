@@ -14,10 +14,26 @@
   <%= f.time_select :duration_mins, minute_step: 5, time_separator: " : ", value: Time.now.beginning_of_day %>
 
  	<%= f.label :role %>
-  <%= f.text_field :role %>
+  <%= f.text_field :role, placeholder: "enter a role, e.g. Waiter, Barstaff, Pastry Chef, Cashier" %>
 
   <%= f.label :description %>
   <%= f.text_area :description, placeholder: "Describe the duties of this shift", class: "shift_description" %>
+
+  Shift allocation:
+  <label class="radio">
+    <input type="radio" name="optionsRadios" id="optionsRadios1" value=1 checked>
+      <strong>First come, first served</strong>. The first person to request this shift will be given it automatically.
+  </label>
+  <label class="radio">
+    <input type="radio" name="optionsRadios" id="optionsRadios2" value=2>
+    <strong>Manager chooses</strong>. Users can request this shift, but a manager will have to approve the request before
+    the shift is allocated.
+  </label>
+  <label class="radio">
+    <input type="radio" name="optionsRadios" id="optionsRadios2" value=2>
+    <strong>Closed shift</strong>. This shift will not appear as available to users, and must be assigned or offered by
+    a manager.
+  </label>
   
-  <%= f.submit "Create shift", class: "btn btn-large btn-primary" %>
+  <%= f.submit "Create shift", class: "btn btn-large btn-primary pull-right" %>
 <% end %>

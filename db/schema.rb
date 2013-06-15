@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615174541) do
+ActiveRecord::Schema.define(:version => 20130615214416) do
 
   create_table "firm_permissions", :force => true do |t|
     t.integer  "firm_id"
@@ -59,11 +59,12 @@ ActiveRecord::Schema.define(:version => 20130615174541) do
     t.text     "description"
     t.integer  "fk_user_worker"
     t.string   "status"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.time     "duration_mins"
     t.datetime "end_datetime"
     t.integer  "firm_id"
+    t.integer  "allocation_type"
   end
 
   add_index "shifts", ["fk_user_worker"], :name => "index_shifts_on_fk_user_worker"

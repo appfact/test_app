@@ -71,6 +71,19 @@ class UsersController < ApplicationController
 
   def create
     if params[:user][:sign_up_stage] == "1"
+      unless User.find_by_email(params[:user][:email]).nil?
+        @createduser = User.find_by_email(params[:user][:email])
+        if @createduser.firm_permissions.find_by_firm_id(current_user.business_id).nil?
+          auth_created_user!(@createduser.id, current_user.business_id)
+          flash[:success] = "User was added to your network"
+          redirect_to '/invite'
+          return
+        end
+        flash[:success] = "User already belongs to your network"
+        redirect_to '/invite'
+        return
+      end
+          
       @user = User.new(params[:user])
       if @user.save
         auth_created_user!(@user.id, current_user.business_id)
