@@ -15,8 +15,8 @@ def create
       auth_admin_user!(@firm)
       flash[:success] = "You created a new business"
       redirect_to @firm
-          else
-    render new_firm_path
+    else
+      render new_firm_path
     end
   end
 
@@ -66,6 +66,17 @@ def create
     @firm = Firm.find(params[:id])
     @shift = Shift.new
     @shift.duration_mins = Time.now.beginning_of_day
+  end
+
+  def schedules
+    @schedules = true
+    @firm = Firm.find(params[:id])
+    @firm = Firm.find(params[:id])
+    @s_date = Date.today
+    @s_hash_items = @firm.shifts.where('start_datetime > ? OR end_datetime < ?', 
+              DateTime.now.beginning_of_day, DateTime.now.end_of_day).paginate(page: params[:page])
+                         
+                          
   end
 
   private

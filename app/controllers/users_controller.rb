@@ -109,10 +109,12 @@ class UsersController < ApplicationController
         sign_in @user
           if @user.admin?
           redirect_to '/firms/new'
+          return
         else
           auth_normal_user!(@firmid)
           flash[:success] = "User signed up ok - business id = #{@user.business_id}"
           redirect_to users_url
+          return
         end
       else
         if @firmid != "ASSA{}{}{345345[]]]"

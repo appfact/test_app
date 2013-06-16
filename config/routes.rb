@@ -19,6 +19,7 @@ TestApp::Application.routes.draw do
       get :rufn
       get :shifts
       get :newshift
+      get :schedules
     end
   end
 
