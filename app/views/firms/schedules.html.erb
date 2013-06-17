@@ -1,43 +1,65 @@
+<% @s_date_prev = @s_date - 1.day %>
+<% @s_date_next = @s_date + 1.day %>
 <div class="span3">
-    <div class="input-append date"  data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-    <input class="span9" size="16" id="dp3" type="text" value="12-02-2012" onchange="myFunction()">
+	<div class="row-fluid">
+		<% unless @s_date == Date.today %>
+		<a href="schedules?sdate=<%= Date.today.strftime("%d-%m-%Y")%>">
+		<i class="icon-arrow-left"></i> back to today
+		</a>
+		<% end %>
+	</div>
+
+    <div class="input-append date" id="dp3" data-date=<%= @s_date.strftime("%d-%m-%Y")%> data-date-format="dd-mm-yyyy" style="margin-top:7px">
+    <input class="span9" size="16" id="datechoice" type="text" value=<%= @s_date.strftime("%d-%m-%Y")%> >
     <span class="add-on"><i class="icon-th"></i></span>
     </div>
 
-    <input type="text" id="dp4" onchange="myFunction()">
-    <div class="btn btn-medium btn-primary">Show shifts</div>
+
+    <div class="btn btn-medium btn-primary" onclick="myFunction()">Show shifts</div>
 </div>
 
-<div class="span6">
+<div class="span8">
 	<div class="row-fluid">
 	<div class="span4" id="id4">
-		Link to prev day
+		<a href="schedules?sdate=<%= @s_date_prev%>">
+			<i class="icon-arrow-left"></i> previous
+		</a>
 	</div>
 	<div class="span4" style="text-align:center">
-		Shifts for - date
+		<strong><%= @s_date.strftime("%a %d %b") %></strong>
 	</div>
 	<div class="span4" style="text-align:right">
-		Link to next day
+		<a href="schedules?sdate=<%= @s_date_next%>">
+		next <i class="icon-arrow-right"></i>
+		</a>
 	</div>
 </div>
-
-	<%= @s_hash_items.length %>
+	
+	<% if @s_hash_items.any? %>
+	<div class="row-fluid shedulecontainer">
 	<%= render partial: 's_hash_item', collection: @s_hash_items %>
 	<%= will_paginate @s_hash_items %>
+	
+		<% else %>
+		No shifts created for this date.
+	<% end %>
 
 </div>
 
 
-<button onclick="opensearch()">Try it</button>
-
-
-
+<script>
+$('#dp3').datepicker().on('changeDate', function() {
+    //Retrieve the date located on the data of your datepicker
+    var datevalue = $('#dp3').data("date");
+    window.open(datevalue,"_self");
+});
+</script>
 
 <script>
 function myFunction()
 {
-datevalue = document.getElementById("dp3").value
-window.open(datevalue,"_self");
+datevalue = document.getElementById("datechoice").value
+window.open("schedules?sdate=" + datevalue,"_self");
 }
 </script>
 
@@ -46,7 +68,7 @@ window.open(datevalue,"_self");
 $(function(){
 window.prettyPrint && prettyPrint();
 $('#dp1').datepicker({
-	format: 'mm-dd-yyyy'
+	format: 'dd-mm-yyyy'
 	});
 $('#dp2').datepicker();
 $('#dp3').datepicker();

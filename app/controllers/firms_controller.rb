@@ -71,11 +71,25 @@ def create
   def schedules
     @schedules = true
     @firm = Firm.find(params[:id])
-    @firm = Firm.find(params[:id])
-    @s_date = Date.today
-    @s_hash_items = @firm.shifts.where('start_datetime > ? OR end_datetime < ?', 
-              DateTime.now.beginning_of_day, DateTime.now.end_of_day).paginate(page: params[:page])
-                         
+    params[:sdate] == nil ? @s_date = Date.today : @s_date = Date.parse(params[:sdate])
+    @s_hash_items = @firm.shifts.where('(start_datetime > ? AND start_datetime < ?) OR 
+      (end_datetime > ? AND end_datetime < ?)', 
+              @s_date.beginning_of_day, @s_date.end_of_day, 
+              @s_date.beginning_of_day, @s_date.end_of_day).paginate(page: params[:page])
+              .order(:role, :start_datetime)
+    @s_hash_items2 = @firm.shifts.where('(start_datetime > ? AND start_datetime < ?) OR 
+      (end_datetime > ? AND end_datetime < ?)', 
+              @s_date.beginning_of_day, @s_date.end_of_day, 
+              @s_date.beginning_of_day, @s_date.end_of_day).order(:start_datetime).first
+    @s_hash_items3 = @firm.shifts.where('(start_datetime > ? AND start_datetime < ?) OR 
+      (end_datetime > ? AND end_datetime < ?)', 
+              @s_date.beginning_of_day, @s_date.end_of_day, 
+              @s_date.beginning_of_day, @s_date.end_of_day).order(:end_datetime).last
+    if @s_hash_items.any?
+      @s_start_hour = [@s_hash_items2.start_datetime, @s_date.beginning_of_day].sort.last.seconds_since_midnight.to_i
+      @s_end_hour = [@s_hash_items3.end_datetime, @s_date.end_of_day].sort.first.seconds_since_midnight.to_i
+      @s_day_length = @s_end_hour.to_f - @s_start_hour.to_f
+    end                  
                           
   end
 
