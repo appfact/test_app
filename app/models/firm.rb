@@ -10,7 +10,7 @@ class Firm < ActiveRecord::Base
   validates :sign_up_code, length: {maximum: 30}, uniqueness: true, presence: true
 
   def network_users
-  	@network_users_array = self.firm_permissions.find_all_by_status(true)
+  	@network_users_array = self.firm_permissions.where(status => true)
   end
 
   def open_shifts2
