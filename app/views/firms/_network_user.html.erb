@@ -6,7 +6,7 @@
 		<%= (@user.id == current_user.id) ? " (you)" : "" %></td>
 	<td></td>
 	<td><%= network_user.admin? %></td>
-	<td></td>
+	<td><%= @firm.shifts.where('fk_user_worker is ? AND end_datetime > ?', @user.id,Time.now.to_datetime).length %></td>
 	<td><% unless @user.id == current_user.id %>
 	<%= link_to "remove", "rufn?userid=#{network_user.user_id}" %> 
 	<% end %>
