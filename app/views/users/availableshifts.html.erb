@@ -14,7 +14,11 @@
        <table class="table table-hover">
     	<thead>
     		<tr>
-    			<th>#</th><th>Role</th><th>Date</th><th>Time</th><th>Length</th>
+    			<th><a href="#"></a>#</th><th>Role</th><th>Date</th><th>Time</th><th>Length</th>
+          <th>
+            <div class="request-circle-open" style="border:1px solid #77A8FC; 
+            border-radius:100%; width:8px; height:8px; margin-bottom:5px"></div>
+          </th>
     		</tr>
     	</thead>
     	<tbody>
@@ -26,3 +30,11 @@
     </table>	
 
 </div>
+
+<script>
+$('tr').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
+});
+</script>

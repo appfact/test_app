@@ -151,3 +151,13 @@ input {
 .schedule-filled:hover{
   background-color: #CFE8D5;
 }
+
+/* available shifts page */
+
+.request-circle-filled:hover{
+  background-color: #FFFFFF;
+}
+
+.request-circle-open:hover{
+  background-color: #77A8FC;
+}

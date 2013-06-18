@@ -77,6 +77,8 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
+
+
   def create
     if params[:user][:sign_up_stage] == "1"
       unless User.find_by_email(params[:user][:email]).nil?
@@ -207,7 +209,7 @@ class UsersController < ApplicationController
       @permissionsarray.push(permission.firm_id)
     end
     return Shift.where("firm_id in (?) AND fk_user_worker is ? 
-                  AND start_datetime > ?", @permissionsarray, nil, Time.now.to_datetime)
+                  AND start_datetime > ? AND allocation_type in (1,2)", @permissionsarray, nil, Time.now.to_datetime)
   end
 
   def available_shifts_offers

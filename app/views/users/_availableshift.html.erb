@@ -1,10 +1,36 @@
+<% @shift = availableshift %>
+
+<% @durationhours = Time.at(@shift.end_datetime - @shift.start_datetime).utc.strftime("%H")%>
+<% @durationminutes = Time.at(@shift.end_datetime - @shift.start_datetime).utc.strftime("%M")%>
+<% @durationhours[0] == "0" ? @durationhours = @durationhours[1] : @durationhours %>
+<% @durationminutes.to_i < 1 ? @durationminutes = "" : @durationminutes = " #{@durationminutes} mins" %>
+
+<% if @shift.shift_requests.find_by_worker_id(current_user.id).nil? %>
 
 <tr>
-  <td><%= "#{availableshift.id}" %></td>
+  <td><%= link_to "", availableshift %><%= "#{availableshift.id}" %></td>
   <td><%= "#{availableshift.role}" %></td>
   <td><%= short_date(availableshift.start_datetime) %></td>
   <!-- DO a date format hepler!! -->
-  <td><%= "#{availableshift.start_datetime.strftime("%H:%M")}" %>
+  <td><%= @shift.start_datetime.strftime("%H:%M") %> - <%= @shift.end_datetime.strftime("%H:%M") %>
     </td>
   <td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
+  <td><div class="request-circle-open" style="border:1px solid #77A8FC; 
+            border-radius:100%; width:8px; height:8px; margin-top:5px"></div></td>
 </tr>
+
+<% else %>
+<tr style="background-color:#EDEFFF">
+  <td><%= link_to "", availableshift %><%= "#{availableshift.id}" %></td>
+  <td><%= "#{availableshift.role}" %></td>
+  <td><%= short_date(availableshift.start_datetime) %></td>
+  <!-- DO a date format hepler!! -->
+  <td><%= @shift.start_datetime.strftime("%H:%M") %> - <%= @shift.end_datetime.strftime("%H:%M") %>
+    </td>
+  <td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
+  <td><div class="request-circle-filled" style="border:1px solid #77A8FC; background-color:#77A8FC;
+            border-radius:100%; width:8px; height:8px; margin-top:5px"></div></td>
+</tr>
+
+<% end %>
+

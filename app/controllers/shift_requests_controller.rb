@@ -24,6 +24,14 @@ class ShiftRequestsController < ApplicationController
     redirect_back_or @shift
   end
 
+  def cancelrequest
+    @shift = Shift.find(params[:shiftid])
+    @shiftrequest = @shift.shift_requests.find(params[:id])
+    @shiftrequest.destroy
+    flash[:success] = "You cancelled your request for this shift"
+    redirect_to '/requests'
+  end
+
   def offerdestroy
     @shift = Shift.find(params[:id])
     if @shift.shift_requests.find_by_manager_id(current_user.id).destroy

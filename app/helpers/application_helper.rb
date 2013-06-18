@@ -13,7 +13,7 @@ module ApplicationHelper
   def short_date(datetime)
   	weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   	month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-  	return "#{weekday[datetime.wday]} #{datetime.day} #{month[datetime.month]}"
+  	return "#{weekday[datetime.wday]} #{datetime.day} #{month[datetime.month - 1]}"
   end
 
   def shift_start_div_width(shift, daystarthour, daylength)

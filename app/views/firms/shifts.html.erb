@@ -13,7 +13,7 @@
     		<li><%= link_to "Search shifts (?)", '/search'%></li>
     	</ul>
 
-    <% if @open_shifts_items.count > 0 %>
+    <% if @open_shifts_items.any? %>
 
        <%= render '/firms/open_shifts' %>
            

@@ -29,6 +29,7 @@ TestApp::Application.routes.draw do
   resources :shift_requests do
     member do
       get :offerdestroy
+      get :cancelrequest
     end
   end
 

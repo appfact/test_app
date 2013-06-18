@@ -1,10 +1,21 @@
        <table class="table table-hover">
     	<thead>
     		<tr>
-    			<th>#</th><th>Role</th><th>Date</th><th>Time</th><th>Length</th>
+    			<th><a href="#"></a>#</th><th>Role</th><th>Date</th><th>Time</th><th>Length</th>
+                <th><i class="icon-remove-circle pull-right"></i></th>
     		</tr>
     	</thead>
     	<tbody>
     		<%= render partial: 'requests_item', collection: @requests_items %>
+
     	</tbody>
     </table>	
+
+    
+<script>
+$('tr').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
+});
+</script>

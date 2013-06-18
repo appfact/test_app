@@ -78,7 +78,7 @@ class ShiftsController < ApplicationController
     end
   end
 
-
+ 
 
   private
 
