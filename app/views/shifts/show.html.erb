@@ -17,10 +17,10 @@
 
 <h3>
 	<%= @shift.role %> @ <%= Firm.find(@shift.firm_id).name %>
-	<%= @shift.fk_user_worker.nil? ? "(Open)" : "(Shift allocated to )#{User.find(@shift.fk_user_worker).name})" %>
+	<%= @shift.fk_user_worker.nil? ? "(Open)" : "(Assigned to #{User.find(@shift.fk_user_worker).name})" %>
 </h3>
 
-<table class="table table-hover">
+<table class="table">
 	<tbody>
 		<tr>
 			<td><strong>Start Time</strong></td><td><%= @shift.start_datetime.strftime("%a %e %B %Y, %R") %></td>
@@ -28,10 +28,25 @@
 			<td><strong>End Time</strong></td><td><%= @shift.end_datetime.strftime("%a %e %B %Y, %R") %></td>
 		</tr><tr> 
 			<td><strong>Length</strong></td><td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
-		</tr><tr>
-		<td><strong>Assigned to</strong></td><td><%= @shift.fk_user_worker.nil? ? 
-				"(Open)" : "#{User.find(@shift.fk_user_worker).name}" %></td>
-		</tr><tr>
+		</tr>
+		<tr>
+			<td><strong>Repeat</strong></td>
+			<td>
+				Shift does not repeat
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Assigned to</strong></td>
+			<td>
+				<% if @shift.fk_user_worker.nil? %> 
+				(Open)
+				<% else %> 
+				<%= "#{User.find(@shift.fk_user_worker).name}" %>
+				<%= link_to "(unassign)", remove_worker_shift_path %>
+				<% end %>
+			</td>
+		</tr>
+		<tr>
 			<td><strong><%= "More info"%></strong></td><td><%= "#{@shiftdescription}" %></td>
 		</tr>
 	</tbody>
@@ -39,7 +54,6 @@
 
 
 <br>
-<%= link_to "Link", root_path, class: "alert" %>
 
 
 <br>

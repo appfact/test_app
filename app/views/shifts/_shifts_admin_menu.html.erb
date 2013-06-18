@@ -14,16 +14,25 @@
 	<% end %>
 
 <% if shift_filled?(@shift.id) %>
- <%= link_to "Remove", remove_worker_shift_path, class: "btn btn-medium btn-warning" %>
+ 
  <% else %>
  <%= link_to "Assign", assign_shift_path(@shift), class: "btn btn-medium btn-primary" %>
 <% end %>
 
-<%= link_to "Repeat", root_url, class: "btn btn-medium btn-primary" %>
-
-
-<%= link_to "Delete", @shift, method: :delete,
+    <div class="btn-group pull-right">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    Actions
+    <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+    	<li><a href="#">Edit Shift</a></li>
+    	<li><%= link_to "Delete", @shift, method: :delete,
                                      data: { confirm: "You sure?" },
-                                     title: @shift.role, class:"btn btn-danger btn-medium" %>
+                                     title: @shift.role %></li>
+    </ul>
+    </div>
+
+
+
 
    

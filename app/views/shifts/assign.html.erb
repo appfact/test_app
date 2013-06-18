@@ -10,10 +10,30 @@
 <h3>Assign this shift</h3>
 
 <% if @assignable_users_items.any? %>
+	<table class="table table-hover">
+    	<thead>
+    		<tr>
+    			<th>Name</th><th>Shifts last 7d</th><th>Shifts next 7d</th><th>Min shifts/7d</th><th></th>
+    				</tr>
+    			</thead>
+    			<tbody>
+
 	<%= render partial: 'assignable_users_item', collection: @assignable_users_items %>
  	<% will_paginate @assignable_users_items %>
+
+ 	    		</tbody>
+    		</table>
+
  <% else %>
  	<div class="alert alert-info">You have no available users in your network. <a href="/invite">Click here</a> to add more users to your network.</div>
  <% end %>
 
 </div>
+
+<script>
+$('tr').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
+});
+</script>

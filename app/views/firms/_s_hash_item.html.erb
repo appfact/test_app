@@ -1,15 +1,39 @@
 <% @w_preshift = shift_start_div_width(s_hash_item, @s_start_hour, @s_day_length) %>
 <% @w_shift = shift_body_div_width(s_hash_item, @s_day_length) %>
 
+
 <div class="row-fluid scheduleitem">
 
 
-	<div class="preshift-div" style="display:inline-block; background-color:red; padding:0px; border-radius:2px;
+	<div class="preshift-div" style="display:inline-block; padding:0px;
 	width:<%= @w_preshift %>%; margin:0px 0px 0px 0px"></div>
-	<div class="alert alert-info" style="display:inline-block; padding:0px ; 
-	width:<%= @w_shift %>%; margin:0px 0px 0px 0px">
-		<div style="margin:5px"><%= s_hash_item.role %> 
-	<%= s_hash_item.start_datetime.strftime("%R")%> - <%= s_hash_item.end_datetime.strftime("%R") %>
+
+	<% if s_hash_item.fk_user_worker.nil? %>
+		<a href=<%= "/shifts/#{s_hash_item.id}" %>>
+		<div class="alert alert-error schedule-open" style="display:inline-block; padding:0px ; 
+					width:<%= @w_shift %>%; margin:0px 0px 0px 0px">
+			<div style="margin:5px">
+				<%= s_hash_item.start_datetime.strftime("%R")%> - <%= s_hash_item.end_datetime.strftime("%R") %><br>
+				<strong><%= s_hash_item.role %></strong> (open shift) 
+				
+			</div>
 		</div>
-	</div>
+		</a>
+	<% else %>
+		<% @shiftworker = User.find(s_hash_item.fk_user_worker) %>
+		<a href=<%= "/shifts/#{s_hash_item.id}" %>>
+		<div class="alert alert-success schedule-filled" style="display:inline-block; padding:0px ; 
+					width:<%= @w_shift %>%; margin:0px 0px 0px 0px">
+			<div style="margin:0px 5px 5px 5px">
+				<div style="display:inline-block; vertical-align:text-bottom;margin-top:5px">
+					<%= gravatar_for(@shiftworker, size: 35) %></div>
+				<div style="display:inline-block; margin:0px 0px 0px 3px">
+					<%= s_hash_item.start_datetime.strftime("%R")%> - <%= s_hash_item.end_datetime.strftime("%R") %><br>
+					<strong><%= s_hash_item.role %></strong> (<%= @shiftworker.name %>) 
+				</div>
+			</div>
+		</div>
+		</a>
+	<% end %>
+	
 </div><br>

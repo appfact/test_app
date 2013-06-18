@@ -4,6 +4,7 @@ class Firm < ActiveRecord::Base
   has_many :firm_permissions, dependent: :destroy
   has_many :shifts, dependent: :destroy
   has_many :shift_requests, through: :shifts
+  
 
   validates :name, presence: true, length: {maximum: 50}
   validates :branch, length: {maximum: 50}

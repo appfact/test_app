@@ -143,3 +143,11 @@ input {
 .btn-medium {
     margin-bottom: 3px
   }
+
+.schedule-open:hover{
+  background-color: #F2D0D7;
+}
+
+.schedule-filled:hover{
+  background-color: #CFE8D5;
+}

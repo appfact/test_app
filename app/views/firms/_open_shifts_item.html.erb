@@ -1,11 +1,13 @@
+
+
 <% @durationhours = Time.at(open_shifts_item.end_datetime - open_shifts_item.start_datetime).utc.strftime("%H")%>
 <% @durationminutes = Time.at(open_shifts_item.end_datetime - open_shifts_item.start_datetime).utc.strftime("%M")%>
 <% @durationhours[0] == "0" ? @durationhours = @durationhours[1] : @durationhours %>
 <% @durationminutes.to_i < 1 ? @durationminutes = "" : @durationminutes = " #{@durationminutes} mins" %>
 
-<a href="#">
+
 <tr>
-	<td><%= "#{open_shifts_item.id}" %></td>
+	<td><%= link_to "#{open_shifts_item.id}", open_shifts_item %></td>
 	<td><%= "#{open_shifts_item.role}" %></td>
 	<td><%= short_date(open_shifts_item.start_datetime) %></td>
 	<!-- DO a date format hepler!! -->
@@ -14,4 +16,4 @@
 		</td>
 	<td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
 </tr>
-</a>
+

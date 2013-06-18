@@ -7,7 +7,8 @@
 </div>
 
 <% @offers_count = @shift.shift_requests.find_all_by_worker_status_and_manager_status(nil,true).count %>
-<h3>Offer this shift to people in your network</h3>
+<h3><%= @shift.role %> @ <%= Firm.find(@shift.firm_id).name %></h3>
+<i>Click on available workers to offer them this shift.</i><br>
 
 
   <%= render 'shared/available_users' %>

@@ -1,2 +1,12 @@
 <% @nuser = User.find(assignable_users_item.user_id) %>
-<%= @nuser.name %>
+
+<tr>
+	<td><a href= <%= "assign_worker?workerid=#{@nuser.id}"%>><%= @nuser.name %></td>
+	<td>col 2</td>
+	<td>col 3</td>
+	<td>col 4</td>
+
+</td>
+
+
+

@@ -60,6 +60,25 @@ class ShiftsController < ApplicationController
     end
   end
 
+  def assign_worker
+    @shift = Shift.find(params[:id])
+    if !@shift.fk_user_worker.nil?
+      flash[:error] = "Shift has already been assigned. Please remove worker from shift before reassigning."
+      redirect_to assign_shift_path(@shift)
+      return
+    end
+    if User.find(params[:workerid]).nil?
+      flash[:error] = "An error has occurred, user not recognised"
+      redirect_to assign_shift_path(@shift)
+    else
+      @shiftworker = User.find(params[:workerid])
+      @shift.update_attribute(:fk_user_worker, @shiftworker.id)
+      flash[:success] = "Shift was assigned to #{@shiftworker.name}"
+      redirect_to @shift
+    end
+  end
+
+
 
   private
 
