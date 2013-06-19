@@ -83,7 +83,6 @@ class UsersController < ApplicationController
 
 
   def create
-    @firm = Firm.find(current_user.business_id)
     if params[:user][:sign_up_stage] == "1"
       unless User.find_by_email(params[:user][:email]).nil?
         @createduser = User.find_by_email(params[:user][:email])
@@ -122,7 +121,7 @@ class UsersController < ApplicationController
         else
           auth_normal_user!(@firmid)
           flash[:success] = "User signed up ok - business id = #{@user.business_id}"
-          redirect_to users_url
+          redirect_to '/shifts'
           return
         end
       else
