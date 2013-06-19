@@ -23,15 +23,16 @@
 
 <div class="span3">
 	<div class="row-fluid">
-		<% unless @s_date == Date.today %>
-		<a href="schedules?sdate=<%= Date.today.strftime("%d-%m-%Y")%>">
-		<i class="icon-arrow-left"></i> back to today
-		</a>
-		<% end %>
+		
 
 		    <ul class="nav nav-pills nav-stacked">
+		    	<% unless @s_date == Date.today %>
+					<li><a href="schedules?sdate=<%= Date.today.strftime("%d-%m-%Y")%>">
+					<i class="icon-arrow-left"></i> back to today
+					</a></li>
+				<% end %>
     			<li>
-    				<%= link_to "Create new shift (+)", newshift_firm_path(@firm) %>
+    				<a href="<%= newshift_firm_path(@firm) %>"><i class="icon-plus"></i> Create new shift </a>
     			</li>
     			<!--<li><a>Compact view</a></li> -->
     		</ul>
@@ -50,7 +51,7 @@
     				<tbody>
     					<% for i in 0..6 do %>
     					<tr>
-    						<td><%= (@s_date + i.days).strftime("%a %d %b") %></td>
+    						<td><a href=<%= "schedules?sdate=#{(@s_date + i.days).strftime("%d-%m-%Y")}"%> > <%= (@s_date + i.days).strftime("%a %d %b") %></td>
     						<td><%= Shift.where('start_datetime > ? AND start_datetime < ? AND firm_id = ?',
     						 (@s_date + i.days).beginning_of_day, (@s_date + i.days).end_of_day, @firm.id).count %></td>
     						<td><%= Shift.where('start_datetime > ? AND start_datetime < ? AND firm_id = ? 
@@ -116,4 +117,10 @@ $('#dp3').datepicker().on('changeDate', function() {
 });
 </script>
 
-
+<script>
+$('tr').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
+});
+</script>
