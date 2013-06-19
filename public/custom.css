@@ -161,3 +161,19 @@ input {
 .request-circle-open:hover{
   background-color: #77A8FC;
 }
+
+/* justifying text for schedule times */
+.fulljustify {
+  text-align: justify;
+}
+.fulljustify:after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+}
+
+/* bootstrap date picker */
+
+.bsdatepicker:hover {
+  background-color: #e7eff3;
+}

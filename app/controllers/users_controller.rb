@@ -55,16 +55,19 @@ class UsersController < ApplicationController
     @availableshifts = available_shifts
     @offers_items = available_shifts_offers
     @requests_items = available_shifts_requests
+    @feed_items = current_user.feed
   end
 
   def offers
     @offers_items = available_shifts_offers
     @requests_items = available_shifts_requests
+    @feed_items = current_user.feed    
   end
 
   def requests
     @requests_items = available_shifts_requests
     @offers_items = available_shifts_offers
+    @feed_items = current_user.feed.paginate(page: params[:page])
   end
 
   def index

@@ -1,5 +1,26 @@
 <% @s_date_prev = @s_date - 1.day %>
 <% @s_date_next = @s_date + 1.day %>
+
+
+<% #calculating the time span of the day %>
+<% if @s_hash_items.any? %>
+<% @s_start_hour % 3600 == 0? @s_span_start_hour = @s_start_hour / 3600 : 
+		@s_span_start_hour = @s_start_hour / (@s_start_hour - (@s_start_hour % 3600)) %>
+<% @s_end_hour % 3600 == 0? @s_span_end_hour = @s_end_hour / 3600 : 
+		@s_span_end_hour = (@s_end_hour - (@s_end_hour % 3600)) / 3600 %>
+<% @s_span_length = @s_span_end_hour - @s_span_start_hour %>
+<% @span_array = span_array_method(@s_span_start_hour,@s_span_end_hour) %>
+<% # working out the width of the times span array %>
+	<% if (@span_array.last(5).first(2).to_i * 3600) >= @s_end_hour %>
+		<% @span_array_percent = 100 %>
+	 <% else %>
+	 	<% @span_array_max = (@span_array.last(5).first(2).to_i * 3600) %>
+		<% @span_array_percent = 100 - (100*(((@s_end_hour.to_f - @span_array_max.to_f) / (@s_span_length.to_f * 3600)))).to_i %>
+	<% end %> 
+<% #end of span logic - uses span_array_method in firms helper %>
+<% end %>
+
+
 <div class="span3">
 	<div class="row-fluid">
 		<% unless @s_date == Date.today %>
@@ -8,13 +29,33 @@
 		</a>
 		<% end %>
 
-		    <ul class="nav nav-pills">
+		    <ul class="nav nav-pills nav-stacked">
     			<li>
     				<%= link_to "Create new shift (+)", newshift_firm_path(@firm) %>
     			</li>
-    			<li><a href="#">...</a></li>
-    			<li><a href="#">...</a></li>
+    			<!--<li><a>Compact view</a></li> -->
     		</ul>
+
+    		<div style="padding-left:13px; padding-bottom:5px">
+    			<strong>7 day summary</strong>
+    			</div>
+    			<table class="table table-bordered table-condensed table-hover">
+    				<thead>
+    					<tr>
+    						<th>Day</th>
+    						<th>Shifts</th>
+    						<th>Open</th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<tr>
+    						<td>col 1</td>
+    						<td>col 2</td>
+    						<td>col 2</td>
+    					</tr>
+    				</tbody>
+    			</table>
+    			
 
 	</div>
 </div>
@@ -28,7 +69,7 @@
 		</div>
 		<div class="span4" style="text-align:center">
 			
-    			<input class="span9" size="16" id="dp3" type="text" data-date-format="dd-mm-yyyy" 
+    			<input class="span9 bsdatepicker" size="16" id="dp3" type="text" data-date-format="dd-mm-yyyy" 
     					value=<%= @s_date.strftime("%a-%d-%b-%Y") %> style="font-weight:bold;text-align:center">
     		
 		</div>
@@ -41,20 +82,24 @@
 
 
 
+
 	<% if @s_hash_items.any? %>
-	<div class="row-fluid shedulecontainer">
-		<div style="border-top:2px solid #F5F5F5; border-bottom:2px solid #F5F5F5; 
-			margin: 5px 0px 5px 0px; padding-top:5px; padding-bottom:5px">
-			Times
+		<div class="row-fluid shedulecontainer">
+			<div class="well" style="background-color: white; margin: 5px 0px 5px 0px; padding:5px; height:20px;">
+				<div class="fulljustify" style="width:<%= @span_array_percent %>%">
+				<%= @span_array %>
+				</div>
+			</div>
 		</div>
 	<%= render partial: 's_hash_item', collection: @s_hash_items %>
 	<%= will_paginate @s_hash_items %>
 	
-		<% else %>
+	<% else %>
 		No shifts created for this date.
 	<% end %>
+	</div>
 
-</div>
+
 <script type="text/javascript" src="http://www.eyecon.ro/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
 
 <script>

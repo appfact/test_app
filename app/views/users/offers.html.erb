@@ -4,7 +4,7 @@
 
       <ul class="nav nav-pills">
         <li>
-          <a href="/shifts">My Shifts</a>
+          <a href="/shifts">My Shifts <%= "(#{@feed_items.length})" %></a>
         </li>
         <li><%= link_to "Available Shifts (#{user_available_shifts_helper.length})", '/availableshifts'%></li>
         <li class="active"><%= link_to "Offers (#{@offers_items.length})", '#'%></li>

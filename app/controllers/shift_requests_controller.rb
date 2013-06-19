@@ -1,6 +1,7 @@
 class ShiftRequestsController < ApplicationController
 
   before_filter :signed_in_user
+  before_filter :user_can_interact_with_request
   
   def create
     @shift = Shift.find(params[:shift_request][:shiftx_id])
@@ -72,6 +73,64 @@ class ShiftRequestsController < ApplicationController
   end
 
   def index
+  end
+
+  def user_request_from_available_shifts
+    @user = current_user
+    @shift = Shift.find(params[:shiftid])
+    if (@shift.shift_requests.find_by_worker_id(@user.id).nil? && @shift.fk_user_worker.nil?)
+      if @shift.shift_requests.create!(worker_id: @user.id, worker_status: true)
+        check_if_user_got_shift(@shift)
+        redirect_to '/availableshifts'
+        return
+      else
+        flash[:error] = "Your request failed - please try again"
+        redirect_to '/availableshifts'
+        return
+      end
+    else
+      if !@shift.shift_requests.find_by_worker_id_and_manager_status(@user.id,true).nil?
+        check_if_user_got_shift(@shift)
+        return
+      end
+      flash[:error] = "Something went wrong, you may already have a request for this shift, or it
+                      may no longer be available"
+      redirect_to '/availableshifts'
+    end                
+  end
+
+  def cancel_request_from_available_shifts
+    @user = current_user
+    @shift = Shift.find(params[:shiftid])
+    if @shift.shift_requests.find_by_worker_id(@user.id).nil?
+      flash[:error] = "Request could not be cancelled - you do not have a request for this shift"
+      redirect_to '/availableshifts'
+      return
+    end
+    @shift.shift_requests.find_by_worker_id(@user.id).destroy
+    flash[:success] = "Your request was cancelled"
+    redirect_to '/availableshifts'
+  end
+
+
+private
+
+  def check_if_user_got_shift(shift)
+    if !shift.fk_user_worker.nil?
+      flash[:error] = "something went wrong, shift no longer available"
+      return
+    else
+      if (shift.allocation_type == 1 || !shift.shift_requests.find_by_worker_id_and_manager_status(current_user, true).nil?)
+        shift.update_attributes(fk_user_worker: current_user.id)
+        shift.shift_requests.find_by_worker_id(current_user.id).destroy
+        flash[:success] = "Your request was successful - you are now allocated shift ##{shift.id} - #{@shift.role}"
+        return
+      end
+    end
+    flash[:success] = "You requested shift ##{shift.id} - #{shift.role}"
+  end
+
+  def user_can_interact_with_request
   end
 
 end

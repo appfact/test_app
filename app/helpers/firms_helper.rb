@@ -24,4 +24,15 @@ module FirmsHelper
 		return @shifts_requested
 	end
 
+	def span_array_method(starthour,endhour)
+		(endhour - starthour < 1) ? @span_length = 1 : @span_length = endhour - starthour
+		@span_intervals_array = [[0],[0,1],[0,1,2],[0,1,2,3],[0,2,4],[0,2,4],[0,2,4,6],[0,2,4,6],
+									[0,4,8],[0,3,6,9],[0,5,10],[0,5,10],[0,4,8,12],[0,4,8,12],[0,4,8,12],
+									[0,5,10,15],[0,5,10,15],[0,5,10,15],[0,6,12,18],[0,6,12,18],[0,6,12,18],
+									[0,7,14,21],[0,7,14,21],[0,7,14,21],[0,8,16,24]]
+		@span_intervals = @span_intervals_array[@span_length]
+		@span_intervals.map!{|interval| interval + starthour}
+		return (@span_intervals.join(':00 ') + ":00").to_s
+	end
+
 end

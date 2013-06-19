@@ -87,7 +87,9 @@ def create
               @s_date.beginning_of_day, @s_date.end_of_day).order(:end_datetime).last
     if @s_hash_items.any?
       @s_start_hour = [@s_hash_items2.start_datetime, @s_date.beginning_of_day].sort.last.seconds_since_midnight.to_i
+      @s_start_hour % 3600 == 0 ? @s_start_hour : @s_start_hour -= (@s_start_hour % 3600)
       @s_end_hour = [@s_hash_items3.end_datetime, @s_date.end_of_day].sort.first.seconds_since_midnight.to_i
+      @s_end_hour % 3600 == 0 ? @s_end_hour : @s_end_hour += (3600 - (@s_end_hour % 3600))
       @s_day_length = @s_end_hour.to_f - @s_start_hour.to_f
     end                  
                           

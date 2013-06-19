@@ -48,6 +48,8 @@ TestApp::Application.routes.draw do
   match '/offers', to: 'users#offers', via: 'get'
   match '/requests', to: 'users#requests', via: 'get'
   match '/schedule', to: 'users#schedule', via: 'get'
+  match '/user_request_from_available_shifts', to: 'shift_requests#user_request_from_available_shifts', via: 'get'
+  match '/cancel_request_from_available_shifts', to: 'shift_requests#cancel_request_from_available_shifts', via: 'get'
 
   
   root to: 'static_pages#home'

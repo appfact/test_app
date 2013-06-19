@@ -2,7 +2,7 @@
 
       <ul class="nav nav-pills">
        
-        <li><a href="/shifts">My Shifts</i></a>
+        <li><a href="/shifts">My Shifts <%= "(#{@feed_items.length})" %></i></a>
         </li>
       	 <li class="active"><a href="#">Available Shifts (<%= @availableshifts.length %>)</a></li>
         <li><%= link_to "Offers (#{@offers_items.length})", '/offers'%></li>
@@ -14,10 +14,8 @@
        <table class="table table-hover">
     	<thead>
     		<tr>
-    			<th><a href="#"></a>#</th><th>Role</th><th>Date</th><th>Time</th><th>Length</th>
-          <th>
-            <div class="request-circle-open" style="border:1px solid #77A8FC; 
-            border-radius:100%; width:8px; height:8px; margin-bottom:5px"></div>
+    			<th><a href="#"></a>#</th><th>Role</th><th>Date</th><th>Time</th>
+          <th style="text-align:center">Request</div>
           </th>
     		</tr>
     	</thead>
