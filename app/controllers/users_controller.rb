@@ -83,6 +83,7 @@ class UsersController < ApplicationController
 
 
   def create
+    @firm = Firm.find(current_user.business_id)
     if params[:user][:sign_up_stage] == "1"
       unless User.find_by_email(params[:user][:email]).nil?
         @createduser = User.find_by_email(params[:user][:email])
@@ -92,7 +93,10 @@ class UsersController < ApplicationController
           redirect_to '/invite'
           return
         end
-        flash[:success] = "User already belongs to your network"
+        if !@firm.firm_permissions.find_by_user_id_and_status(@createduser.id,false).nil?
+          @firm.firm_permissions.find_by_user_id_and_status(@createduser.id,false).toggle!(:status)
+        end
+        flash[:success] = "User is part of your network"
         redirect_to '/invite'
         return
       end
@@ -200,6 +204,7 @@ class UsersController < ApplicationController
 
   def auth_created_user!(userid, firmid)
     @firmx = Firm.find(firmid)
+    User.find(userid).update_attributes(password: "password", password_confirmation: "password")
     @permission = @firmx.firm_permissions.create!(user_id: userid, kind: 1)
     @permission.toggle!(:status)
   end
