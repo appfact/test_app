@@ -10,6 +10,7 @@
 		@s_span_end_hour = (@s_end_hour - (@s_end_hour % 3600)) / 3600 %>
 <% @s_span_length = @s_span_end_hour - @s_span_start_hour %>
 <% @span_array = span_array_method(@s_span_start_hour,@s_span_end_hour) %>
+<% #end of span logic - uses span_array_method in firms helper %>
 <% # working out the width of the times span array %>
 	<% if (@span_array.last(5).first(2).to_i * 3600) >= @s_end_hour %>
 		<% @span_array_percent = 100 %>
@@ -17,9 +18,8 @@
 	 	<% @span_array_max = (@span_array.last(5).first(2).to_i * 3600) %>
 		<% @span_array_percent = 100 - (100*(((@s_end_hour.to_f - @span_array_max.to_f) / (@s_span_length.to_f * 3600)))).to_i %>
 	<% end %> 
-<% #end of span logic - uses span_array_method in firms helper %>
 <% end %>
-
+<% # end of calculating logic %>
 
 <div class="span3">
 	<div class="row-fluid">
@@ -48,14 +48,20 @@
     					</tr>
     				</thead>
     				<tbody>
+    					<% for i in 0..6 do %>
     					<tr>
-    						<td>col 1</td>
-    						<td>col 2</td>
-    						<td>col 2</td>
+    						<td><%= (@s_date + i.days).strftime("%a %d %b") %></td>
+    						<td><%= Shift.where('start_datetime > ? AND start_datetime < ? AND firm_id = ?',
+    						 (@s_date + i.days).beginning_of_day, (@s_date + i.days).end_of_day, @firm.id).count %></td>
+    						<td><%= Shift.where('start_datetime > ? AND start_datetime < ? AND firm_id = ? 
+    								AND fk_user_worker is ?',
+    						 (@s_date + i.days).beginning_of_day, (@s_date + i.days).end_of_day, 
+    						 		@firm.id, nil).count %></td>
     					</tr>
+    					<% end %>
     				</tbody>
     			</table>
-    			
+
 
 	</div>
 </div>
