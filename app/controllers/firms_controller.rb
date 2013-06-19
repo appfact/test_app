@@ -1,8 +1,9 @@
 class FirmsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only: [:new, :create, :update, :network, :rufn]
+  before_filter :admin_user, only: [:new, :create, :update, :network, :rufn, :makeadmin, :removeadmin]
   before_filter :user_can_view_firm?, only: [:show, :network, :rufn]
   before_filter :cannot_rufn_self, only: :rufn
+  before_filter :rufn_correct_firm, only: [:rufn, :makeadmin, :removeadmin]
   #check that this before filter doesn't interfere with correct display of network page
 
   def new
@@ -36,12 +37,38 @@ def create
     render 'network'
   end
 
+  def permissions
+    @firm = Firm.find(params[:id])
+    @network_permissions = @firm.network_users
+  end
+
+  def stats
+    @firm = Firm.find(params[:id])
+    @stats = @firm.network_users
+  end
+
   def rufn
     @firm = Firm.find(params[:id])
     @firm.firm_permissions.find_by_user_id(params[:userid]).toggle!(:status)
     @user = User.find(params[:userid])
     flash[:success] = "You have removed #{@user.name} from your network"
-    redirect_to network_firm_path(@firm)
+    redirect_to permissions_firm_path(@firm)
+  end
+
+  def makeadmin
+    @firm = Firm.find(params[:id])
+    @firm.firm_permissions.find_by_user_id(params[:userid]).toggle!(:admin)
+    @user = User.find(params[:userid])
+    flash[:success] = "You have made #{@user.name} an administrator."
+    redirect_to permissions_firm_path(@firm)
+  end
+
+  def removeadmin
+    @firm = Firm.find(params[:id])
+    @firm.firm_permissions.find_by_user_id(params[:userid]).toggle!(:admin)
+    @user = User.find(params[:userid])
+    flash[:success] = "You have removed admin privileges from #{@user.name}."
+    redirect_to permissions_firm_path(@firm)
   end
 
   def shifts
@@ -131,7 +158,7 @@ def create
 
   def rufn_correct_firm
     @firm = Firm.find(params[:id])
-    unless !@firm.firm_permissions.find_by_user_id_and_status(current_user.id,true).nil?
+    if @firm.firm_permissions.find_by_user_id_and_status(current_user.id,true).nil?
       flash[:error] = "You do not have permission to do that"
       redirect_to network_firm_path(@firm)
     end

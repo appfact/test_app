@@ -3,26 +3,28 @@
 
 <div class="span3">
     <ul class="nav nav-pills nav-stacked">
-    <li class="active">
-    <a href="#">Staff Contact Info</a>
+    <li>
+    <a href="network">Staff Contact Info</a>
     </li>
-    <li><%= link_to "Staff Stats", "stats" %></li>
-    <li><%= link_to "User Permissions", "permissions" %></li>
+    <li><%= link_to "Staff Stats", "#" %></li>
+    <li class="active"><%= link_to "User Permissions", "permissions" %></li>
     <li><%= link_to "Add people to your network (+)", '/invite'%></li>
     </ul>
 </div>
 
 <div class="span6">
 	
+	
+	
 		
 		    <table class="table">
     			<thead>
     				<tr>
-    					<th>Name</th><th>Email</th><th>Phone</th>
+    					<th>Name</th><th>User type</th><th>Change</th><th style="text-align:center">Delete</th>
     				</tr>
     			</thead>
     			<tbody>
-    				<%= render 'network_users' %>
+    				<%= render 'network_permissions' %>
     			</tbody>
     		</table>
 

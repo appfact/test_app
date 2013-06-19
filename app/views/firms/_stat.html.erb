@@ -1,0 +1,9 @@
+<% @user = User.find(stat.user_id) %>
+<tr>
+	<td><%= gravatar_for @user, size: 20 %>
+		<%= @user.name %>
+		<%= (@user.id == current_user.id) ? " (you)" : "" %></td>
+	<td><%= @firm.firm_permissions.find_by_user_id(@user.id).created_at.strftime("%d %b %Y") %></td>
+	<td><%= @firm.shifts.where('fk_user_worker = ? and start_datetime < ?', @user.id, Time.now).count %></td>
+	
+</tr>

@@ -21,6 +21,10 @@ TestApp::Application.routes.draw do
       get :shifts
       get :newshift
       get :schedules
+      get :permissions
+      get :stats
+      get :makeadmin
+      get :removeadmin
     end
   end
 

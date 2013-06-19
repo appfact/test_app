@@ -3,10 +3,10 @@
 
 <div class="span3">
     <ul class="nav nav-pills nav-stacked">
-    <li class="active">
-    <a href="#">Staff Contact Info</a>
+    <li>
+    <a href="network">Staff Contact Info</a>
     </li>
-    <li><%= link_to "Staff Stats", "stats" %></li>
+    <li class="active"><%= link_to "Staff Stats", "#" %></li>
     <li><%= link_to "User Permissions", "permissions" %></li>
     <li><%= link_to "Add people to your network (+)", '/invite'%></li>
     </ul>
@@ -18,11 +18,11 @@
 		    <table class="table">
     			<thead>
     				<tr>
-    					<th>Name</th><th>Email</th><th>Phone</th>
+    					<th>Name</th><th>Joined Network</th><th>Shifts Worked</th>
     				</tr>
     			</thead>
     			<tbody>
-    				<%= render 'network_users' %>
+    				<%= render 'stats' %>
     			</tbody>
     		</table>
 
