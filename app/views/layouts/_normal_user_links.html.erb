@@ -7,7 +7,17 @@
 				<ul class="dropdown-menu">
 					<li><%= link_to "Settings", user_path(current_user.id) %></li>
 					<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
-					
+					<% @user_admins = current_user.firm_permissions.where(:status => true).where(:admin => true) %>
+					<% if @user_admins.any? %>
+						<li class="divider"></li>
+						<li><a>Switch to admin</a></li>
+						<% @user_admins.each do |admins| %>
+							<% @adminfirm = Firm.find(admins.firm_id) %>
+							<% @adminfirm.branch = "" ? @adminfirmbranch = "" : @adminfirmbranch = "(#{@adminfirm.branch})" %>
+							<li><a href="/switchtoadmin?businessid=<%= @adminfirm.id %>"
+								><i class="icon-home"></i> <%= "#{@adminfirm.name} #{@adminfirmbranch}" %></a></li>
+						<% end %>
+					<% end %>
 				</ul>
 			</li>
 
@@ -27,11 +37,12 @@
 						<li class="divider"></li>
 						<% @user_permissions.each do |permission| %>
 							<% @permissionfirm = Firm.find(permission.firm_id) %>
-							<li><%= link_to "#{@permissionfirm.name} (#{@permissionfirm.branch})", schedules_firm_path(@permissionfirm) %></li>
+							<% @permissionfirm.branch = "" ? @permissionfirmbranch = "" : @permissionfirmbranch = "(#{@permissionfirm.branch})" %>
+							<li><%= link_to "#{@permissionfirm.name} #{@permissionfirmbranch}", schedules_firm_path(@permissionfirm) %></li>
 						<% end %>
 					<% end %>
 					
 				</ul>
 			</li>
 
-		<li><%= link_to "Shifts", '/shifts' %></li>
+		<li><%= link_to "Get Shifts", '/availableshifts' %></li>

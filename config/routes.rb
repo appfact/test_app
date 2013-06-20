@@ -5,7 +5,7 @@ TestApp::Application.routes.draw do
       get :user_remove_network
     end
   end
-  
+
   resources :sessions, only: [:new, :create, :destroy]
   
   resources :shifts, only: [:create, :destroy, :show, :update] do
@@ -61,6 +61,8 @@ TestApp::Application.routes.draw do
   match '/schedule', to: 'users#schedule', via: 'get'
   match '/user_request_from_available_shifts', to: 'shift_requests#user_request_from_available_shifts', via: 'get'
   match '/cancel_request_from_available_shifts', to: 'shift_requests#cancel_request_from_available_shifts', via: 'get'
+  match '/switchtoadmin', to: 'users#switch_from_user_to_admin', via: 'get'
+  match '/switchtononadmin', to: 'users#switch_to_non_admin', via: 'get'
 
   
   root to: 'static_pages#home'

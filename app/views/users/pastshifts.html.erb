@@ -10,15 +10,7 @@
 
 <div class="span6">
 
-      <ul class="nav nav-pills">
-        <li class="active">
-          <a href="#">My Shifts <icon class="icon-tasks"></i></a>
-        </li>
-        <li><%= link_to "Available Shifts (#{user_available_shifts_helper.length})", '/availableshifts'%></li>
-        <li><%= link_to "Offers (#{@offers_items.length})", '/offers'%></li>
-        <li><%= link_to "Requests (#{@requests_items.length})", '/requests'%></li>
-        
-      </ul>
+  
 
 <!-- testing the feed by adding it here as well -->
       <%= render 'shared/feed' %>

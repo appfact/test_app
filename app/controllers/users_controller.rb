@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy]
+  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :switch_from_user_to_admin]
   before_filter :correct_user,   only: [:edit, :update]
   # correct_user private method ensures users can only edit their own info
-  before_filter :admin_user,     only: [:destroy, :invite]
+  before_filter :admin_user,     only: [:destroy, :invite, :switch_business_account]
   # might need to change this to admin user OR shift manager can do invite
   before_filter :admin_user_cannot_delete_self, only: :destroy
   before_filter :not_signed_in, only: [:new, :newuser]
@@ -156,6 +156,40 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @permission = @user.firm_permissions.find(params[:permissionid])
     @permission.toggle!(:status)
+    redirect_to @user
+  end
+
+  def switch_business_account
+    unless current_user.firm_permissions.where.(:status => true).where('firm_id = ? AND 
+           admin = ?', params[:businessid].to_i, true).nil?
+       current_user.update_attributes(business_id: params[:businessid])
+       @firm = Firm.find(params[:businessid])
+       flash[:success] = "You switched account to #{@firm.name} #{@firm.branch}"
+       redirect_to @firm
+     else
+      redirect_to current_user
+    end
+  end
+
+  def switch_from_user_to_admin
+    @user = current_user
+    if @user.firm_permissions.where(:status => true).where('firm_id = ? AND 
+           admin = ?',params[:businessid],true).any?
+       @user.update_attributes(business_id: params[:businessid])
+       @user.toggle!(:admin)
+       @firm = Firm.find(params[:businessid])
+       flash[:success] = "You switched account to #{@firm.name} #{@firm.branch}"
+       redirect_to @firm
+     else
+      redirect_to root_path
+    end
+  end
+
+  def switch_to_non_admin
+    if current_user.admin?
+      @user = current_user
+      @user.toggle!(:admin)
+    end
     redirect_to @user
   end
 

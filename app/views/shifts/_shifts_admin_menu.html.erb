@@ -1,8 +1,8 @@
 <% @shift = Shift.find(params[:id]) %>
 <% @requestscount = @shift.shift_requests.find_all_by_worker_status_and_manager_status(true,nil).count %>
 
-<% if @requestscount == 0 %>
-	<div class="btn btn-medium disabled">Requests (0)</div>
+<% if (@requestscount == 0 || !@shift.fk_user_worker.nil?) %>
+	<div class="btn btn-medium disabled">Requests (<%= @requestscount %>)</div>
   <% else %>
 	<%= link_to "requests (#{@requestscount})",requests_shift_path, class: "btn btn-medium btn-success" %>
 <% end %>

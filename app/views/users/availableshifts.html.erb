@@ -1,16 +1,20 @@
-<div class="span6 offset3">
+<div class="span3">
 
-      <ul class="nav nav-pills">
+<ul class="nav nav-pills nav-stacked">
        
-        <li><a href="/shifts">My Shifts <%= "(#{@feed_items.length})" %></i></a>
-        </li>
-      	 <li class="active"><a href="#">Available Shifts (<%= @availableshifts.length %>)</a></li>
+         <li class="active"><a href="#">Available Shifts (<%= @availableshifts.length %>)</a></li>
         <li><%= link_to "Offers (#{@offers_items.length})", '/offers'%></li>
         <li><%= link_to "Requests (#{@requests_items.length})", '/requests'%></li>
         
         
       </ul>
 
+
+</div>
+
+<div class="span6">
+
+      <% if @availableshifts.any? %>
        <table class="table table-hover">
     	<thead>
     		<tr>
@@ -27,7 +31,10 @@
 </tbody>
     </table>	
 
+    <% else %>
+    <div class="alert alert-info">There are no available shifts</div>
 </div>
+<% end %>
 
 <script>
 $('tr').click( function() {

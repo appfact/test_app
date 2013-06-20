@@ -11,8 +11,9 @@
 					<li><%= link_to "Network", network_firm_path(current_user.business_id) %></li>
 					<li><%= link_to "Business Profile", firm_path(current_user.business_id) %></li>
 					<li class="divider"></li>
-					<li><a href=<%= user_path(current_user.id) %>><i class="icon-user"></i> <%= current_user.name %> (settings)</strong></a></li>
+					<li><a href=<%= user_path(current_user.id) %>><i class="icon-user"></i> <%= current_user.name %> (settings)</a></li>
 					<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
+					<li><a href="/switchtononadmin">Switch to non-admin</a></li>
 					
 				</ul>
 			</li>

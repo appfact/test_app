@@ -1,19 +1,20 @@
+<div class="span3">
 
-
-<div class="span6 offset3">
-
-      <ul class="nav nav-pills">
-        <li>
-          <a href="/shifts">My Shifts <%= "(#{@feed_items.length})" %></a>
-        </li>
-        <li><%= link_to "Available Shifts (#{user_available_shifts_helper.length})", '/availableshifts'%></li>
+<ul class="nav nav-pills nav-stacked">
+       
+        <li><a href='/availableshifts'>Available Shifts (<%= user_available_shifts_helper.length %>)</a></li>
         <li class="active"><%= link_to "Offers (#{@offers_items.length})", '#'%></li>
-        <li><%= link_to "Requests (0)", '/requests'%></li>
+        <li><%= link_to "Requests (#{@requests_items.length})", '/requests'%></li>
         
         
       </ul>
 
-<!-- testing the feed by adding it here as well -->
+
+</div>
+
+<div class="span6">
+
+
 <% if @offers_items.any? %>
 <%= render 'offers_items' %>
 <% else %>
