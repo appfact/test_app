@@ -8,7 +8,7 @@
 <% end %>
 
 <% if !@shift.fk_user_worker.nil? %>
-	<div class="btn btn-medium disabled">Offers <%= "#{@shift.shift_requests.find_all_by_manager_status_and_worker_status(true,nil).count}" %></div>
+	<div class="btn btn-medium disabled">Offers (<%= "#{@shift.shift_requests.find_all_by_manager_status_and_worker_status(true,nil).count}" %>)</div>
 	<% else %>
 	<%= link_to "Offers (#{@shift.shift_requests.find_all_by_manager_status_and_worker_status(true,nil).count})", offers_shift_path(@shift), class: "btn btn-medium btn-primary" %>
 	<% end %>
@@ -25,7 +25,7 @@
     <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-    	<li><a href="#">Edit Shift</a></li>
+    	<li><%= link_to "Edit Shift", edit_shift_path(@shift) %></li>
     	<li><%= link_to "Delete", @shift, method: :delete,
                                      data: { confirm: "You sure?" },
                                      title: @shift.role %></li>

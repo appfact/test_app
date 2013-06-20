@@ -31,9 +31,11 @@
 					<i class="icon-arrow-left"></i> back to today
 					</a></li>
 				<% end %>
+				<% if current_user.admin? %>
     			<li>
     				<a href="<%= newshift_firm_path(@firm) %>"><i class="icon-plus"></i> Create new shift </a>
     			</li>
+    			<% end %>
     			<!--<li><a>Compact view</a></li> -->
     		</ul>
 

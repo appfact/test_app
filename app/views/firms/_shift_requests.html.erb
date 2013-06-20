@@ -1,11 +1,20 @@
 		    <table class="table table-hover">
     			<thead>
     				<tr>
-    					<th>Name</th><th>Roles</th><th>Admin?</th><th></th>
+    					<th>Shift</th><th>Req. by</th><th>Prev 7d</th><th>Next 7d</th>
     				</tr>
     			</thead>
     			<tbody>
     				<%= render partial: 'shift_requests_item', collection: @shift_requests_items %>
+                    <% will_paginate @shift_requests_items %>
   					
     			</tbody>
     		</table>
+
+<script>
+$('tr').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
+});
+</script>

@@ -1,0 +1,14 @@
+<% @requestuser = User.find(shift_request.worker_id) %>
+
+              <tr>
+                <td>
+                  <%= link_to "#{@requestuser.name}", 
+                  @requestuser %>
+                </td>
+                <td>prev</td>
+                <td>next</td>
+                <td>
+                  <%= link_to "Approve", "approve_request?requestid=#{shift_request.id}" %>
+                  
+                </td>
+              </tr>

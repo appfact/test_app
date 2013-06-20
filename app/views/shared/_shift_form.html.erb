@@ -1,7 +1,6 @@
 
 
-<h3>New shift - <%= "#{Firm.find(current_user.business_id).name} 
-      (#{Firm.find(current_user.business_id).branch})" %></h3>
+
 <%= form_for(@shift) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
   
@@ -34,6 +33,10 @@
     <strong>Closed shift</strong>. This shift will not appear as available to users, and must be assigned or offered by
     a manager.
   </label>
-  
+  <% if @shift.nil? %>
   <%= f.submit "Create shift", class: "btn btn-large btn-primary pull-right" %>
+  <% else %>
+  <%= f.submit "Update shift information", class: "btn btn-large btn-primary pull-right" %>
+  <% end %>
+
 <% end %>

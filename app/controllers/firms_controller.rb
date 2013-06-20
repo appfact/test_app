@@ -1,6 +1,6 @@
 class FirmsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only: [:new, :create, :update, :network, :rufn, :makeadmin, :removeadmin]
+  before_filter :admin_user, only: [:new, :newshift, :create, :update, :network, :rufn, :makeadmin, :removeadmin]
   before_filter :user_can_view_firm?, only: [:show, :network, :rufn]
   before_filter :cannot_rufn_self, only: :rufn
   before_filter :rufn_correct_firm, only: [:rufn, :makeadmin, :removeadmin]
@@ -77,7 +77,7 @@ def create
     @open_shifts_items = @firm.open_shifts2.paginate(page: params[:page])
     @shift_requests_items = @firm.shift_requests
                                 .where(:worker_status => true, :manager_status => nil) 
-                                .where('start_datetime > ?', Time.now.to_datetime)
+                                .where('end_datetime > ? AND fk_user_worker is ?', Time.now.to_datetime, nil)
                                 .order(:shift_id, :created_at)
   end
 
@@ -85,8 +85,8 @@ def create
     @firm = Firm.find(params[:id])
     @shift_requests_items = @firm.shift_requests
                                 .where(:worker_status => true, :manager_status => nil) 
-                                .where('start_datetime > ?', Time.now.to_datetime)
-                                .order(:shift_id, :created_at)
+                                .where('end_datetime > ? AND fk_user_worker is ?', Time.now.to_datetime, nil)
+                                .order(:shift_id, :start_datetime).paginate(page: params[:page])
   end
 
   def newshift

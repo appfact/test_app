@@ -1,15 +1,22 @@
 TestApp::Application.routes.draw do
 
-  resources :users
+  resources :users do
+    member do
+      get :user_remove_network
+    end
+  end
+  
   resources :sessions, only: [:new, :create, :destroy]
   
-  resources :shifts, only: [:create, :destroy, :show] do
+  resources :shifts, only: [:create, :destroy, :show, :update] do
     member do
       get :requests
       get :offers
       get :remove_worker
       get :assign
       get :assign_worker
+      get :approve_request
+      get :edit
     end
   end
 

@@ -14,6 +14,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @user_networks = @user.firm_permissions.where(:status => true)
   end
 
   def new
@@ -84,6 +85,7 @@ class UsersController < ApplicationController
 
   def create
     if params[:user][:sign_up_stage] == "1"
+      @firm = Firm.find(current_user.business_id.to_i)
       unless User.find_by_email(params[:user][:email]).nil?
         @createduser = User.find_by_email(params[:user][:email])
         if @createduser.firm_permissions.find_by_firm_id(current_user.business_id).nil?
@@ -148,6 +150,13 @@ class UsersController < ApplicationController
   end
 
   def invite
+  end
+
+  def user_remove_network
+    @user = User.find(params[:id])
+    @permission = @user.firm_permissions.find(params[:permissionid])
+    @permission.toggle!(:status)
+    redirect_to @user
   end
 
   private
@@ -257,7 +266,8 @@ class UsersController < ApplicationController
     @userprofile = User.find(params[:id])
     if current_user != @userprofile
       if current_user.admin?
-        if @userprofile.firm_permissions.find_by_status_and_firm_id(true,current_user.business_id.to_i).nil?
+        if @userprofile.firm_permissions.where(:status => true).
+                  where('firm_id = ?', current_user.business_id.to_i).nil?
           flash[:error] = "You don't have permission to view that page"
           redirect_to current_user
         end

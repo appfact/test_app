@@ -39,10 +39,12 @@
 			<td><strong>Assigned to</strong></td>
 			<td>
 				<% if @shift.fk_user_worker.nil? %> 
-				(Open)
+					(Open)
 				<% else %> 
-				<%= "#{User.find(@shift.fk_user_worker).name}" %>
-				<%= link_to "(unassign)", remove_worker_shift_path %>
+					<%= "#{User.find(@shift.fk_user_worker).name}" %>
+					<% if current_user.admin? %>
+						<%= link_to "(unassign)", remove_worker_shift_path %>
+					<% end %>
 				<% end %>
 			</td>
 		</tr>

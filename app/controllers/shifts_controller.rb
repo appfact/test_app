@@ -1,7 +1,7 @@
 class ShiftsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only: [:destroy, :create]
-  before_filter :correct_user,   only: :destroy
+  before_filter :admin_user, only: [:destroy, :create, :remove_worker]
+  before_filter :correct_user,   only: [:destroy, :remove_worker]
 
  def create
     @firm = Firm.find(current_user.business_id)
@@ -30,9 +30,23 @@ class ShiftsController < ApplicationController
 
   def requests
     @shift = Shift.find(params[:id])
+    flash[:error] = "This shift has already been assigned" unless @shift.fk_user_worker.nil? 
     @title = "Requests for shift #{@shift.id} - #{@shift.role} - #{@shift.start_datetime}"
-    @shift_requests = @shift.shift_requests.find_all_by_worker_status_and_manager_status(true,nil)
-    render 'show_requests'
+    @shift_requests = @shift.shift_requests.where(:worker_status => true).where(:manager_status => nil)
+  end
+
+  def approve_request
+    @shift = Shift.find(params[:id])
+    if @shift.fk_user_worker.nil?
+      @shiftrequest = @shift.shift_requests.find(params[:requestid])
+      @requestuser = User.find(@shift.shift_requests.find(params[:requestid]).worker_id)
+      @shiftrequest.update_attributes(manager_status: true, manager_id: current_user.id)
+      @shift.update_attributes(fk_user_worker: @requestuser.id)
+      flash[:success] = "You approved the request - shift now filled"
+    else
+      flash[:error] = "Could not approve request - shift already filled"
+    end
+    redirect_to @shift
   end
 
   def offers
@@ -78,6 +92,20 @@ class ShiftsController < ApplicationController
     end
   end
 
+  def edit
+    @shift = Shift.find(params[:id])
+  end
+
+  def update
+    @shift = Shift.find(params[:id])
+    if @shift.update_attributes(params[:shift])
+      flash[:success] = "Shift information was updated"
+      redirect_to @shift
+    else
+      flash[:error] = "Something went wrong when updating the shift"
+      render edit_shift_path(@shift)
+    end
+  end
  
 
   private

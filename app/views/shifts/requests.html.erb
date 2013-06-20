@@ -1,0 +1,28 @@
+<% provide(:title, @title) %>
+
+<div class="span6 offset3">
+
+<% if current_user.admin? %>
+<%= render 'shifts_admin_menu' %>
+<% end %>
+      
+      <h3><%= "#{pluralize(@shift_requests.length, "person")} requested this shift" %></h3>
+      
+      <% if @shift_requests.any? %>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Prev 7d</th><th>Next 7d</th><th>action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+             <%= render partial: 'shift_request', collection: @shift_requests %>
+              
+          </tbody>
+        </table>
+         <% end %>
+
+    </div>
+      

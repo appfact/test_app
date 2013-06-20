@@ -1,10 +1,29 @@
 <% provide(:title, @user.name) %>
-<%= link_to "edit your profile and preferences", edit_user_path(current_user), class: "btn btn-primary pull-right" %>
-<div class="span4 offset4">
 
+<div class="span6 offset3">
+	<% if @user == current_user %>
+<%= link_to "edit your profile and preferences", edit_user_path(current_user), class: "btn btn-primary pull-right" %>
+	<% end %>
 	
 <h2>
   <%= gravatar_for @user %>
   <%= @user.name %></h2> 
-  <strong>email:</strong> <%= @user.email %>
+  <strong>Email:</strong> <%= @user.email %><br>
+  <strong>Phone number:</strong> <%= @user.phone %><br><br>
+
+  <div class="alert alert-info">Your contact information is only visible to administrators of your network(s)</div>
+
+<% if @user == current_user %>
+<h3>Your network(s)</h3>
+<% @user_networks.each do |network| %>
+	<% @firmx = Firm.find(network.firm_id) %>
+	<%= "#{@firmx.name}" %>
+	<%= network.admin ? "Administrator" : "" %> 
+	<%= link_to "(remove)", "#{@user.id}/user_remove_network?permissionid=#{network.id}" %>
+<% end %>
+<br><br>
+<div class="alert alert-error">If you remove yourself from a network you will no longer be able to view, 
+	request, or be offered shifts for that network.</div>
+<% end %>
+
 </div>

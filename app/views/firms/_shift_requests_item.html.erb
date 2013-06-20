@@ -1,1 +1,13 @@
-<%= " #{@shift_request_item}" %>
+<% @shift = Shift.find(shift_requests_item.shift_id) %>
+<% @user = User.find(shift_requests_item.worker_id) %>
+<% @prev7 = Shift.where('fk_user_worker = ? AND end_datetime < ? AND end_datetime > ?', 
+					@user.id, Time.now.to_datetime, Time.now.to_datetime - 7.days).length %>
+<% @next7 = Shift.where('fk_user_worker = ? AND end_datetime > ? AND end_datetime < ?', 
+					@user.id, Time.now.to_datetime, Time.now.to_datetime + 7.days).length %>
+<tr>
+	<td><%= link_to "", requests_shift_path(@shift) %><%= "##{@shift.id} #{@shift.role} - #{@shift.start_datetime.strftime("%d-%b (%l")} - 
+			#{@shift.end_datetime.strftime("%l")})" %></td>
+	<td><%= @user.name %></td>
+	<td><%= @prev7 %></td>
+	<td><%= @next7 %></td>
+</tr>

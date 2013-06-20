@@ -177,3 +177,14 @@ input {
 .bsdatepicker:hover {
   background-color: #e7eff3;
 }
+
+
+.homepagebox:background {
+    filter: alpha(opacity=70); /* internet explorer */
+    -khtml-opacity: 0.7;      /* khtml, old safari */
+    -moz-opacity: 0.7;       /* mozilla, netscape */
+    opacity: 0.5;           /* fx, safari, opera */
+    background-color: white;
+}
+.homepagebox:hover {background: white;
+}
