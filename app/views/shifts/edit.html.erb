@@ -1,6 +1,6 @@
 <div class="span6 offset3">
 <h3>Edit shift - <%= "##{@shift.id} #{@shift.role} - #{Firm.find(current_user.business_id).name} 
-      (#{Firm.find(current_user.business_id).branch})" %></h3>
+      #{Firm.find(current_user.business_id).branch}" %></h3>
 
 <%= render 'shared/shift_form' %>
 

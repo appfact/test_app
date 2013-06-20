@@ -18,8 +18,8 @@
 <% @user_networks.each do |network| %>
 	<% @firmx = Firm.find(network.firm_id) %>
 	<%= "#{@firmx.name}" %>
-	<%= network.admin ? "Administrator" : "" %> 
-	<%= link_to "(remove)", "#{@user.id}/user_remove_network?permissionid=#{network.id}" %>
+	<%= network.admin ? "- Administrator" : "" %> 
+	<%= link_to "(remove)", "#{@user.id}/user_remove_network?permissionid=#{network.id}" %><br>
 <% end %>
 <br><br>
 <div class="alert alert-error">If you remove yourself from a network you will no longer be able to view, 

@@ -14,6 +14,18 @@
 					<li><a href=<%= user_path(current_user.id) %>><i class="icon-user"></i> <%= current_user.name %> (settings)</a></li>
 					<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
 					<li><a href="/switchtononadmin">Switch to non-admin</a></li>
+
+					<% @user_admins = current_user.firm_permissions.where(:status => true).where(:admin => true) %>
+					<% if @user_admins.length > 1 %>
+						<li class="divider"></li>
+						<li><a>Switch business</a></li>
+						<% @user_admins.each do |admins| %>
+							<% @adminfirm = Firm.find(admins.firm_id) %>
+							<% @adminfirm.branch = "" ? @adminfirmbranch = "" : @adminfirmbranch = "(#{@adminfirm.branch})" %>
+							<li><a href="/switchbusiness?businessid=<%= @adminfirm.id %>"
+								><i class="icon-home"></i> <%= "#{@adminfirm.name} #{@adminfirmbranch}" %></a></li>
+						<% end %>
+					<% end %>
 					
 				</ul>
 			</li>

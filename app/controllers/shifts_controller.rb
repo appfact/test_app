@@ -106,6 +106,14 @@ class ShiftsController < ApplicationController
       render edit_shift_path(@shift)
     end
   end
+
+  def clone
+    @shift = Shift.find(params[:id])
+    @shift2 = @shift.dup
+    @shift2.save
+    flash[:info] = "You successfully cloned this shift - now viewing new shift"
+    redirect_to @shift2
+  end
  
 
   private

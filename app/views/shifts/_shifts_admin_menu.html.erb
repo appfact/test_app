@@ -1,6 +1,12 @@
 <% @shift = Shift.find(params[:id]) %>
 <% @requestscount = @shift.shift_requests.find_all_by_worker_status_and_manager_status(true,nil).count %>
 
+<% # decide whether to show back to shift info button %>
+<% @showinfobutton = Float(request.url.last) rescue false %>
+<% if @showinfobutton == false %>
+  <%= link_to "< back to shift info", @shift, class:"btn btn-medium" %>
+<% end %>
+
 <% if (@requestscount == 0 || !@shift.fk_user_worker.nil?) %>
 	<div class="btn btn-medium disabled">Requests (<%= @requestscount %>)</div>
   <% else %>
@@ -29,6 +35,7 @@
     	<li><%= link_to "Delete", @shift, method: :delete,
                                      data: { confirm: "You sure?" },
                                      title: @shift.role %></li>
+      <li><%= link_to "Clone shift", clone_shift_path(@shift) %>
     </ul>
     </div>
 

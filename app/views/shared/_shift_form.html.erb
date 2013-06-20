@@ -1,4 +1,7 @@
-
+<% # logic for which radio button is checked for shift allocation type %>
+<% @shift.allocation_type == 1 ? @check1 = "checked" : @check1 = nil %>
+<% @shift.allocation_type == 2 ? @check2 = "checked" : @check2 = nil %>
+<% @shift.allocation_type == 3 ? @check3 = "checked" : @check3 = nil %>
 
 
 <%= form_for(@shift) do |f| %>
@@ -20,20 +23,20 @@
 
   Shift allocation:
   <label class="radio">
-    <input type="radio" name="shift[allocation_type]" id="allocation_type1" value=1 checked>
+    <input type="radio" name="shift[allocation_type]" id="allocation_type1" value=1 <%= @check1 %>>
       <strong>First come, first served</strong>. The first person to request this shift will be given it automatically.
   </label>
   <label class="radio">
-    <input type="radio" name="shift[allocation_type]" id="allocation_type2" value=2>
+    <input type="radio" name="shift[allocation_type]" id="allocation_type2" value=2 <%= @check2 %>>
     <strong>Manager chooses</strong>. Users can request this shift, but a manager will have to approve the request before
     the shift is allocated.
   </label>
   <label class="radio">
-    <input type="radio" name="shift[allocation_type]" id="allocation_type3" value=3>
+    <input type="radio" name="shift[allocation_type]" id="allocation_type3" value=3 <%= @check3 %>>
     <strong>Closed shift</strong>. This shift will not appear as available to users, and must be assigned or offered by
     a manager.
   </label>
-  <% if @shift.nil? %>
+  <% if @shift.id.nil? %>
   <%= f.submit "Create shift", class: "btn btn-large btn-primary pull-right" %>
   <% else %>
   <%= f.submit "Update shift information", class: "btn btn-large btn-primary pull-right" %>

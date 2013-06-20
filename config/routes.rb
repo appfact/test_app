@@ -17,6 +17,7 @@ TestApp::Application.routes.draw do
       get :assign_worker
       get :approve_request
       get :edit
+      get :clone
     end
   end
 
@@ -32,6 +33,7 @@ TestApp::Application.routes.draw do
       get :stats
       get :makeadmin
       get :removeadmin
+      get :edit
     end
   end
 
@@ -63,6 +65,7 @@ TestApp::Application.routes.draw do
   match '/cancel_request_from_available_shifts', to: 'shift_requests#cancel_request_from_available_shifts', via: 'get'
   match '/switchtoadmin', to: 'users#switch_from_user_to_admin', via: 'get'
   match '/switchtononadmin', to: 'users#switch_to_non_admin', via: 'get'
+  match '/switchbusiness', to: 'users#switch_business_account', via: 'get'
 
   
   root to: 'static_pages#home'

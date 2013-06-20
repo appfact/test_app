@@ -10,6 +10,21 @@ class FirmsController < ApplicationController
   	@firm = Firm.new
   end
 
+  def edit
+    @firm = Firm.find(params[:id])
+  end
+
+  def update
+    @firm = Firm.find(params[:id])
+    if @firm.update_attributes(params[:firm])
+      flash[:success] = "Company information succesfully updated"
+      redirect_to @firm
+    else
+      flash[:error] = "Something went wrong updating company information"
+      render 'edit'
+    end
+  end
+
 def create
     @firm = Firm.new(params[:firm])
     if @firm.save
@@ -19,9 +34,6 @@ def create
     else
       render new_firm_path
     end
-  end
-
-  def update
   end
 
   def show

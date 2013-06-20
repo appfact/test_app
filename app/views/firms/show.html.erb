@@ -1,6 +1,7 @@
 <% @firm = Firm.find(params[:id]) %>
 
 <div class="span6 offset3">
+	<%= link_to "Edit company information", edit_firm_path(@firm), class: "btn btn-primary pull-right" %>
 <h1><%= "#{@firm.name}" %></h1>
 <p><%= "Branch: #{@firm.branch}" %></p>
 <p><%= "Access code: #{@firm.sign_up_code}" %>
