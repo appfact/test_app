@@ -101,11 +101,6 @@ def create
                                 .order(:shift_id, :start_datetime).paginate(page: params[:page])
   end
 
-  def newshift
-    @firm = Firm.find(params[:id])
-    @shift = Shift.new
-    @shift.duration_mins = Time.now.beginning_of_day
-  end
 
   def schedules
     @schedules = true

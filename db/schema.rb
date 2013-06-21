@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130615214416) do
+ActiveRecord::Schema.define(:version => 20130621114754) do
 
   create_table "firm_permissions", :force => true do |t|
     t.integer  "firm_id"
@@ -65,6 +65,16 @@ ActiveRecord::Schema.define(:version => 20130615214416) do
     t.datetime "end_datetime"
     t.integer  "firm_id"
     t.integer  "allocation_type"
+    t.integer  "series_id"
+    t.boolean  "r_mo"
+    t.boolean  "r_tu"
+    t.boolean  "r_we"
+    t.boolean  "r_th"
+    t.boolean  "r_fr"
+    t.boolean  "r_sa"
+    t.boolean  "r_su"
+    t.integer  "repeat_type"
+    t.date     "repeat_until"
   end
 
   add_index "shifts", ["fk_user_worker"], :name => "index_shifts_on_fk_user_worker"

@@ -27,7 +27,6 @@ TestApp::Application.routes.draw do
       get :shiftrequests
       get :rufn
       get :shifts
-      get :newshift
       get :schedules
       get :permissions
       get :stats
@@ -66,6 +65,7 @@ TestApp::Application.routes.draw do
   match '/switchtoadmin', to: 'users#switch_from_user_to_admin', via: 'get'
   match '/switchtononadmin', to: 'users#switch_to_non_admin', via: 'get'
   match '/switchbusiness', to: 'users#switch_business_account', via: 'get'
+  match '/newshift', to: 'shifts#newshift', via: 'get'
 
   
   root to: 'static_pages#home'

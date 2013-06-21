@@ -3,17 +3,30 @@ class ShiftsController < ApplicationController
   before_filter :admin_user, only: [:destroy, :create, :remove_worker]
   before_filter :correct_user,   only: [:destroy, :remove_worker]
 
+  def newshift
+    @firm = Firm.find(current_user.business_id)
+    @shift = @firm.shifts.build(params[:shift])
+    @shift.duration_mins = Time.now.beginning_of_day
+  end
+
  def create
     @firm = Firm.find(current_user.business_id)
     @shift = @firm.shifts.build(params[:shift])
     @shift.user_id = current_user.id
+    # check shift repeat details correct
+    
+
     if @shift.save
+      if @shift.repeat_type > 0
+        @shift.update_attributes(series_id: @shift.id)
+        create_repeat_shifts(@shift)
+      end
       flash[:success] = "Shift created!"
       redirect_to @shift
     else
-     # flash[:error] = "Shift could not be created - please try again"
+      flash[:error] = "Shift could not be created - please check you have entered the required info"
      # taking out the flash error because think it interferes with validation errors
-      render 'static_pages/newshift'
+      render 'newshift'
     end
  end
 
@@ -103,7 +116,7 @@ class ShiftsController < ApplicationController
       redirect_to @shift
     else
       flash[:error] = "Something went wrong when updating the shift"
-      render edit_shift_path(@shift)
+      render 'edit'
     end
   end
 
@@ -125,5 +138,20 @@ class ShiftsController < ApplicationController
 
   def admin_user
     redirect_to(root_path) unless current_user.admin?
+  end
+  
+  def create_repeat_shifts(shift)
+    @days_array = [shift.r_su, shift.r_mo, shift.r_tu, shift.r_we, shift.r_th, shift.r_fr,shift.r_sa]
+    @repeat_count = 1
+    @repeat_date = shift.start_datetime.to_date + 1.day
+      until (@repeat_date > shift.repeat_until || @repeat_count > 50 )
+        if @days_array[@repeat_date.wday] == true
+          @shiftx = shift.dup
+          @shiftx.start_datetime += @repeat_count.days
+          @shiftx.save
+        end
+        @repeat_count += 1
+        @repeat_date += 1.day
+      end
   end
 end

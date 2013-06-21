@@ -8,21 +8,128 @@
   <%= render 'shared/error_messages', object: f.object %>
   
    
-  <%= f.label :start_datetime, "Shift date @ shift start time" %>
-  <%= f.datetime_select :start_datetime, order: [:day,:month,:year], 
+  
+
+   <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td style="padding-left:18px;width:20%"><span style="margin-top:2px;color:#0088cc">Shift date*</span><br>
+          <span style="margin-top:2px;color:#0088cc;font-size:0.75em">(@start time*)</span></td>
+          <td><%= f.datetime_select :start_datetime, order: [:day,:month,:year], 
           minute_step: 5, use_short_month: true, datetime_separator: " @  " %>
+          </td>
+      </tr>
+    </tbody>
+  </table>  
+  
 
-  <%= f.label :duration_mins, "Length of shift in hours and minutes" %>
-  <%= f.time_select :duration_mins, minute_step: 5, time_separator: " : ", value: Time.now.beginning_of_day %>
 
- 	<%= f.label :role %>
-  <%= f.text_field :role, placeholder: "enter a role, e.g. Waiter, Barstaff, Pastry Chef, Cashier" %>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td style="padding-left:18px;width:20%"><span style="margin-top:2px;color:#0088cc">Length*</span><br>
+          <span style="margin-top:2px;color:#0088cc;font-size:0.75em">(hours:mins)</span></td>
+          <td><%= f.time_select :duration_mins, minute_step: 5, time_separator: " : ", value: Time.now.beginning_of_day %>
+          </td>
+      </tr>
+    </tbody>
+  </table>  
 
-  <%= f.label :description %>
-  <%= f.text_area :description, placeholder: "Describe the duties of this shift", class: "shift_description" %>
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td style="padding-left:18px;width:20%"><span style="margin-top:2px;color:#0088cc">Role*</span></td>
+          <td><%= f.text_field :role, placeholder: "enter a role, e.g. Waiter, Barstaff, Pastry Chef, Cashier", class: "shift_role" %>
+      </tr>
+    </tbody>
+  </table>
 
-  Shift allocation:
-  <label class="radio">
+  
+
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+          Description
+        </a>
+      </div>
+      <div id="collapseOne" class="accordion-body collapse <%= @shift.description.nil? ? "" : "in" %> ">
+        <div class="accordion-inner">
+          <%= f.text_area :description, placeholder: "Describe the duties of this shift", class: "shift_description" %>
+        </div>
+      </div>
+    </div>
+<br>
+
+ 
+<% if @shift.id.nil? %>  
+
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapsetwo">
+          Repeat options
+        </a>
+      </div>
+      <div id="collapsetwo" class="accordion-body collapse">
+        <div class="accordion-inner">
+          <div class="span4">
+            <strong>Repeat shift on</strong><br>
+            
+          Mo <%= f.check_box :r_mo %>
+          Tu <%= f.check_box :r_tu %>
+          We <%= f.check_box :r_we %>
+          Th <%= f.check_box :r_th %>
+          Fr <%= f.check_box :r_fr %>
+          Sa <%= f.check_box :r_sa %>
+          Su <%= f.check_box :r_su %><br><br>
+           
+          </div>
+          <div class="span3">
+            <strong>How often</strong><br>
+            <select name="shift[repeat_type]" style="padding:4px; width:130px">
+              <option value="0" <%= @shift.repeat_type == nil ? "selected" : "" %>>Don't repeat</option>
+              <option value="1" <%= @shift.repeat_type == 1 ? "selected" : "" %>>Every week</option>
+              <option value="2" <%= @shift.repeat_type == 2 ? "selected" : "" %>>Every 2 weeks</option>
+              <option value="3" <%= @shift.repeat_type == 3 ? "selected" : "" %>>Every 3 weeks</option>
+              <option value="4" <%= @shift.repeat_type == 4 ? "selected" : "" %>>Every 4 weeks</option>
+              </select>
+          </div>
+          <div class="span5">
+            <strong>Until</strong><br>
+            <%= f.date_select :repeat_until, order: [:day,:month,:year], 
+          use_short_month: true %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  <br>
+  <% else %>
+    <% if Shift.find_all_by_series_id(@shift.series_id).length > 1 %>
+      <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td style="padding-left:18px;width:20%"><span style="margin-top:2px;color:#0088cc">Repeat info</span></td>
+          <td><%= "This shift is part of series ##{@shift.series_id} 
+                Repeats M, T, W, #{pluralize(Shift.find_all_by_series_id(@shift.series_id).length, 'time')}" %>
+      </tr>
+    </tbody>
+  </table>
+      
+    <% end %>
+  <% end %>
+
+  <div class="accordion" id="accordionallocation">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionallocation" href="#collapsethree">
+          Shift allocation*
+        </a>
+      </div>
+      <div id="collapsethree" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <label class="radio">
     <input type="radio" name="shift[allocation_type]" id="allocation_type1" value=1 <%= @check1 %>>
       <strong>First come, first served</strong>. The first person to request this shift will be given it automatically.
   </label>
@@ -35,7 +142,13 @@
     <input type="radio" name="shift[allocation_type]" id="allocation_type3" value=3 <%= @check3 %>>
     <strong>Closed shift</strong>. This shift will not appear as available to users, and must be assigned or offered by
     a manager.
-  </label>
+  </label>          
+        </div>
+      </div>
+    </div>
+
+  <br>
+  
   <% if @shift.id.nil? %>
   <%= f.submit "Create shift", class: "btn btn-large btn-primary pull-right" %>
   <% else %>

@@ -1,0 +1,20 @@
+<% if signed_in? %>
+ 
+<div class="span6 offset3">  
+      
+	<ul class="nav nav-pills">
+    	<li>
+    		<%= link_to "Open Shifts (#{@firm.shifts.find_all_by_fk_user_worker(nil).count})", shifts_firm_path(@firm) %></a>
+    	</li>
+    	
+    	<li><%= link_to "Requests (#{number_shift_requests})", shiftrequests_firm_path(@firm) %></li>
+    	<li class="active"><%= link_to "New Shift (+)", '#'%></i></li>
+    </ul>
+
+
+    <%= render 'shared/shift_form' %>
+    
+ 
+
+</div>
+<% end %>

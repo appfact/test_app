@@ -1,7 +1,7 @@
 module FirmsHelper
 
 	def number_shift_requests
-		@firm = Firm.find(params[:id])
+		@firm = Firm.find(current_user.business_id)
 		@shift_requests_number = @firm.shift_requests
                                 .where(:worker_status => true, :manager_status => nil) 
                                 .where('start_datetime > ? AND fk_user_worker is ?', Time.now.to_datetime, nil)

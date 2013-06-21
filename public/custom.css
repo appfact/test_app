@@ -23,17 +23,15 @@ $grayMediumLight: #eaeaea;
 
 /* forms */
 
-input, textarea, select, .uneditable-input {
+input, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
   @include box_sizing;
 }
 
-input {
-  height: auto !important;
-}
+
+
+
 
 #error_explanation {
   color: #f00;
@@ -49,44 +47,68 @@ input {
 }
 
 #shift_description {
-  color: red;
+  outline: none;
+  border:none !important;
+  box-shadow:none !important;  
   height: 40px;
+  padding:0px;
+  width:100%;
+  display:inline;
 }
 
 #shift_start_datetime_1i {
-  color:red;
+  
   width: 80px;
   padding: 5px;
 }
 #shift_start_datetime_2i {
-  color:red;
+  
   width: 60px;
    padding: 5px;
 }
 #shift_start_datetime_3i {
-  color:red;
+  
   width: 60px;
    padding: 5px;
 }
 #shift_start_datetime_4i {
-  color:red;
+ 
   width: 55px;
    padding: 5px;
 }
 #shift_start_datetime_5i {
-  color:red;
+  
   width: 55px;
    padding: 5px;
 }
 #shift_duration_mins_4i {
-  color:red;
+  
   width: 55px;
    padding: 5px;
 }
 #shift_duration_mins_5i {
-  color:red;
+ 
   width: 55px;
    padding: 5px;
+}
+
+#shift_repeat_until_3i {
+  width:55px;
+}
+#shift_repeat_until_2i {
+  width:65px;
+}
+#shift_repeat_until_1i {
+  width:75px;
+}
+
+
+.shift_role {
+  display:inline;
+  width: 90%;
+    outline: none;
+  border:none !important;
+  box-shadow:none !important; 
 }
 /* users index */
 
@@ -185,4 +207,22 @@ input {
 
 .myshifts{
   background: gray;
+}
+
+/* caret for collapse accordian box */
+
+.collapsecaret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  line-height:100px;
+  padding: 10px 0px 0px 0px;
+  vertical-align: middle;
+  border-top: 4px solid #000000;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  content: "";
+  opacity: 0.3;
+  color: #5A5A5A;
+  filter: alpha(opacity=30);
 }
