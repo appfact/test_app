@@ -1,0 +1,9 @@
+<tr>
+	<td style="text-align:center;width:30px">
+		<input type="checkbox" id="checkbox"  value=<%= shift_series_item.id %>>
+	</td>
+	<td><%= shift_series_item.start_datetime.strftime("%a %d %b %Y") %></td>
+	<td><%= shift_series_item.fk_user_worker.nil? ? "(open)" : User.find(shift_series_item.fk_user_worker).name %></td>
+	<td></td>
+	<td></td>
+</tr>

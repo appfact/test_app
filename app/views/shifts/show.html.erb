@@ -32,7 +32,11 @@
 		<tr>
 			<td><strong>Repeat</strong></td>
 			<td>
-				Shift does not repeat
+				<% if @shift_series_items.any? %>
+					Shift is part of series #<%= @shift.series_id %> (<%= link_to "view series", series_shift_path(@shift) %>)
+				<% else %>
+				Shift does not repeat.
+				<% end %>
 			</td>
 		</tr>
 		<tr>

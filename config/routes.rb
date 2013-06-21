@@ -18,6 +18,7 @@ TestApp::Application.routes.draw do
       get :approve_request
       get :edit
       get :clone
+      get :series
     end
   end
 
@@ -66,6 +67,7 @@ TestApp::Application.routes.draw do
   match '/switchtononadmin', to: 'users#switch_to_non_admin', via: 'get'
   match '/switchbusiness', to: 'users#switch_business_account', via: 'get'
   match '/newshift', to: 'shifts#newshift', via: 'get'
+  match '/newshiftclone', to: 'shifts#newshiftclone', via: 'get'
 
   
   root to: 'static_pages#home'

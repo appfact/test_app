@@ -90,9 +90,6 @@
             <select name="shift[repeat_type]" style="padding:4px; width:130px">
               <option value="0" <%= @shift.repeat_type == nil ? "selected" : "" %>>Don't repeat</option>
               <option value="1" <%= @shift.repeat_type == 1 ? "selected" : "" %>>Every week</option>
-              <option value="2" <%= @shift.repeat_type == 2 ? "selected" : "" %>>Every 2 weeks</option>
-              <option value="3" <%= @shift.repeat_type == 3 ? "selected" : "" %>>Every 3 weeks</option>
-              <option value="4" <%= @shift.repeat_type == 4 ? "selected" : "" %>>Every 4 weeks</option>
               </select>
           </div>
           <div class="span5">
@@ -106,7 +103,7 @@
     </div>
   <br>
   <% else %>
-    <% if Shift.find_all_by_series_id(@shift.series_id).length > 1 %>
+    <% if ((Shift.find_all_by_series_id(@shift.series_id).length > 1) && (!@shift.series_id.nil?)) %>
       <table class="table table-bordered">
     <tbody>
       <tr>
@@ -150,9 +147,25 @@
   <br>
   
   <% if @shift.id.nil? %>
-  <%= f.submit "Create shift", class: "btn btn-large btn-primary pull-right" %>
+    <%= f.submit "Create shift", class: "btn btn-large btn-primary pull-right" %>
   <% else %>
-  <%= f.submit "Update shift information", class: "btn btn-large btn-primary pull-right" %>
+    
+    <% if ((Shift.find_all_by_series_id(@shift.series_id).length > 1) && (!@shift.series_id.nil?)) %>
+    <div class="btn-group pull-right">
+    <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
+    Update shift options
+    <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+    <li><%= f.submit "Update only this shift", class:"a" %></li>
+    <li>Update all following shifts in this series</li>
+    <li>Update all events in this series including previous</li>
+    </ul>
+    </div>
+    <% else %>
+
+    class: "btn btn-large btn-primary pull-right" %>
+    <% end %>
   <% end %>
 
 <% end %>

@@ -39,6 +39,7 @@ class ShiftsController < ApplicationController
 
   def show
     @shift = Shift.find(params[:id])
+    @shift_series_items = Shift.where('series_id = ?',@shift.series_id)
   end
 
   def requests
@@ -123,11 +124,20 @@ class ShiftsController < ApplicationController
   def clone
     @shift = Shift.find(params[:id])
     @shift2 = @shift.dup
-    @shift2.save
-    flash[:info] = "You successfully cloned this shift - now viewing new shift"
-    redirect_to @shift2
+    newshiftclone(@shift2)
   end
- 
+
+  def newshiftclone(shift)
+    @shift = shift
+    @firm = Firm.find(current_user.business_id)
+    render 'newshiftclone'
+  end
+
+
+  def series
+    @shift = Shift.find(params[:id])
+    @shift_series_items = Shift.where('series_id = ?',@shift.series_id)
+  end
 
   private
 

@@ -1,0 +1,65 @@
+<div class="span3">
+
+<ul class="nav nav-pills nav-stacked">
+         
+        <li><%= link_to "Back to shift info", @shift %></li>        
+        
+      </ul>
+</div>
+
+<div class="span6">
+	<%= render 'shift_series_menu' %>
+	
+	<div class="btn-group pull-right">
+    <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
+    Series Actions
+    <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+    <li><a>Delete selected</li></a>
+    <li><a>Delete all shifts in series</li></a>
+    <li><a>Assign selected</li></a>
+    <li><a>Assign all shifts in series</li></a>
+    <li><a>Offer selected</li></a>
+    <li><a>Offer whole series</li></a>
+    <li><a>Remove worker from selected</li></a>
+    <li><a>Remove worker from all</li></a>
+    </ul>
+    </div>
+
+	<h3><%= "#{@shift.id} #{@shift.role}" %></h3>
+
+<% if @shift_series_items.any? %>
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>
+					<div class="btn-group">
+    				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    				Select
+    				<span class="caret"></span>
+    				</a>
+    				<ul class="dropdown-menu">
+    				<li><a>All</a></li>
+    				<li><a>None</a></li>
+    				</ul>
+    				</div>
+				</th>
+				<th>Date</th>
+				<th>Filled by</th>
+				<th>Offers</th>
+				<th>Requests</th>
+			</tr>
+		</thead>
+		<tbody>
+
+
+<%= render partial: 'shift_series_item', collection: @shift_series_items %>
+
+
+		</tbody>
+	</table>
+<% else %>
+This shift is not part of a series
+<% end %>
+	</div>
