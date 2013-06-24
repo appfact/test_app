@@ -6,7 +6,7 @@
 <% end %>
 </div>
 
-<% @offers_count = @shift.shift_requests.find_all_by_worker_status_and_manager_status(nil,true).count %>
+<% @offers_count = @shift.shift_requests.where(worker_status: nil).where(manager_status: true).length %>
 <h3><%= @shift.role %> @ <%= Firm.find(@shift.firm_id).name %></h3>
 <i>Click on available workers to offer them this shift.</i><br>
 
