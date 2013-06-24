@@ -1,16 +1,47 @@
-<div class="span6 offset3">
-
-<div class="row-fluid">
-<% if current_user.admin? %>
-<%= render 'shifts_admin_menu' %>
-<% end %>
+<div class="span3">
+	    <ul class="nav nav-pills nav-stacked">
+        
+        	<li><%= link_to "Back to shift info", @shift %></li>        
+        
+      </ul>
 </div>
+
+
+<div class="span6">
+
+
+
 
 <% @offers_count = @shift.shift_requests.where(worker_status: nil).where(manager_status: true).length %>
 <h3><%= @shift.role %> @ <%= Firm.find(@shift.firm_id).name %></h3>
-<i>Click on available workers to offer them this shift.</i><br>
+<i>Click on available workers to offer them this shift or to cancel an outstanding offer.</i><br>
 
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Offer to
+				</th>
+				<th></th>
+				<th>Shifts prev. 7
+				</th>
+				<th>Shifts next 7
+				</th>
+				<th>Total Shifts
+				</th>
+			</tr>
+		</thead>
+		<tbody>
 
   <%= render 'shared/available_users' %>
+  		</tbody>
+  	</table>
 
 </div>
+
+<script>
+$('tr').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
+});
+</script>

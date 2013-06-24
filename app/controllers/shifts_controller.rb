@@ -65,9 +65,39 @@ class ShiftsController < ApplicationController
 
   def offers
     @shift = Shift.find(params[:id])
-    @available_users_items = @shift.available_users.paginate(page: params[:page])
+    @firm = Firm.find(@shift.firm_id)
+    @available_users_items = @firm.firm_permissions.where('status = ?', true).paginate(page: params[:page])
     @title = "Offers for shift #{@shift.id} - #{@shift.role} - #{@shift.start_datetime}"
     @shift_offers = @shift.shift_requests.find_all_by_worker_status_and_manager_status(nil,true)
+  end
+
+  def offer_shift_to_worker
+    @shift = Shift.find(params[:id])
+    @worker = User.find(params[:workerid])
+    if !@shift.shift_requests.find_by_worker_id(@worker.id).nil?
+      @request = @shift.shift_requests.find_by_worker_id(@worker.id)
+      if @request.worker_status = true
+        @shift.shift_requests.find_by_worker_id(@worker.id).delete
+        @shift.update_attributes(fk_user_worker: params[:workerid])
+        flash[:success] = "You offered shift to user and the user accepted the request. Shift now allocated to user."
+        redirect_to @shift
+      else
+        flash[:error] = "You cannot offer this worker this shift because they have already rejected a request."
+        redirect_to offers_shift_path(@shift)
+      end
+    else
+      @shift.shift_requests.create(manager_status: true, manager_id: current_user.id, worker_id: @worker.id)
+      flash[:success] = "You offered shift to #{@worker.name}"
+      redirect_to offers_shift_path(@shift)
+    end
+  end
+
+  def unoffer_shift_to_worker
+    @shift = Shift.find(params[:id])
+    @worker = User.find(params[:workerid])
+    @shift.shift_requests.find_by_worker_id(@worker.id).delete
+    flash[:success] = "You cancelled your offer to #{@worker.name}"
+    redirect_to offers_shift_path(@shift)
   end
 
   def assign

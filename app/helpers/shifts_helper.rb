@@ -31,4 +31,22 @@ module ShiftsHelper
 		return Shift.where('end_datetime < ? AND fk_user_worker = ?', Time.now.to_datetime, userx.id).length
 	end
 
+	def user_available?(shiftx, userx)
+		if userx.shifts.where('(start_datetime > ? AND start_datetime < ?) OR (end_datetime > ? AND end_datetime < ?)',
+						shiftx.start_datetime, shiftx.end_datetime, shiftx.start_datetime, shiftx.end_datetime).any?
+			return false
+		else
+			return true
+		end
+	end
+
+	def user_available(shiftx, userx)
+		if userx.shifts.where('(start_datetime > ? AND start_datetime < ?) OR (end_datetime > ? AND end_datetime < ?)',
+						shiftx.start_datetime, shiftx.end_datetime, shiftx.start_datetime, shiftx.end_datetime).any?
+			return "unavailable"
+		else
+			return "available"
+		end
+	end
+
 end

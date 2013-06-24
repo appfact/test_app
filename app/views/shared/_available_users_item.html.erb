@@ -1,42 +1,42 @@
-  <% @user = available_users_item %>
-  <% @shiftrequest = @shift.shift_requests.find_by_worker_id(@user.id) %>
+  <% @user = User.find(available_users_item.user_id) %>
+  <% @shift = Shift.find(params[:id]) %>
+  <% @shift.shift_requests.find_by_worker_id(@user.id).nil? ? @request = nil : 
+                @request = @shift.shift_requests.find_by_worker_id(@user.id) %>
 
-  <% if @shiftrequest.nil? %>  
 
-  	<div class="span4 unoffered" style="margin:5px">
-  	
-  	<%= link_to available_users_item.name, @user %>
-  	<!-- shift offer code -->
-    <%= form_for(@shift.shift_requests.build(manager_id: current_user.id)) do |f| %>
-    <%= f.hidden_field :manager_id %>
-    <%= f.hidden_field :worker_id, value: @user.id %>
-    <%= f.hidden_field :shiftx_id, value: @shift.id %>
-    <%= f.submit "offer shift", 
-                    class: "btn btn-medium btn-primary pull-right"%>
-    <% end %>
-<!-- end of shift offer code -->
-  	</div>
-  <% end %>
-  
-  <% if !@shiftrequest.nil? %>
-  	<% if @shiftrequest.worker_status ==false %>
-  		<div class="span3 offeredrejected" style="margin:5px">
-  		<%= gravatar_for(available_users_item) %>
-  		<%= link_to available_users_item.name, @user %>
-  		Offer made but rejected
-  		</div>
-  		<% else %>
+<% if @request == nil %>
 
-  		<% if (@shiftrequest.worker_status.nil? &&
-  			!@shiftrequest.nil?) %>
-  			<div class="span3 offered" style="margin:5px">
-  			<%= gravatar_for(available_users_item) %>
-  			<%= link_to available_users_item.name, @user %>
-  			<%= link_to "cancel offer", offerdestroy_shift_request_path, 
-  				class: "btn btn-medium btn-danger pull-right"  %>
-  			</div>
-  		<% end %>
-  	<% end %>
-  	
+<tr>
+  <td><a href= <%= "offer_shift_to_worker?workerid=#{@user.id}" %>><%= @user.name %></a></td>
+  <td><%= user_available(@shift, @user) %></td>
+  <td><%= shifts_prev_7d(@user) %></td>
+  <td><%= shifts_next_7d(@user) %></td>
+  <td><%= shifts_total(@user) %></td>
+</tr>
+
+<% else %>
+
+  <% if @request.worker_status == nil %>
+
+  <tr class="success">
+    <td><a href= <%= "unoffer_shift_to_worker?workerid=#{@user.id}" %>><%= @user.name %> (Cancel Offer)</a></td>
+    <td><%= user_available(@shift, @user) %></td>
+    <td><%= shifts_prev_7d(@user) %></td>
+    <td><%= shifts_next_7d(@user) %></td>
+    <td><%= shifts_total(@user) %></td>
+  </tr>
+
+  <% else %>
+
+    <tr class="error">
+    <td><%= @user.name %> (Rejected Offer)</a></td>
+    <td><%= user_available(@shift, @user) %></td>
+    <td><%= shifts_prev_7d(@user) %></td>
+    <td><%= shifts_next_7d(@user) %></td>
+    <td><%= shifts_total(@user) %></td>
+  </tr>
 
   <% end %>
+
+<% end %>
+
