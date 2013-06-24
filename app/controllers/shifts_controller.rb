@@ -1,7 +1,7 @@
 class ShiftsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only: [:destroy, :create, :remove_worker]
-  before_filter :correct_user,   only: [:destroy, :remove_worker]
+  before_filter :admin_user, only: [:destroy, :create, :remove_worker, :dais, :dsis, :rsis, :rais]
+  before_filter :correct_user,   only: [:destroy, :remove_worker, :dais, :dsis, :rsis, :rais]
 
   def newshift
     @firm = Firm.find(current_user.business_id)
@@ -137,6 +137,89 @@ class ShiftsController < ApplicationController
   def series
     @shift = Shift.find(params[:id])
     @shift_series_items = Shift.where('series_id = ?',@shift.series_id)
+  end
+
+  def dais
+    # (delete all in series)
+    @shift = Shift.find(params[:id])
+    @shifts_series = Shift.where('series_id = ?',@shift.series_id)
+    @shifts_series.each do |sshift| 
+        sshift.destroy
+      end
+    flash[:success] = "You deleted all shifts in series #{@shift.series_id}"
+    redirect_to shifts_firm_path(current_user.business_id)
+  end
+
+  def dsis
+    @shift = Shift.find(params[:id])
+    @shifts_array = params[:shifts]
+    if @shifts_array.empty?
+      flash[:error] = "Please select some shifts first"
+      redirect_to series_shift_path(@shift)
+    else
+      @shifts_array.split(',').each do |shift|
+        Shift.find(shift).destroy
+      end
+      if Shift.where('id = ?',params[:id]).any?
+        flash[:success] = "You deleted #{@shifts_array.split(',').length} shifts from this series."
+        redirect_to series_shift_path(params[:id])
+      else
+        flash[:success] = "You deleted #{@shifts_array.split(',').length} shift(s)."
+        redirect_to shifts_firm_path(current_user.business_id)
+      end
+    end
+  end
+
+  def rais
+    @shift = Shift.find(params[:id])
+    @shifts_series = Shift.where('series_id = ?',@shift.series_id)
+    @shifts_series.each do |rshift|
+      rshift.update_attributes(fk_user_worker: nil)
+    end
+    flash[:success] = "You removed worker from all shifts in the series"
+    redirect_to series_shift_path(@shift)
+  end
+
+  def rsis
+    @shift = Shift.find(params[:id])
+    @shifts_array = params[:shifts]
+    if @shifts_array.empty?
+      flash[:error] = "Please select some shifts first"
+      redirect_to series_shift_path(@shift)
+    else
+      @shifts_array.split(',').each do |shiftid|
+        Shift.find(shiftid).update_attributes(fk_user_worker: nil)
+      end
+      flash[:success] = "You removed worker from #{@shifts_array.split(',').length} shifts"
+      redirect_to series_shift_path(@shift)
+    end
+  end
+
+  def ais
+    @shift = Shift.find(params[:id])
+    if (params[:all] == "false" && params[:shifts] == "" )
+      flash[:error] = "Could not assign shift(s) - you did not select any shifts"
+      redirect_to series_shift_path(@shift)
+    else
+      @firm = Firm.find(@shift.firm_id)
+      @assignable_users_series_items = @firm.firm_permissions.where(status: true).paginate(page: params[:page])
+    end
+  end
+
+  def ais_to_worker
+    @shift = Shift.find(params[:id])
+    @firm = Firm.find(@shift.firm_id)
+    if params[:all] == "true"
+      @shifts_array = Shift.where('series_id = ?',@shift.series_id)
+    else
+      @shifts_array = Shift.where('id in (?)',params[:shifts].split(','))
+    end
+    @worker = User.find(params[:workerid])
+    @shifts_array.each do |shift|
+      shift.update_attributes(:fk_user_worker => @worker.id)
+    end
+    flash[:success] = "You assigned shifts in this series to #{@worker.name}"
+    redirect_to series_shift_path(@shift)
   end
 
   private

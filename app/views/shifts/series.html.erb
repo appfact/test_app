@@ -16,50 +16,68 @@
     <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-    <li><a>Delete selected</li></a>
-    <li><a>Delete all shifts in series</li></a>
-    <li><a>Assign selected</li></a>
-    <li><a>Assign all shifts in series</li></a>
-    <li><a>Offer selected</li></a>
-    <li><a>Offer whole series</li></a>
-    <li><a>Remove worker from selected</li></a>
-    <li><a>Remove worker from all</li></a>
+    <li><a id="deleteselectedlink">Delete selected</li></a>
+    <li><a href="dais">Delete all shifts in series</li></a>
+    <li><a id="assignselectedlink">Assign selected</li></a>
+    <li><a href='ais?all=true'>Assign all shifts in series</li></a>
+    <li><a id="removeselectedlink">Remove worker from selected</li></a>
+    <li><a href="rais">Remove worker from all</li></a>
     </ul>
     </div>
 
-	<h3><%= "#{@shift.id} #{@shift.role}" %></h3>
+	<h4><%= "Shift ##{@shift.id} - #{@shift.role}, #{@shift.start_datetime.strftime("%a %d %b %H:%M")} - #{@shift.end_datetime.strftime("%H:%M")}" %></h4>
+    <%= "Part of series ##{@shift.series_id}" %><br><br>
 
 <% if @shift_series_items.any? %>
-	<table class="table table-hover">
+<div id="jqcc">
+	<table class="table" id="mytable">
 		<thead>
 			<tr>
-				<th>
-					<div class="btn-group">
-    				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-    				Select
-    				<span class="caret"></span>
-    				</a>
-    				<ul class="dropdown-menu">
-    				<li><a>All</a></li>
-    				<li><a>None</a></li>
-    				</ul>
-    				</div>
-				</th>
+				<th></th>
+                <th>#</th>
 				<th>Date</th>
-				<th>Filled by</th>
-				<th>Offers</th>
-				<th>Requests</th>
+				<th>Assigned to</th>
+				<th>O / R</th>
 			</tr>
-		</thead>
-		<tbody>
+        </thead>
+		  <tbody>
+		
 
 
-<%= render partial: 'shift_series_item', collection: @shift_series_items %>
+ <%= render partial: 'shift_series_item', collection: @shift_series_items %> 
 
 
 		</tbody>
 	</table>
+</div>
 <% else %>
 This shift is not part of a series
 <% end %>
-	</div>
+
+<script>
+
+var tableControl = document.getElementById('mytable');
+$('#jqcc').ready(function() {
+    result = []
+    $('input:checkbox:checked', tableControl).each(function() {
+        result.push($(this).parent().next().text());
+    });
+});
+
+$('#jqcc').click(function() {
+    result = []
+    $('input:checkbox:checked', tableControl).each(function() {
+        result.push($(this).parent().next().text());
+    });
+});
+
+$('#deleteselectedlink').click(function() {
+    window.open('dsis?shifts=' + result,"_self");
+});
+$('#removeselectedlink').click(function() {
+    window.open('rsis?shifts=' + result,"_self");
+});
+$('#assignselectedlink').click(function() {
+    window.open('ais?all=false&shifts=' + result,"_self");
+});
+</script>

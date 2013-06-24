@@ -1,0 +1,31 @@
+<table border="1">
+    <tr>
+        <td>All<input type="checkbox" value="" class="checkAll"></td>
+        <td><input type="checkbox" value=""></td>
+        <td><input type="checkbox" value=""></td>
+        <td><input type="checkbox" value=""></td>
+    </tr>
+    <tr>
+        <td>All<input type="checkbox" value="" class="checkAll"></td>
+        <td><input type="checkbox" value=""></td>
+        <td><input type="checkbox" value=""></td>
+        <td><input type="checkbox" value=""></td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    $('tr').find('input:checkbox').not('.checkAll').change(function()
+    {
+        var checkboxes = $(this).parent().parent().find(':checkbox').not('.checkAll');
+        var checkAll = $(this).parent().parent().find('.checkAll');
+        if (!checkboxes.not(":checked").not(".checkAll").length)
+            checkAll.attr("checked", true);
+        if (!checkboxes.filter(":checked").not(".checkAll").length)
+            checkAll.attr("checked", false);
+
+    });
+    $(".checkAll").change(function()
+    {
+        $(this).parent().parent().find(':checkbox').attr('checked', this.checked);
+    });
+</script>

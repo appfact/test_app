@@ -1,0 +1,12 @@
+<% @nuser = User.find(assignable_users_series_item.user_id) %>
+
+<tr>
+	<td><a href= <%= "ais_to_worker?workerid=#{@nuser.id}&all=#{params[:all]}&shifts=#{params[:shifts]}"%>><%= @nuser.name %></td>
+	<td><%= shifts_prev_7d(@nuser) %></td>
+	<td><%= shifts_next_7d(@nuser) %></td>
+	<td><%= shifts_total(@nuser) %></td>
+
+</td>
+
+
+

@@ -19,6 +19,12 @@ TestApp::Application.routes.draw do
       get :edit
       get :clone
       get :series
+      get :dais
+      get :dsis
+      get :rais
+      get :rsis
+      get :ais
+      get :ais_to_worker
     end
   end
 

@@ -1,0 +1,46 @@
+<div class="span3">
+    <ul class="nav nav-pills nav-stacked">
+        <li><%= link_to "Back to series", series_shift_path(@shift) %></li>
+        <li><%= link_to "Back to shift info", @shift %></li>        
+        
+      </ul>
+</div>
+
+<div class="span6">
+
+
+
+<% if params[:all] == "true" %>
+<h4>Assign all shifts in series #<%= @shift.series_id %></h4>
+<% else %>
+<h4>Assign selected shifts in series #<%= @shift.series_id %></h4>
+<% end %>
+
+<% if @assignable_users_series_items.any? %>
+	<table class="table table-hover">
+    	<thead>
+    		<tr>
+    			<th>Name</th><th>Shifts last 7d</th><th>Shifts next 7d</th><th>Shifts worked</th><th></th>
+    				</tr>
+    			</thead>
+    			<tbody>
+
+	<%= render partial: 'assignable_users_series_item', collection: @assignable_users_series_items %>
+ 	<% will_paginate @assignable_users_series_items %>
+
+ 	    		</tbody>
+    		</table>
+
+ <% else %>
+ 	<div class="alert alert-info">You have no available users in your network. <a href="/invite">Click here</a> to add more users to your network.</div>
+ <% end %>
+
+</div>
+
+<script>
+$('tr').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
+});
+</script>
