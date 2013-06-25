@@ -1,16 +1,17 @@
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<strong><i class="icon-user"></i><%= " #{current_user.name}" %> </strong>
+					<i class="icon-user"></i><strong class="hidden-phone"> <%= " #{current_user.name}" %> </strong>
 					<b class="caret"></b>
 				</a>
 									
 				<ul class="dropdown-menu">
+					<li><a><strong class="visible-phone">Signed in (<%= "#{current_user.name}" %>)</strong></a></li>
 					<li><%= link_to "Settings", user_path(current_user.id) %></li>
 					<li><%= link_to "Sign out", signout_path, method: "delete" %></li>
 					<% @user_admins = current_user.firm_permissions.where(:status => true).where(:admin => true) %>
 					<% if @user_admins.any? %>
 						<li class="divider"></li>
-						<li><a>Switch to admin</a></li>
+						<li><a><strong>Switch to admin</strong></a></li>
 						<% @user_admins.each do |admins| %>
 							<% @adminfirm = Firm.find(admins.firm_id) %>
 							<% @adminfirm.branch = "" ? @adminfirmbranch = "" : @adminfirmbranch = "(#{@adminfirm.branch})" %>
@@ -21,11 +22,11 @@
 				</ul>
 			</li>
 
-		<li class="divider-vertical"></li>
+		<li class="divider-vertical" style="margin-left:0px;margin-right:0px"></li>
 
 		<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<i class="icon-calendar"></i> Schedules
+					<i class="icon-calendar"></i><span class="hidden-phone"> Schedules</span>
 					<b class="caret"></b>
 				</a>
 									
@@ -44,5 +45,5 @@
 					
 				</ul>
 			</li>
-
+		<li class="divider-vertical" style="margin-left:0px;margin-right:0px"></li>
 		<li><%= link_to "Get Shifts", '/availableshifts' %></li>

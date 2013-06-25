@@ -8,7 +8,7 @@
 
 
 <tr>
-  <td><%= link_to "", @shift %><%= requests_item[0].id %></td>
+  <td><%= link_to "", @shift %><%= @shift.id %></td>
   <td><%= @shift.role %></td>
   <td><%= short_date(@shift.start_datetime) %></td>
   <!-- DO a date format hepler!! -->

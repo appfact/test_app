@@ -23,12 +23,10 @@
 				<nav class="navbar">
 					<div class="navbar-inner">
 						<%= link_to "ShiftCloud", home_path, class: "brand hidden-phone" %>
-						<%= link_to "SC", home_path, class: "brand visible-phone" %>
-						
-							
+						<a href="/home" class="brand visible-phone" style="margin:0px -6px 0px -16px"><img src="/cloudsmall.png" width="35px"></a>				
 						
 							<ul class="nav">
-								<li class="divider-vertical"></li>
+								<li class="divider-vertical" style="margin-right:0px"></li>
 								
 								
 								<% if signed_in? %>
