@@ -4,6 +4,7 @@ class FirmsController < ApplicationController
   before_filter :user_can_view_firm?, only: [:show, :network, :rufn]
   before_filter :cannot_rufn_self, only: :rufn
   before_filter :rufn_correct_firm, only: [:rufn, :makeadmin, :removeadmin]
+  before_filter :newuser, only: [:new, :create]
   #check that this before filter doesn't interfere with correct display of network page
 
   def new
@@ -168,6 +169,12 @@ def create
     if @firm.firm_permissions.find_by_user_id_and_status(current_user.id,true).nil?
       flash[:error] = "You do not have permission to do that"
       redirect_to network_firm_path(@firm)
+    end
+  end
+
+  def newuser
+    unless current_user.business_id == "ASSA{}{}{345345[]]]"
+      redirect_to root_url
     end
   end
 
