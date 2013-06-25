@@ -1,6 +1,9 @@
-<% @shift = Shift.find(params[:id]) %>
-<%= form_for(@shift.shift_requests.build(worker_id: @user.id)) do |f| %>
-  <div><%= f.hidden_field :worker_id %></div>
-  <div><%= f.hidden_field :shiftx_id, value: @shift.id %></div>
-  Shift is AVAILABLE <%= f.submit "Request Shift", class: "btn btn-medium btn-primary" %>
+<% if @shift.allocation_type == 1 %>
+
+Shift is available first come first served <%= link_to "Get Shift", user_request_shift_path(@shift), class: "btn btn-primary btn-medium" %>
+
+<% else %>
+
+Shift is available <%= link_to "Request Shift", user_request_shift_path(@shift), class: "btn btn-primary btn-medium" %>
+
 <% end %>

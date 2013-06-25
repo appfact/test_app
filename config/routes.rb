@@ -27,6 +27,7 @@ TestApp::Application.routes.draw do
       get :ais_to_worker
       get :offer_shift_to_worker
       get :unoffer_shift_to_worker
+      get :user_request
     end
   end
 

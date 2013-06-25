@@ -1,6 +1,8 @@
 class ShiftsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only: [:destroy, :create, :remove_worker, :dais, :dsis, :rsis, :rais]
+  before_filter :admin_user, only: [:destroy, :create, :remove_worker, :series, :dais, :dsis, :rsis, :rais, :ais, :ais_to_worker,
+                                    :newshift, :newshiftclone, :requests, :approve_request, :offers, :offer_shift_to_worker,
+                                    :unoffer_shift_to_worker, :assign, :assign_worker, :edit, :update, :clone]
   before_filter :correct_user, except: [:newshift, :newshiftclone, :create]
 
   def newshift
@@ -98,6 +100,25 @@ class ShiftsController < ApplicationController
     @shift.shift_requests.find_by_worker_id(@worker.id).delete
     flash[:success] = "You cancelled your offer to #{@worker.name}"
     redirect_to offers_shift_path(@shift)
+  end
+
+  def user_request
+    @shift = Shift.find(params[:id])
+    if !@shift.fk_user_worker.nil?
+      flash[:error] = "Error - this shift has already been assigned"
+    elsif @shift.shift_requests.where(worker_id: current_user).where(worker_status: true).any?
+      flash[:error] = "You have already requested this shift"
+    elsif @shift.shift_requests.where(worker_id: current_user).where(worker_status: nil).any?
+      @shift.shift_requests.find_by_worker_id(current_user.id).destroy
+      @shift.update_attributes(fk_user_worker: current_user.id)
+      flash[:success] = "Your request was successful and you are now assigned this shift"
+    elsif @shift.allocation_type == 1
+      @shift.update_attributes(fk_user_worker: current_user.id)
+      flash[:success] = "Your request was successful and you are now assigned this shift"
+    else @shift.shift_requests.create(worker_id: current_user.id, worker_status: true)
+      flash[:success] = "You have requested this shift"
+    end
+    redirect_to @shift
   end
 
   def assign
