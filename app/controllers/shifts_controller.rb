@@ -1,7 +1,7 @@
 class ShiftsController < ApplicationController
   before_filter :signed_in_user
   before_filter :admin_user, only: [:destroy, :create, :remove_worker, :dais, :dsis, :rsis, :rais]
-  before_filter :correct_user, except: [:newshift, :newshiftclone]
+  before_filter :correct_user, except: [:newshift, :newshiftclone, :create]
 
   def newshift
     @firm = Firm.find(current_user.business_id)
