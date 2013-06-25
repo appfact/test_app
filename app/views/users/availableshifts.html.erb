@@ -13,7 +13,6 @@
 </div>
 
 <div class="span6">
-
       <% if @availableshifts.any? %>
        <table class="table table-hover">
     	<thead>
@@ -31,6 +30,9 @@
 </tbody>
     </table>	
 
+<i>Shifts highlighted green are available first come first served. If you request a 'green' shift,
+you will be allocated it automatically. Non-highlighted shifts require manager approval before
+the shift is allocated.</i>
     <% else %>
     <div class="alert alert-info">There are no available shifts</div>
 </div>

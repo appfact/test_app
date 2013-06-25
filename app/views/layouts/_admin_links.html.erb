@@ -3,11 +3,12 @@
 <!-- important to keep this for when the user is still in the sign up stage -->
 			<li class="dropdown">
 				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-					<strong><i class="icon-home"></i><%= " #{Firm.find(current_user.business_id).name}" %> </strong>
+					<i class="icon-home"></i><strong class="hidden-phone"> <%= " #{Firm.find(current_user.business_id).name}" %></strong>
 					<b class="caret"></b>
 				</a>
 									
 				<ul class="dropdown-menu">
+					<li class="visible-phone"><a><strong><%= " #{Firm.find(current_user.business_id).name}" %></strong></a></li>
 					<li><%= link_to "Network", network_firm_path(current_user.business_id) %></li>
 					<li><%= link_to "Business Profile", firm_path(current_user.business_id) %></li>
 					<li class="divider"></li>
@@ -31,8 +32,10 @@
 			</li>
 
 		<li class="divider-vertical"></li>
-		<li><%= link_to "Schedules", schedules_firm_path(@firm) %></li>
-		<li><%= link_to "Shifts", shifts_firm_path(@firm) %></li>
+		<li class="hidden-phone"><%= link_to "Schedules", schedules_firm_path(@firm) %></li>
+		<li class="visible-phone"><a href=<%= schedules_firm_path(@firm) %>><i class="icon-calendar"></i></a></li>
+		<li class="hidden-phone"><%= link_to "Shifts", shifts_firm_path(@firm) %></li>
+		<li class="visible-phone"><a href=<%= shifts_firm_path(@firm) %>><i class="icon-list"></i></a></li>
 
 <!-- something about this ul tag makes the weird spot appear but also sends the other menu to the right pull-right -->
 <% else %>
