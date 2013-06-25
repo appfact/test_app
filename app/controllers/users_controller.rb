@@ -163,10 +163,14 @@ class UsersController < ApplicationController
   def switch_business_account
     unless current_user.firm_permissions.where(status: true, admin: true).where('firm_id = ?', 
               params[:businessid]).nil?
-       current_user.update_attributes(business_id: params[:businessid])
        @firm = Firm.find(params[:businessid])
-       flash[:success] = "You switched account to #{@firm.name} #{@firm.branch}"
-       redirect_to @firm
+       if current_user.update_attribute(:business_id, params[:businessid])
+          flash[:success] = "You switched account to #{@firm.name} #{@firm.branch}"
+          redirect_to @firm
+        else
+          flash[:error] = "could not change account - please try again"
+          redirect_to @firm
+        end
      else
       redirect_to current_user
     end
