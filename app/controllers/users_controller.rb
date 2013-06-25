@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   before_filter :is_superadmin?, only: [:index]
 
 
+
   def show
     @user = User.find(params[:id])
     @user_networks = @user.firm_permissions.where(:status => true)
@@ -160,8 +161,8 @@ class UsersController < ApplicationController
   end
 
   def switch_business_account
-    unless current_user.firm_permissions.where.(:status => true).where('firm_id = ? AND 
-           admin = ?', params[:businessid].to_i, true).nil?
+    unless current_user.firm_permissions.where(status: true, admin: true).where('firm_id = ?', 
+              params[:businessid]).nil?
        current_user.update_attributes(business_id: params[:businessid])
        @firm = Firm.find(params[:businessid])
        flash[:success] = "You switched account to #{@firm.name} #{@firm.branch}"

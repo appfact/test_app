@@ -3,9 +3,13 @@
 	<td><%= gravatar_for @user, size: 20 %>
 		<%= @user.name %>
 		<%= (@user.id == current_user.id) ? " (you)" : "" %></td>
-	<td><%= @user.admin ? "Admin" : "Normal user" %></td>
+	<td><%= network_permission.admin ? "Admin" : "Normal user" %></td>
+	<% if @user.id == current_user.id %>
+		<td></td>
+		<% else %>
 	<td><%= @firm.firm_permissions.find_by_user_id(@user.id).admin ? (link_to "Remove Admin", "removeadmin?userid=#{@user.id}") 
 				: (link_to "Make Admin", "makeadmin?userid=#{@user.id}") %></td>
+				<% end %>
 	<td style="text-align:center"><% unless @user.id == current_user.id %>
 	<%= link_to "x", "rufn?userid=#{network_permission.user_id}" %> 
 	<% end %>
