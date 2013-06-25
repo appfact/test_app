@@ -1,12 +1,51 @@
-<% @nuser = User.find(assignable_users_item.user_id) %>
+<% @user = User.find(assignable_users_item.user_id) %>
+  <% @shift = Shift.find(params[:id]) %>
+  <% @shift.shift_requests.find_by_worker_id(@user.id).nil? ? @request = nil : 
+                @request = @shift.shift_requests.find_by_worker_id(@user.id) %>
+
+
+<% if @request == nil %>
 
 <tr>
-	<td><a href= <%= "assign_worker?workerid=#{@nuser.id}"%>><%= @nuser.name %></td>
-	<td>col 2</td>
-	<td>col 3</td>
-	<td>col 4</td>
+  <td><a href= <%= "assign_worker?workerid=#{@user.id}" %>><%= @user.name %></a></td>
+  <td><span style="color:red"><%= user_available(@shift, @user) %></span></td>
+  <td><%= shifts_prev_7d(@user) %></td>
+  <td><%= shifts_next_7d(@user) %></td>
+  <td><%= shifts_total(@user) %></td>
+</tr>
 
-</td>
+<% else %>
 
+  <% if @request.worker_status == nil %>
 
+  <tr>
+    <td><a href= <%= "assign_worker?workerid=#{@user.id}" %>><%= @user.name %></a> (Offered)</td>
+    <td><span style="color:red"><%= user_available(@shift, @user) %></span></td>
+    <td><%= shifts_prev_7d(@user) %></td>
+    <td><%= shifts_next_7d(@user) %></td>
+    <td><%= shifts_total(@user) %></td>
+  </tr>
 
+  <% elsif @request.worker_status == true %>
+
+  	<tr>
+    <td><a href= <%= "assign_worker?workerid=#{@user.id}" %>><%= @user.name %></a> (Requested)</td>
+    <td><span style="color:red"><%= user_available(@shift, @user) %></span></td>
+    <td><%= shifts_prev_7d(@user) %></td>
+    <td><%= shifts_next_7d(@user) %></td>
+    <td><%= shifts_total(@user) %></td>
+  </tr>
+
+  <% else %>
+
+    <tr class="error">
+    <td><a href= <%= "assign_worker?workerid=#{@user.id}" %>><%= @user.name %></a> (Rejected Offer)</td>
+    <td><span style="color:red"><%= user_available(@shift, @user) %></span></td>
+    <td><%= shifts_prev_7d(@user) %></td>
+    <td><%= shifts_next_7d(@user) %></td>
+    <td><%= shifts_total(@user) %></td>
+  </tr>
+
+  <% end %>
+
+<% end %>

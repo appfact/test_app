@@ -1,7 +1,7 @@
 class ShiftsController < ApplicationController
   before_filter :signed_in_user
   before_filter :admin_user, only: [:destroy, :create, :remove_worker, :dais, :dsis, :rsis, :rais]
-  before_filter :correct_user,   only: [:destroy, :remove_worker, :dais, :dsis, :rsis, :rais]
+  before_filter :correct_user
 
   def newshift
     @firm = Firm.find(current_user.business_id)
@@ -256,7 +256,7 @@ class ShiftsController < ApplicationController
 
   def correct_user
     @shift = Shift.find_by_id(params[:id])
-    redirect_to root_url unless @shift.firm_id == current_user.business_id.to_i
+    redirect_to root_url unless current_user.firm_permissions.where(firm_id: @shift.firm_id).where(status: true).any?
   end
 
   def admin_user

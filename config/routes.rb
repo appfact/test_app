@@ -51,6 +51,8 @@ TestApp::Application.routes.draw do
     member do
       get :offerdestroy
       get :cancelrequest
+      get :rejectoffer
+      get :acceptoffer
     end
   end
 

@@ -13,8 +13,8 @@
 
 
 <% @offers_count = @shift.shift_requests.where(worker_status: nil).where(manager_status: true).length %>
-<h3><%= @shift.role %> @ <%= Firm.find(@shift.firm_id).name %></h3>
-<i>Click on available workers to offer them this shift or to cancel an outstanding offer.</i><br>
+<h4>Offer shift - <%= @shift.role %> @ <%= Firm.find(@shift.firm_id).name %></h4>
+<i>Click on available workers to offer them this shift or to cancel an outstanding offer.</i><br><br>
 
 	<table class="table table-hover">
 		<thead>

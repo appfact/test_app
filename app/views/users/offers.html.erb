@@ -16,7 +16,22 @@
 
 
 <% if @offers_items.any? %>
-<%= render 'offers_items' %>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Shift id</th><th>col2</th>
+			</th>
+		</thead>
+		<tbody>
+
+
+		<%= render partial: 'offers_item', collection: @offers_items %>
+
+		</tbody>
+	</table>
+	
+
 <% else %>
 <div class="alert alert-info">You have not been offered any shifts. Ask your manager to offer
 				you shifts or request <%= link_to "available shifts", "/availableshifts" %>.</div>

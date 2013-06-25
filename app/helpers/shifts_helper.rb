@@ -19,12 +19,13 @@ module ShiftsHelper
 	end
 
 	def shifts_prev_7d(userx)
-		return Shift.where('end_datetime < ? AND end_datetime > ? AND fk_user_worker = ?', 
+		return Shift.where('start_datetime <= ? AND start_datetime > ? AND fk_user_worker = ?', 
 			Time.now.to_datetime, Time.now - 7.days, userx.id).length
 	end
 
 	def shifts_next_7d(userx)
-		return Shift.where('end_datetime > ? AND fk_user_worker = ?', Time.now.to_datetime, userx.id).length
+		return Shift.where('start_datetime >= ? AND start_datetime < ? AND fk_user_worker = ?', 
+			Time.now.to_datetime, Time.now + 7.days, userx.id).length
 	end
 
 	def shifts_total(userx)
@@ -32,7 +33,7 @@ module ShiftsHelper
 	end
 
 	def user_available?(shiftx, userx)
-		if userx.shifts.where('(start_datetime > ? AND start_datetime < ?) OR (end_datetime > ? AND end_datetime < ?)',
+		if userx.shifts.where('(start_datetime >= ? AND start_datetime <= ?) OR (end_datetime >= ? AND end_datetime <= ?)',
 						shiftx.start_datetime, shiftx.end_datetime, shiftx.start_datetime, shiftx.end_datetime).any?
 			return false
 		else
@@ -41,11 +42,12 @@ module ShiftsHelper
 	end
 
 	def user_available(shiftx, userx)
-		if userx.shifts.where('(start_datetime > ? AND start_datetime < ?) OR (end_datetime > ? AND end_datetime < ?)',
-						shiftx.start_datetime, shiftx.end_datetime, shiftx.start_datetime, shiftx.end_datetime).any?
+		if Shift.where('(fk_user_worker = ? AND start_datetime >= ? AND start_datetime <= ?) 
+						OR (fk_user_worker = ? AND end_datetime >= ? AND end_datetime <= ?)',
+						userx.id, shiftx.start_datetime, shiftx.end_datetime, userx.id, shiftx.start_datetime, shiftx.end_datetime).any?
 			return "unavailable"
 		else
-			return "available"
+			return ""
 		end
 	end
 

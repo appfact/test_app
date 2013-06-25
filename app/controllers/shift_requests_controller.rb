@@ -33,6 +33,28 @@ class ShiftRequestsController < ApplicationController
     redirect_to '/requests'
   end
 
+  def rejectoffer
+    @shift = Shift.find(params[:shiftid])
+    @shiftrequest = @shift.shift_requests.find(params[:id])
+    @shiftrequest.update_attributes(worker_status: false)
+    flash[:success] = "You rejected the offer for shift ##{@shift.id} - #{@shift.role}"
+    redirect_to '/offers'
+  end
+
+  def acceptoffer
+    @shift = Shift.find(params[:shiftid])
+    if @shift.fk_user_worker.nil?
+      @shiftrequest = @shift.shift_requests.find(params[:id])
+      @shiftrequest.destroy
+      @shift.update_attributes(fk_user_worker: current_user.id)
+      flash[:success] = "You accepted the offer for shift ##{@shift.id} - #{@shift.role} and you are now assigned this shift"
+      redirect_to '/offers'
+    else
+      flash[:error] = "Sorry - this shift has already been assigned to someone else - offer no longer valid"
+      redirect_to '/offers'
+    end
+  end
+
   def offerdestroy
     @shift = Shift.find(params[:id])
     if @shift.shift_requests.find_by_manager_id(current_user.id).destroy

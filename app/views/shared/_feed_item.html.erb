@@ -5,7 +5,7 @@
 
 <a href="#">
 <tr>
-  <td><%= "#{feed_item.id}" %></td>
+  <td><%= link_to "", feed_item %><%= "#{feed_item.id}" %></td>
   <td><%= "#{feed_item.role}" %></td>
   <td><%= short_date(feed_item.start_datetime) %></td>
   <!-- DO a date format hepler!! -->

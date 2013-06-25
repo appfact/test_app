@@ -8,7 +8,7 @@
 
 <tr>
   <td><a href= <%= "offer_shift_to_worker?workerid=#{@user.id}" %>><%= @user.name %></a></td>
-  <td><%= user_available(@shift, @user) %></td>
+  <td><span style="color:red"><%= user_available(@shift, @user) %></span></td>
   <td><%= shifts_prev_7d(@user) %></td>
   <td><%= shifts_next_7d(@user) %></td>
   <td><%= shifts_total(@user) %></td>
@@ -18,9 +18,19 @@
 
   <% if @request.worker_status == nil %>
 
-  <tr class="success">
+  <tr>
     <td><a href= <%= "unoffer_shift_to_worker?workerid=#{@user.id}" %>><%= @user.name %> (Cancel Offer)</a></td>
-    <td><%= user_available(@shift, @user) %></td>
+    <td><span style="color:red"><%= user_available(@shift, @user) %></span></td>
+    <td><%= shifts_prev_7d(@user) %></td>
+    <td><%= shifts_next_7d(@user) %></td>
+    <td><%= shifts_total(@user) %></td>
+  </tr>
+
+  <% elsif @request.worker_status == true %>
+
+    <tr class="success">
+    <td><a href= <%= "offer_shift_to_worker?workerid=#{@user.id}" %>><%= @user.name %></a> Requested</td>
+    <td><span style="color:red"><%= user_available(@shift, @user) %></span></td>
     <td><%= shifts_prev_7d(@user) %></td>
     <td><%= shifts_next_7d(@user) %></td>
     <td><%= shifts_total(@user) %></td>
@@ -28,9 +38,9 @@
 
   <% else %>
 
-    <tr class="error">
-    <td><%= @user.name %> (Rejected Offer)</a></td>
-    <td><%= user_available(@shift, @user) %></td>
+  <tr class="error">
+    <td><%= @user.name %></a> Rejected Offer</td>
+    <td><span style="color:red"><%= user_available(@shift, @user) %></span></td>
     <td><%= shifts_prev_7d(@user) %></td>
     <td><%= shifts_next_7d(@user) %></td>
     <td><%= shifts_total(@user) %></td>
