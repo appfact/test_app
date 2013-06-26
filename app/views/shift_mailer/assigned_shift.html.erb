@@ -8,8 +8,7 @@
     <p>
       You have been assigned a shift on ShiftCloud.
       Where: <%= "#{@firm.name} #{@firm.branch}" %>
-      When: <%= "#{@shift.start_datetime.strftime("%a %d %b")}" %>
-          at #{@shift.start_datetime.strftime("%H:%M")} - #{@shift.end_datetime.strftime("%H:%M")}" %>
+      When: <%= "#{@shift.start_datetime.strftime("%a %d %b")} at #{@shift.start_datetime.strftime("%H:%M")} - #{@shift.end_datetime.strftime("%H:%M")}" %>
       Shift type: <%= @shift.role %>
       <br/>
     </p>
