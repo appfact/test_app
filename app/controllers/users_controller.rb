@@ -119,6 +119,7 @@ class UsersController < ApplicationController
         adminify(@user,@firmid)
         sign_in @user
           if @user.admin?
+            UserMailer.welcome_email(@user).deliver
           redirect_to '/firms/new'
           return
         else

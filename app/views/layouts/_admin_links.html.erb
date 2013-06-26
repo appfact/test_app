@@ -22,7 +22,7 @@
 						<li><a>Switch business</a></li>
 						<% @user_admins.each do |admins| %>
 							<% @adminfirm = Firm.find(admins.firm_id) %>
-							<% @adminfirm.branch = "" ? @adminfirmbranch = "" : @adminfirmbranch = "(#{@adminfirm.branch})" %>
+							<% @adminfirm.branch == "" ? @adminfirmbranch = "" : @adminfirmbranch = "(#{@adminfirm.branch})" %>
 							<li><a href="/switchbusiness?businessid=<%= @adminfirm.id %>"
 								><i class="icon-home"></i> <%= "#{@adminfirm.name} #{@adminfirmbranch}" %></a></li>
 						<% end %>
