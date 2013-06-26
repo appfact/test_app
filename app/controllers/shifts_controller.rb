@@ -153,7 +153,7 @@ class ShiftsController < ApplicationController
     else
       @shiftworker = User.find(params[:workerid])
       @shift.update_attribute(:fk_user_worker, @shiftworker.id)
-      ShiftMailer.assigned_shift(@user,@shift).deliver
+      ShiftMailer.assigned_shift(@shiftworker,@shift).deliver
       flash[:success] = "Shift was assigned to #{@shiftworker.name}"
       redirect_to @shift
     end
