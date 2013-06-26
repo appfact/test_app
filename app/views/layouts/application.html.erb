@@ -17,6 +17,8 @@
 		
 </head>
 <body>
+
+	<% if signed_in? %>
 	<div class='container-fluid'>
 		<header class="row-fluid">
 			<div class="span12" style="margin-top:15px">
@@ -50,11 +52,17 @@
 				</nav>
 			</div>
 		</header>
-</div>
+	</div>
+	<% else %>
+	<div class="row-fluid hidden-phone">
+		<br><br><br>
+	</div>
+	<% end %>
+
 	<div class='container-fluid'>
 		<div class="row-fluid" id="main-content">
  			<% flash.each do |key, value| %>
-        		<div class="alert alert-<%= key %>"><%= value %></div>
+        		<div class="span12 alert alert-<%= key %>"><%= value %></div>
       		<% end %>
 			<%= yield %>
 			<p></p>
