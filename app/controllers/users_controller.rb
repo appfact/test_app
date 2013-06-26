@@ -257,7 +257,7 @@ class UsersController < ApplicationController
     @userx.update_attributes(password: @password, password_confirmation: @password)
     @permission = @firmx.firm_permissions.create!(user_id: userid, kind: 1)
     @permission.toggle!(:status)
-    UserMailer.send_new_created_user_password(@userx,@password).deliver
+    UserMailer.send_new_created_user_password(@userx,@password,@firmx).deliver
     @password = ""
   end
 

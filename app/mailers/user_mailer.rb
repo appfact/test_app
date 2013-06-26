@@ -8,9 +8,9 @@ default from: 'ShiftCloud <notifications@shiftcloud.co.uk>'
     mail(to: @user.email, subject: 'Welcome to My Awesome Site')
   end
 
-  def send_new_created_user_password(user,password)
+  def send_new_created_user_password(user,password,firm)
   	@user = user
-  	@firm = Firm.find(current_user.firm_id)
+  	@firm = firm
   	@password = password
   	mail(to: @user.email, subject: 'Welcome to ShiftCloud!')
   end
