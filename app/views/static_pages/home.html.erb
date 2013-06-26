@@ -1,58 +1,74 @@
 <body background="clouds1.jpg">
 
-<div class="row-fluid">
-<div class="alert alert-info span6 offset3" style="padding:10px">
-	<div class="span3" style="margin-top:8px;text-align:right">Existing User</div>
-	
-	<%= form_for(:session, url: sessions_path) do |f| %>
-	<div class="span3" style="margin-top:5px"><%= f.text_field :email, placeholder: "email address" %></div>
-	<div class="span3" style="margin-top:5px"><%= f.password_field :password, placeholder: "password" %></div>
-	<div class="span3" style="margin-top:5px; padding-left:10px">  
-		<%= f.submit "Sign in", class: "btn btn-medium btn-primary" %></div>
-    <% end %>
-</div>
-</div>
+<% if signed_in? %>
+	<% if current_user.admin? %>
+		<%= render 'adminhome' %>
+	<% else %>
+		<%= render 'nonadminhome' %>
+	<% end %>
+
+<% else %>
+
+
+
+<div class="span5 offset2" style="padding:5px">
+
+	<div class="row-fluid hidden-phone">
+		<br><br><br><br><br>
+	</div>
+
+	<h3>Welcome to ShiftCloud.</h3>
+	Manage your shifts online. No more excel. No more paper rotas. Automatic notifications and schedules.
+	Find out more or sign up now for a free trial.
+
 </div>
 
-<div class="row-fluid">
-	<a href="/findoutmore">
-	<div class="span6 offset3 homepagebox" style="text-align:center">
-		<div class="homepagebox2">
-		<h1>Welcome to SC!</span></h1>
-			<p style="text-align:center">SC makes managing your shifts easy.</span><br>
-				</i> Create shifts</span></i><br>
-				</i> Communicate with staff</span></i><br>
-				</i> Share your schedule</span></i><br>
-				</i> Click here to find out more -></span></i>
-			</p>
+
+<div class="span5">
+
+	<div class="row-fluid hidden-phone">
+		<br><br><br><br>
+	</div>
+			<br>
+
+	<div class="row-fluid">
+	
+		<div class="alert alert-info span8" style="padding:5px">
+			
+			<%= form_for(:session, url: sessions_path) do |f| %>
+			<div style="margin:5px 10px -5px; width:90%"><%= f.text_field :email, placeholder: "email address" %></div>
+			<div style="margin:0px 10px; width:90%"><%= f.password_field :password, placeholder: "password" %></div>
+			<div style="margin:0px 20px 5px; width:90%; height:15px"><%= f.submit "Sign in", class: "btn btn-medium btn-primary pull-right" %></div>
+    		<% end %>
+		
 		</div>
 	</div>
-	</a>
-</div>
 
 
-<div class="row-fluid">
-	<a href="/signup">
-	<div class="span6 offset3 homepagebox" style="text-align:center">
-	<h1>Sign up for a new business account</h1>
-		<p style="text-align:center">Choose this option if you're the business owner or shift manager.<br>
+	<div class="row-fluid">
+		<a href="/signup">
+		<div class="span8 homepagebox" style="text-align:center">
+			<h1>Sign up for a new business account</h1>
+			<p style="text-align:center">Choose this option if you're the business owner or shift manager.<br>
 			</i> 30 day free trial</i><br>
 
-		</p>
+			</p>
+		</div>
+		</a>
 	</div>
-	</a>
-</div>
 
-<div class="row-fluid">
-	<a href="/signupuser">
-	<div class="span6 offset3 homepagebox" style="text-align:center">
-	<h1>Sign up for a new user account</h1>
-		<p style="text-align:center">Choose this option if your manager has invited you to join.<br>
+	<div class="row-fluid">
+		<a href="/signupuser">
+		<div class="span8 homepagebox" style="text-align:center">
+			<h1>Sign up for a new user account</h1>
+			<p style="text-align:center">Choose this option if your manager has invited you to join.<br>
 			</i> Click here</i><br>
-		</p>
+			</p>
 
+		</div>
+		</a>
 	</div>
-	</a>
-</div>
 
 </div>
+
+<% end %>

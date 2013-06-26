@@ -1,4 +1,4 @@
-<div class="span3" style="padding:20px">
+<div class="span3">
   
     <ul class="nav nav-pills nav-stacked">
     <li><a href="/shifts">Upcoming Shifts (<%= @feed_items_upcoming.length %>)</a></li>
@@ -22,3 +22,11 @@
   
 
 </div>
+
+<script>
+$('tr').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
+});
+</script>
