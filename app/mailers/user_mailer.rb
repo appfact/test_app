@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
 
-default from: 'notifications@shiftcloud.co.uk'
+default from: 'ShiftCloud <notifications@shiftcloud.co.uk>'
 
   def welcome_admin(user)
     @user = user
@@ -10,6 +10,8 @@ default from: 'notifications@shiftcloud.co.uk'
 
   def send_new_created_user_password(user,password)
   	@user = user
+  	@firm = Firm.find(current_user.firm_id)
+  	@password = password
   	mail(to: @user.email, subject: 'Welcome to ShiftCloud!')
   end
 
