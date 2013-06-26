@@ -189,7 +189,7 @@ class ShiftsController < ApplicationController
 
   def series
     @shift = Shift.find(params[:id])
-    @shift_series_items = Shift.where('series_id = ?',@shift.series_id)
+    @shift_series_items = Shift.where('series_id = ?',@shift.series_id).order(:id)
   end
 
   def dais

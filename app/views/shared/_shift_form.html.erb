@@ -102,19 +102,8 @@
       </div>
     </div>
   <br>
-  <% else %>
-    <% if ((Shift.find_all_by_series_id(@shift.series_id).length > 1) && (!@shift.series_id.nil?)) %>
-      <table class="table table-bordered">
-    <tbody>
-      <tr>
-        <td style="padding-left:18px;width:20%"><span style="margin-top:2px;color:#0088cc">Repeat info</span></td>
-          <td><%= "This shift is part of series ##{@shift.series_id} 
-                Repeats M, T, W, #{pluralize(Shift.find_all_by_series_id(@shift.series_id).length, 'time')}" %>
-      </tr>
-    </tbody>
-  </table>
-      
-    <% end %>
+  
+    
   <% end %>
 
   <div class="accordion" id="accordionallocation">
@@ -151,16 +140,8 @@
   <% else %>
     
     <% if ((Shift.find_all_by_series_id(@shift.series_id).length > 1) && (!@shift.series_id.nil?)) %>
-    <div class="btn-group pull-right">
-    <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
-    Update shift options
-    <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu">
-    <li><%= f.submit "Update only this shift", class:"a" %></li>
-    <li>Update all following shifts in this series</li>
-    <li>Update all events in this series including previous</li>
-    </ul>
+    <div class="btn-group pull-right dropup">
+    <%= f.submit "Save Changes", class: "btn btn-primary" %>
     </div>
     <% else %>
 

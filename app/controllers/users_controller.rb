@@ -119,7 +119,7 @@ class UsersController < ApplicationController
         adminify(@user,@firmid)
         sign_in @user
           if @user.admin?
-            UserMailer.welcome_email(@user).deliver
+            UserMailer.welcome_admin(@user).deliver
           redirect_to '/firms/new'
           return
         else
@@ -252,9 +252,13 @@ class UsersController < ApplicationController
 
   def auth_created_user!(userid, firmid)
     @firmx = Firm.find(firmid)
-    User.find(userid).update_attributes(password: "password", password_confirmation: "password")
+    @userx = User.find(userid)
+    @password = ('a'..'z').to_a.shuffle[0..7].join
+    @userx.update_attributes(password: @password, password_confirmation: @password)
     @permission = @firmx.firm_permissions.create!(user_id: userid, kind: 1)
     @permission.toggle!(:status)
+    UserMailer.send_new_created_user_password(@userx,@password)
+    @password = ""
   end
 
   def available_shifts

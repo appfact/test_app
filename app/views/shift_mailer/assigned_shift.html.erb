@@ -6,9 +6,9 @@
   <body>
     <h1>Hello <%= @user.name %></h1>
     <p>
-      You have been assigned a shift on ShiftCloud.
-      Where: <%= "#{@firm.name} #{@firm.branch}" %>
-      When: <%= "#{@shift.start_datetime.strftime("%a %d %b")} at #{@shift.start_datetime.strftime("%H:%M")} - #{@shift.end_datetime.strftime("%H:%M")}" %>
+      You have been assigned a shift on ShiftCloud.<br>
+      Where: <%= "#{@firm.name} #{@firm.branch}" %><br>
+      When: <%= "#{@shift.start_datetime.strftime("%a %d %b")} at #{@shift.start_datetime.strftime("%H:%M")} - #{@shift.end_datetime.strftime("%H:%M")}" %><br>
       Shift type: <%= @shift.role %>
       <br/>
     </p>

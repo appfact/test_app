@@ -20,17 +20,17 @@
 	<%= @shift.fk_user_worker.nil? ? "(Open)" : "(Assigned to #{User.find(@shift.fk_user_worker).name})" %>
 </h3>
 
-<table class="table">
+<table class="table table-bordered">
 	<tbody>
 		<tr>
-			<td><strong>Start Time</strong></td><td><%= @shift.start_datetime.strftime("%a %e %B %Y, %R") %></td>
+			<td><span style="color:#0088cc">Start Time</span></td><td><%= @shift.start_datetime.strftime("%a %e %B %Y, %R") %></td>
 		</tr><tr>
-			<td><strong>End Time</strong></td><td><%= @shift.end_datetime.strftime("%a %e %B %Y, %R") %></td>
+			<td><span style="color:#0088cc">End Time</span></td><td><%= @shift.end_datetime.strftime("%a %e %B %Y, %R") %></td>
 		</tr><tr> 
-			<td><strong>Length</strong></td><td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
+			<td><span style="color:#0088cc">Length</span></td><td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
 		</tr>
 		<tr>
-			<td><strong>Repeat</strong></td>
+			<td><span style="color:#0088cc">Repeat</span></td>
 			<td>
 				<% if @shift_series_items.any? %>
 					Shift is part of series #<%= @shift.series_id %> 
@@ -43,7 +43,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td><strong>Assigned to</strong></td>
+			<td><span style="color:#0088cc">Assigned to</span></td>
 			<td>
 				<% if @shift.fk_user_worker.nil? %> 
 					(Open)
@@ -56,7 +56,19 @@
 			</td>
 		</tr>
 		<tr>
-			<td><strong><%= "More info"%></strong></td><td><%= "#{@shiftdescription}" %></td>
+			<td><span style="color:#0088cc">Assign type</span></td>
+			<td>
+				<% if @shift.allocation_type == 1 %>
+					First come, first served
+					<% elsif @shift.allocation_type == 2 %>
+					Manager chooses
+					<% else %>
+					Closed shift
+					<% end %>					
+		</td>
+		</tr>
+		<tr>
+			<td><span style="color:#0088cc"><%= "More info"%></span></td><td><%= "#{@shiftdescription}" %></td>
 		</tr>
 	</tbody>
 </table>
