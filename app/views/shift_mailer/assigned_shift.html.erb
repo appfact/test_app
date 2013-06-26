@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello <%= @user.name %></h1>
+    <p>
+      You have been assigned a shift on ShiftCloud.
+      Where: <%= "#{@firm.name} #{@firm.branch}" %>
+      When: <%= "#{@shift.start_datetime.strftime("%a %d %b")} 
+          at #{@shift.start_datetime.strftime("%H:%M")} - #{@shift.end_datetime.strftime("%H:%M")}" %>
+      Shift type: <%= @shift.role %>
+      <br/>
+    </p>
+    <p>
+      To view this shift click here http://www.shiftcloud.co.uk/shifts/<%= @shift.id %>.
+    </p>
+    <p></p>
+  </body>
+</html>

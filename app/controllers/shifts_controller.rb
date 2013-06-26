@@ -58,6 +58,7 @@ class ShiftsController < ApplicationController
       @requestuser = User.find(@shift.shift_requests.find(params[:requestid]).worker_id)
       @shiftrequest.update_attributes(manager_status: true, manager_id: current_user.id)
       @shift.update_attributes(fk_user_worker: @requestuser.id)
+      ShiftMailer.assigned_shift(@user,@shift).deliver
       flash[:success] = "You approved the request - shift now filled"
     else
       flash[:error] = "Could not approve request - shift already filled"
