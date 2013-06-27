@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi <%= @user.name %></h1>
+    <p>
+      <%= @admin.name %> has added you to the network for <%= @firm.name %> <%= @firm.branch %>
+    </p>
+    <p>
+      You can now view and request shifts for this network. Click here to get started -> <%= @url %>.
+    </p>
+    <p></p>
+  </body>
+</html>

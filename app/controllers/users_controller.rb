@@ -88,21 +88,24 @@ class UsersController < ApplicationController
     if params[:user][:sign_up_stage] == "1"
       @firm = Firm.find(current_user.business_id.to_i)
       unless User.find_by_email(params[:user][:email]).nil?
-        @createduser = User.find_by_email(params[:user][:email])
-        if @createduser.firm_permissions.find_by_firm_id(current_user.business_id).nil?
-          auth_created_user!(@createduser.id, current_user.business_id)
+        # unless the user doesn't exist, then permission an existing user
+        @addedduser = User.find_by_email(params[:user][:email])
+        if @addeduser.firm_permissions.find_by_firm_id(current_user.business_id).nil?
+          auth_added_user!(@createduser.id, current_user.business_id)
+          # note that auth added user already contains the mailer inform_user_added_to_network
           flash[:success] = "User was added to your network"
           redirect_to '/invite'
           return
         end
         if !@firm.firm_permissions.find_by_user_id_and_status(@createduser.id,false).nil?
           @firm.firm_permissions.find_by_user_id_and_status(@createduser.id,false).toggle!(:status)
+          UserMailer.inform_user_added_to_network(@addeduser,current_user).deliver
         end
         flash[:success] = "User is part of your network"
         redirect_to '/invite'
         return
       end
-          
+          # the user doesn't exist so we're going to create a new user on behalf of the admin
       @user = User.new(params[:user])
       if @user.save
         auth_created_user!(@user.id, current_user.business_id)
@@ -259,6 +262,14 @@ class UsersController < ApplicationController
     @permission.toggle!(:status)
     UserMailer.send_new_created_user_password(@userx,@password,@firmx).deliver
     @password = ""
+  end
+
+  def auth_added_user!(userid, firmid)
+    @firmx = Firm.find(firmid)
+    @userx = User.find(userid)
+    @permission = @firmx.firm_permissions.create!(user_id: userid, kind: 1)
+    @permission.toggle!(:status)
+    UserMailer.inform_user_added_to_network(@userx,current_user).deliver
   end
 
   def available_shifts
