@@ -97,8 +97,8 @@ class UsersController < ApplicationController
           redirect_to '/invite'
           return
         end
-        if !@firm.firm_permissions.find_by_user_id_and_status(@createduser.id,false).nil?
-          @firm.firm_permissions.find_by_user_id_and_status(@createduser.id,false).toggle!(:status)
+        if !@firm.firm_permissions.find_by_user_id_and_status(@addeduser.id,false).nil?
+          @firm.firm_permissions.find_by_user_id_and_status(@addeduser.id,false).toggle!(:status)
           UserMailer.inform_user_added_to_network(@addeduser,current_user).deliver
         end
         flash[:success] = "User is part of your network"
