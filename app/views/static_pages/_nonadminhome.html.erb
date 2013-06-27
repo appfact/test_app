@@ -15,7 +15,7 @@
 
 <div class="alert alert-info" style="background-color:white">
 	<h4>Account Settings</h4>
-		Check your contact details are up to date.
+		<%= link_to "Click here", current_user %> to check your contact details are up to date.
 		<% if current_user.phone == ("" || nil) %>
 			<br><%= link_to "You have not entered a phone number. Please edit your account details and add a contact number", edit_user_path(current_user) %>.
 		<% end %>
