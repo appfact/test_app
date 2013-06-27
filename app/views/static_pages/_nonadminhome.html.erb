@@ -1,5 +1,33 @@
 <div class="span6 offset3">
 
-Non-admin
+<div class="alert alert-info" style="background-color:white">
+	<h4>Find Shifts</h4>
+		Click on the <%= link_to "Get Shifts", '/availableshifts' %> link to see available shifts in your network. 
+		There are currently <%= @availableshifts.length %> shifts available.
 
 </div>
+
+<div class="alert alert-info" style="background-color:white">
+	<h4>View Schedules</h4>
+		Use the Schedules menu (<i class="icon-calendar"></i>) to view your own shifts, or the schedule for your network.
+
+</div>
+
+<div class="alert alert-info" style="background-color:white">
+	<h4>Account Settings</h4>
+		Check your contact details are up to date.
+		<% if current_user.phone == ("" || nil) %>
+			<br><%= link_to "You have not entered a phone number. Please edit your account details and add a contact number", edit_user_path(current_user) %>.
+		<% end %>
+
+</div>
+
+<% if current_user.firm_permissions.where(status: true, admin: true).any? %>
+	
+<div class="alert alert-info" style="background-color:white">
+	<h4>Switch to admin account</h4>
+		You are currently signed in as a normal user but you have admin privileges. In the user account menu (<i class="icon-user"></i>) you can switch to admin.
+
+</div>
+
+<% end %>

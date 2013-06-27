@@ -1,5 +1,54 @@
 <div class="span6 offset3">
 
-Admin
+<% if @openshiftsweek.length > 0 %>
+<div class="alert alert-error">
+	<h4>Open shifts this week (<%= @openshiftsweek.length %>)</h4>
+		You have shifts in the next 7 days that are still unfilled. <%= link_to "Click here", shifts_firm_path(@firm) %> to assign your open shifts.
+
+</div>
+<% else %>
+	<% if @openshifts.length > 0 %>
+	<div class="alert alert-info" style="background-color:white">
+	<h4>Open shifts (<%= @openshifts.length %>)</h4>
+		<%= link_to "Click here", shifts_firm_path(@firm) %> to assign your open shifts. You can also OFFER shifts to people - this means they will have to accept the offer before the shift is allocated to them.
+	</div>
+	<% end %>
+<% end %>
+
+<% if @shiftrequests.length > 0 %>
+<div class="alert alert-success">
+	<h4>Requests for shifts (<%= @shiftrequests.length %>)</h4>
+		
+		<%= link_to "Click here", shiftrequests_firm_path(@firm) %> to view your users' requests. You can approve or reject requests.
+		
+</div>
+<% end %>
+
+<div class="alert alert-info" style="background-color:white">
+	<h4>Add people to your network</h4>
+	<% if @numberinnetwork.length == 1 %>
+		You have not added any other people to your network yet. <strong><%= link_to "Click here", '/invite' %></strong> to sign up new users.
+		<% else %>
+		You have <%= pluralize(@numberinnetwork.length, "person") %> in your network. <strong><%= link_to "Click here", '/invite' %></strong> to sign up new users.
+		<% end %>
+
+</div>
+
+<div class="alert alert-info" style="background-color:white">
+	<h4>Make a new shift</h4>
+		You can make new shifts from the <strong><%= link_to "Shifts", shifts_firm_path(@firm) %></strong> menu (<i class="icon-tasks"></i>). Click on the <%= link_to "new shift (+)", 'newshift' %> link.
+
+</div>
+
+<div class="alert alert-info" style="background-color:white">
+	<h4>Check your schedules</h4>
+		Look at your daily schedules <strong><%= link_to "here", schedules_firm_path(@firm) %></strong>, or click on the <strong><%= link_to "Schedules", schedules_firm_path(@firm) %></strong> menu (<i class="icon-calendar"></i>).
+
+</div>
+
+
+
+
+
 
 </div>

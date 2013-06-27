@@ -16,6 +16,7 @@ TestApp::Application.routes.draw do
       get :assign
       get :assign_worker
       get :approve_request
+      get :reject_request
       get :edit
       get :clone
       get :series

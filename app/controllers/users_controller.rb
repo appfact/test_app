@@ -185,7 +185,7 @@ class UsersController < ApplicationController
        @user.toggle!(:admin)
        @firm = Firm.find(params[:businessid])
        flash[:success] = "You switched account to #{@firm.name} #{@firm.branch}"
-       redirect_to @firm
+       redirect_to '/home'
      else
       redirect_to root_path
     end
@@ -196,7 +196,7 @@ class UsersController < ApplicationController
       @user = current_user
       @user.toggle!(:admin)
     end
-    redirect_to @user
+    redirect_to '/home'
   end
 
   private

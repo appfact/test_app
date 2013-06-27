@@ -46,6 +46,7 @@ class ShiftsController < ApplicationController
 
   def requests
     @shift = Shift.find(params[:id])
+    @firm = Firm.find(@shift.firm_id)
     flash[:error] = "This shift has already been assigned" unless @shift.fk_user_worker.nil? 
     @title = "Requests for shift #{@shift.id} - #{@shift.role} - #{@shift.start_datetime}"
     @shift_requests = @shift.shift_requests.where(:worker_status => true).where(:manager_status => nil)
@@ -53,6 +54,7 @@ class ShiftsController < ApplicationController
 
   def approve_request
     @shift = Shift.find(params[:id])
+    @firm = Firm.find(@shift.firm_id)
     if @shift.fk_user_worker.nil?
       @shiftrequest = @shift.shift_requests.find(params[:requestid])
       @requestuser = User.find(@shift.shift_requests.find(params[:requestid]).worker_id)
@@ -63,7 +65,17 @@ class ShiftsController < ApplicationController
     else
       flash[:error] = "Could not approve request - shift already filled"
     end
-    redirect_to @shift
+    redirect_to shiftrequests_firm_path(@firm)
+  end
+
+  def reject_request
+    @shift = Shift.find(params[:id])
+    @firm = Firm.find(@shift.firm_id)
+    @shiftrequest = @shift.shift_requests.find(params[:requestid])
+    @requestuser = User.find(@shift.shift_requests.find(params[:requestid]).worker_id)
+    @shiftrequest.update_attributes(manager_status: false, manager_id: current_user.id)
+    flash[:success] = "You rejected the request"
+    redirect_to shiftrequests_firm_path(@firm)
   end
 
   def offers

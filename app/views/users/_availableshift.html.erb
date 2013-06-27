@@ -5,10 +5,15 @@
 <% @durationhours[0] == "0" ? @durationhours = @durationhours[1] : @durationhours %>
 <% @durationminutes.to_i < 1 ? @durationminutes = "" : @durationminutes = " #{@durationminutes} mins" %>
 
+<% if @shift.shift_requests.where(worker_id: current_user.id, manager_status: false).any? %>
+
+<% else %>
+
 <% if @shift.shift_requests.find_by_worker_id_and_worker_status(current_user.id,true).nil? %>
   <% if @shift.allocation_type == 1 || !@shift.shift_requests.find_by_worker_id_and_worker_status(current_user.id,nil).nil? %>
   <tr class="success">
-    <% else %>
+    
+      <% else %>
   <tr>
     <% end %>
 
@@ -26,7 +31,8 @@
 </tr>
 
 <% else %>
-<tr>
+
+  <tr>
   <td><%= link_to "", availableshift %><%= "#{availableshift.id}" %></td>
   <td><%= "#{availableshift.role}" %></td>
   <td><%= short_date(availableshift.start_datetime) %></td>
@@ -37,6 +43,8 @@
   <td><a href="/cancel_request_from_available_shifts?shiftid=<%= @shift.id %>"><div class="request-circle-filled" style="border:1px solid #77A8FC; background-color:#77A8FC;
             border-radius:100%; width:8px; height:8px; margin-top:5px; margin-left:auto; margin-right:auto"></div></a></td>
 </tr>
+
+<% end %>
 
 <% end %>
 

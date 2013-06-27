@@ -1,12 +1,18 @@
 <% provide(:title, @title) %>
 
-<div class="span6 offset3">
+<div class="span3">
+<ul class="nav nav-pills nav-stacked">
+        
+          <li><%= link_to "Back to shift info", @shift %></li>  
+          <li><%= link_to "Back to all requests", shiftrequests_firm_path(@firm) %></li>      
+        
+      </ul>
+</div>
 
-<% if current_user.admin? %>
-<%= render 'shifts_admin_menu' %>
-<% end %>
+<div class="span6">
+
       
-      <h3><%= "#{pluralize(@shift_requests.length, "person")} requested this shift" %></h3>
+      <h4><%= "#{pluralize(@shift_requests.length, "person")} requested this shift" %></h4>
       
       <% if @shift_requests.any? %>
         
