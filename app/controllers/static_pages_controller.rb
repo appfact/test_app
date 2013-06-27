@@ -5,13 +5,24 @@ class StaticPagesController < ApplicationController
 
   def home
     if signed_in?
-    @availableshifts = available_shifts
-    @firm = Firm.find(current_user.business_id)
-    @numberinnetwork = @firm.firm_permissions.where(status:true)
-    @openshifts = @firm.shifts.where(fk_user_worker: nil)
-    @openshiftsweek = @firm.shifts.where(fk_user_worker: nil).where('start_datetime > ? AND start_datetime < ?', 
+      if current_user.admin?
+        @availableshifts = available_shifts
+        @firm = Firm.find(current_user.business_id)
+        @numberinnetwork = @firm.firm_permissions.where(status:true)
+        @openshifts = @firm.shifts.where(fk_user_worker: nil)
+        @openshiftsweek = @firm.shifts.where(fk_user_worker: nil).where('start_datetime > ? AND start_datetime < ?', 
                 Time.now.to_datetime, Time.now.end_of_day + 7.days)
-    @shiftrequests = @firm.shift_requests.where('manager_status is ?', nil)
+        @shiftrequests = @firm.shift_requests.where('manager_status is ?', nil)
+      else
+        @permissionsarray = [] 
+        current_user.firm_permissions.where(status: true).each do |permission|
+          @permissionsarray.push(permission.id)
+        end
+        @openshifts = Shift.where('firm_id in (?)', @permissionsarray).where(fk_user_worker: nil)
+        @openshiftsweek = Shift.where('firm_id in (?)', @permissionsarray).where(fk_user_worker: nil).where('start_datetime > ? AND start_datetime < ?', 
+                Time.now.to_datetime, Time.now.end_of_day + 7.days)
+        @availableshifts = Shift.where(fk_user_worker: nil).where('start_datetime > ?',Time.now.to_datetime).where('firm_id in (?)', @permissionsarray)
+      end
     end
   end
 

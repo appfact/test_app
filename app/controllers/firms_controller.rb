@@ -30,8 +30,8 @@ def create
     @firm = Firm.new(params[:firm])
     if @firm.save
       auth_admin_user!(@firm)
-      flash[:success] = "You created a new business"
-      redirect_to @firm
+      flash[:success] = "You succesfully created a new account for #{@firm.name} #{@firm.branch}!"
+      redirect_to '/home'
     else
       render new_firm_path
     end

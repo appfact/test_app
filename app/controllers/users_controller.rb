@@ -124,8 +124,8 @@ class UsersController < ApplicationController
           return
         else
           auth_normal_user!(@firmid)
-          flash[:success] = "User signed up ok - business id = #{@user.business_id}"
-          redirect_to '/shifts'
+          flash[:success] = "Welcome to ShiftCloud! Get started by viewing your shifts or finding an available shift."
+          redirect_to '/home'
           return
         end
       else
