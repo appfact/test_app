@@ -4,6 +4,7 @@ class StaticPagesController < ApplicationController
 
 
   def home
+    if signed_in?
     @availableshifts = available_shifts
     @firm = Firm.find(current_user.business_id)
     @numberinnetwork = @firm.firm_permissions.where(status:true)
@@ -11,6 +12,7 @@ class StaticPagesController < ApplicationController
     @openshiftsweek = @firm.shifts.where(fk_user_worker: nil).where('start_datetime > ? AND start_datetime < ?', 
                 Time.now.to_datetime, Time.now.end_of_day + 7.days)
     @shiftrequests = @firm.shift_requests.where('manager_status is ?', nil)
+    end
   end
 
   def contact
