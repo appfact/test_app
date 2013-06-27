@@ -89,7 +89,7 @@ class UsersController < ApplicationController
       @firm = Firm.find(current_user.business_id.to_i)
       unless User.find_by_email(params[:user][:email]).nil?
         # unless the user doesn't exist, then permission an existing user
-        @addedduser = User.find_by_email(params[:user][:email])
+        @addeduser = User.find_by_email(params[:user][:email])
         if @addeduser.firm_permissions.find_by_firm_id(current_user.business_id).nil?
           auth_added_user!(@createduser.id, current_user.business_id)
           # note that auth added user already contains the mailer inform_user_added_to_network
