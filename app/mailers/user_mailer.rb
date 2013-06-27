@@ -6,7 +6,8 @@ default from: 'ShiftCloud <notifications@shiftcloud.co.uk>'
     @user = user
     @admin = admin
     @firm = Firm.find(@admin.business_id)
-    @url = "https://www.shiftcloud.co.uk"
+    @url = "https://www.shiftcloud.co.uk/"
+    mail(to: @user.email, subject: "You have been added to the network of #{@firm.name} #{@firm.branch}")
   end
 
   def send_new_created_user_password(user,password,firm)
