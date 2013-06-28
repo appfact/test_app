@@ -4,16 +4,30 @@
 <% @durationminutes = Time.at(open_shifts_item.end_datetime - open_shifts_item.start_datetime).utc.strftime("%M")%>
 <% @durationhours[0] == "0" ? @durationhours = @durationhours[1] : @durationhours %>
 <% @durationminutes.to_i < 1 ? @durationminutes = "" : @durationminutes = " #{@durationminutes} mins" %>
+<% @offers = open_shifts_item.shift_requests.where(manager_status: true, worker_status: nil) %>
+<% @requests = open_shifts_item.shift_requests.where(manager_status: nil, worker_status: true) %>
 
 
 <tr>
 	<td><%= link_to "#{open_shifts_item.id}", open_shifts_item %></td>
-	<td><%= "#{open_shifts_item.role}" %></td>
+	<td><%= "#{open_shifts_item.role}" %>
+	
+		
+	</td>
 	<td><%= short_date(open_shifts_item.start_datetime) %></td>
 	<!-- DO a date format hepler!! -->
 	<td><%= "#{open_shifts_item.start_datetime.strftime("%H:%M")} - 
 	#{open_shifts_item.end_datetime.strftime("%H:%M")}" %>
 		</td>
-	<td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
+		<td>
+			<% if open_shifts_item.allocation_type == 3 %>
+			<span style="color:red">(Closed)</span>
+		<% elsif open_shifts_item.allocation_type == 1 %>
+			<span style="color:green">(FCFS)</span>
+			<% else %>
+			<% end %>
+		</td>
+		<td><%= @offers.length %> / <%= @requests.length %></td>
+	
 </tr>
 

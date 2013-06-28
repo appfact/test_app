@@ -2,7 +2,7 @@
 		    <table class="table table-hover">
     			<thead>
     				<tr>
-    					<th>#</th><th>Role</th><th>Date</th><th>Time</th><th>Length</th>
+    					<th>#</th><th>Role</th><th>Date</th><th>Time</th><th>Type</th><th>O / R</th>
     				</tr>
     			</thead>
     			<tbody>
@@ -12,7 +12,12 @@
   					
     			</tbody>
     		</table>
-
+            <br>
+            <div class="alert alert-info">
+                Shift types:<br>FCFS (first come, first served) shifts are allocated as soon as a request is received.
+                <br>Closed shifts are not visible to users and must be assigned or offered by managers.<br>
+                Non-marked shifts are visible to users and can be requested, offered and assigned.
+            </div>
 
 <script>
 $('tr').click( function() {
