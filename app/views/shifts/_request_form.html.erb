@@ -1,6 +1,8 @@
 <% @user = current_user %>
 <% if !@shift.fk_user_worker.nil? %>
-<%= "Shift has been allocated to #{User.find(@shift.fk_user_worker).name}" %>
+	<%= "Shift has been allocated to #{User.find(@shift.fk_user_worker).name}" %>
+<% elsif @shift.allocation_type == 3 %>
+	<%= "This shift is closed so cannot be requested" %>
 <% else %>
   <div id="request_form">
   <% if @shift.requested?(@user) %>

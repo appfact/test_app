@@ -8,7 +8,7 @@
 	<div class="preshift-div" style="display:inline-block; padding:0px;
 	width:<%= @w_preshift %>%; margin:0px 0px 0px 0px"></div>
 
-	<% if s_hash_item.fk_user_worker.nil? %>
+	<% if (s_hash_item.fk_user_worker.nil? && (s_hash_item.allocation_type != 3 || current_user.admin? )) %>
 		<a href=<%= "/shifts/#{s_hash_item.id}" %>>
 		<div class="alert alert-error schedule-open" style="display:inline-block; padding:0px ; 
 					width:<%= @w_shift %>%; margin:0px 0px 0px 0px">
@@ -19,6 +19,20 @@
 			</div>
 		</div>
 		</a>
+
+	<% elsif (s_hash_item.fk_user_worker.nil? && s_hash_item.allocation_type == 3) %>
+		
+		<div class="alert alert-error schedule-open" style="display:inline-block; padding:0px ; 
+					width:<%= @w_shift %>%; margin:0px 0px 0px 0px">
+			<div style="margin:5px">
+				<%= s_hash_item.start_datetime.strftime("%R")%> - <%= s_hash_item.end_datetime.strftime("%R") %><br>
+				<strong><%= s_hash_item.role %></strong> (closed shift) 
+				
+			</div>
+		</div>
+		
+		
+
 	<% else %>
 		<% @shiftworker = User.find(s_hash_item.fk_user_worker) %>
 		<a href=<%= "/shifts/#{s_hash_item.id}" %>>

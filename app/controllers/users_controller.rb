@@ -91,7 +91,7 @@ class UsersController < ApplicationController
         # unless the user doesn't exist, then permission an existing user
         @addeduser = User.find_by_email(params[:user][:email])
         if @addeduser.firm_permissions.find_by_firm_id(current_user.business_id).nil?
-          auth_added_user!(@createduser.id, current_user.business_id)
+          auth_added_user!(@addeduser.id, current_user.business_id)
           # note that auth added user already contains the mailer inform_user_added_to_network
           flash[:success] = "User was added to your network"
           redirect_to '/invite'
