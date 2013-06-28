@@ -11,7 +11,7 @@ class StaticPagesController < ApplicationController
         @numberinnetwork = @firm.firm_permissions.where(status:true)
         @openshifts = @firm.shifts.where(fk_user_worker: nil)
         @openshiftsweek = @firm.shifts.where(fk_user_worker: nil).where('start_datetime > ? AND start_datetime < ?', 
-                Time.now.to_datetime, Time.now.end_of_day + 7.days)
+                Time.now.to_datetime, (Time.now.end_of_day + 7.days).to_datetime)
         @shiftrequests = @firm.shift_requests.where('manager_status is ?', nil)
       else
         @permissionsarray = [] 
