@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   has_secure_password
   has_many :shifts, dependent: :destroy
   has_many :firm_permissions, dependent: :destroy
+  has_many :shift_requests, foreign_key: "worker_id", dependent: :destroy
 
   before_save { |user| user.email = email.downcase }
   before_save :create_remember_token

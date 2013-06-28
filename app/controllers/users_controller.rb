@@ -285,37 +285,23 @@ class UsersController < ApplicationController
   end
 
   def available_shifts_offers
+    @user = current_user
     @offersarray = []
-    @emptyarray = []
-    @availableshiftsx = available_shifts
-    if available_shifts.empty?
-      return @offersarray
-    else
-      @availableshiftsx.each do |shift|
-        unless shift.shift_requests.where('worker_id = ?',current_user.id).where(:worker_status => nil).empty?
-          @offersarray.push(shift.shift_requests.where('worker_id = ?',current_user.id).where(:worker_status => nil))
-        end
-      end
+    @useroffers = @user.shift_requests.where(worker_status: nil, manager_status: true)
+    @useroffers.each do |offer|
+      @offersarray.push(offer.shift_id)
     end
-    return @offersarray
+    return Shift.where('id in (?) AND fk_user_worker is ?', @offersarray, nil)
   end
 
   def available_shifts_requests
+    @user = current_user
     @requestsarray = []
-    @emptyarray = []
-    @availableshiftsx = available_shifts
-    if available_shifts.empty?
-      return @requestsarray
-    else
-      @availableshiftsx.each do |shift|
-        unless shift.shift_requests.where('worker_id = ?',current_user.id)
-                .where(:worker_status => true).where(:manager_status => nil).empty?
-          @requestsarray.push(shift.shift_requests.where('worker_id = ?',current_user.id)
-                .where(:worker_status => true).where(:manager_status => nil))
-        end
-      end
+    @userrequests = @user.shift_requests.where(worker_status: true, manager_status: nil)
+    @userrequests.each do |request|
+      @requestsarray.push(request.shift_id)
     end
-    return @requestsarray
+    return Shift.where('id in (?) AND fk_user_worker is ?', @requestsarray, nil)
   end
 
   def can_view_user_profile

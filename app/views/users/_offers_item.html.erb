@@ -1,5 +1,5 @@
-<% @shift = Shift.find(offers_item[0].shift_id) %>
-<% @shift_request = @shift.shift_requests.find(offers_item[0].id) %>
+<% @shift = Shift.find(offers_item.id) %>
+<% @shift_request = @shift.shift_requests.where(worker_id: current_user.id) %>
 
 <% @durationhours = Time.at(@shift.end_datetime - @shift.start_datetime).utc.strftime("%H")%>
 <% @durationminutes = Time.at(@shift.end_datetime - @shift.start_datetime).utc.strftime("%M")%>
@@ -9,11 +9,11 @@
 
 <tr>
   <td><%= @shift.id %></td>
-  <td><%= @shift.role %> <%= link_to "Accept", "#{acceptoffer_shift_request_path(@shift_request)}?shiftid=#{@shift.id}" %></td>
+  <td><%= @shift.role %> <%= link_to "Accept", "#{acceptoffer_shift_request_path(@shift_request[0].id)}?shiftid=#{@shift.id}" %></td>
   <td><%= short_date(@shift.start_datetime) %></td>
   <!-- DO a date format hepler!! -->
   <td><%= @shift.start_datetime.strftime("%H:%M") %> - <%= @shift.end_datetime.strftime("%H:%M") %>
     </td>
   <td><%= "#{@durationhours} hours#{@durationminutes}" %></td>
-  <td><a href="<%= rejectoffer_shift_request_path(@shift_request) %>?shiftid=<%= @shift.id %>" class="close">×</a></td>
+  <td><a href="<%= rejectoffer_shift_request_path(@shift_request[0].id) %>?shiftid=<%= @shift.id %>" class="close">×</a></td>
 </tr>
