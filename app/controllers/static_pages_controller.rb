@@ -16,12 +16,13 @@ class StaticPagesController < ApplicationController
       else
         @permissionsarray = [] 
         current_user.firm_permissions.where(status: true).each do |permission|
-          @permissionsarray.push(permission.id)
+          @permissionsarray.push(permission.firm_id)
         end
         @openshifts = Shift.where('firm_id in (?)', @permissionsarray).where(fk_user_worker: nil)
         @openshiftsweek = Shift.where('firm_id in (?)', @permissionsarray).where(fk_user_worker: nil).where('start_datetime > ? AND start_datetime < ?', 
                 Time.now.to_datetime, Time.now.end_of_day + 7.days)
-        @availableshifts = Shift.where(fk_user_worker: nil).where('start_datetime > ?',Time.now.to_datetime).where('firm_id in (?)', @permissionsarray)
+        @availableshifts = Shift.where(fk_user_worker: nil).where('start_datetime > ?',Time.now.to_datetime)
+              .where('firm_id in (?)', @permissionsarray)
       end
     end
   end

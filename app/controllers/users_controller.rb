@@ -281,6 +281,7 @@ class UsersController < ApplicationController
     end
     return Shift.where("firm_id in (?) AND fk_user_worker is ? 
                   AND start_datetime > ? AND allocation_type in (1,2)", @permissionsarray, nil, Time.now.to_datetime)
+                  .order(:start_datetime)
   end
 
   def available_shifts_offers
