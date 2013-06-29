@@ -47,6 +47,7 @@ class ShiftRequestsController < ApplicationController
       @shiftrequest = @shift.shift_requests.find(params[:id])
       @shiftrequest.destroy
       @shift.update_attributes(fk_user_worker: current_user.id)
+      ShiftMailer.assigned_shift(current_user,@shift).deliver
       flash[:success] = "You accepted the offer for shift ##{@shift.id} - #{@shift.role} and you are now assigned this shift"
       redirect_to '/offers'
     else
