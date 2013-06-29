@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello <%= @user.name %></h1>
+    <p>
+      Your manager cancelled your shift.<br>
+      Where: <%= "#{@firm.name} #{@firm.branch}" %><br>
+      When: <%= "#{@shift.start_datetime.strftime("%a %d %b")} at #{@shift.start_datetime.strftime("%H:%M")} - #{@shift.end_datetime.strftime("%H:%M")}" %><br>
+      Shift type: <%= @shift.role %>
+      <br/>
+    </p>
+    <p>
+      To find more shifts <%= @url %>.
+    </p>
+    <p></p>
+  </body>
+</html>

@@ -142,9 +142,11 @@ class ShiftsController < ApplicationController
 
   def remove_worker
     @shift = Shift.find(params[:id])
+    @worker = User.find(@shift.fk_user_worker)
     @shift.fk_user_worker = nil
     if @shift.save
       flash[:success] = "You cleared this shift, user has been informed"
+      ShiftMailer.cancelled_shift(@worker,@shift).deliver
       redirect_back_or @shift
     else
       flash[:error] = "Something went wrong, worker not removed, please try again"
