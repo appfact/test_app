@@ -15,7 +15,7 @@ default from: 'ShiftCloud <notifications@shiftcloud.co.uk>'
   	@shift = shift
     @firm = Firm.find(shift.firm_id)
     @url  = 'https://www.shiftcloud.co.uk/shifts'
-    mail(to: @user.email, subject: "Your shift on #{@shift.start_datetime.strftime("%d %b %H:%M")} 
+    mail(to: @user.email, subject: "Your shift on #{@shift.start_datetime.strftime("%d %b")} 
     				@ #{@firm.name} #{@firm.branch} has been cancelled")
   end
 
