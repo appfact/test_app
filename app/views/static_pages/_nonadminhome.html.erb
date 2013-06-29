@@ -1,5 +1,37 @@
 <div class="span6 offset3">
 
+<% if @myshifts.length > 0 %>
+<div class="alert alert-success">
+	<h4>Your shifts (<%= @myshifts.length %>)</h4>
+		You have <%= @myshifts.length %> confirmed shift(s) in the next 7 days.
+		Click on the <%= link_to "My shifts", '/shifts' %> link under the schedules 
+		menu (<i class="icon-calendar"></i>) to see your shifts. 
+
+</div>
+
+<% elsif @allmyshifts.any? %>
+<div class="alert alert-success">
+	<h4>Your shifts (<%= @allmyshifts.length %>)</h4>
+		You have <%= @allmyshifts.length %> confirmed shift(s). Your next shift is 
+		<%= "#{@allmyshifts.first.role} at #{Firm.find(@allmyshifts.first.firm_id).name} on 
+		#{@allmyshifts.first.start_datetime.strftime("%d %b")}" %>.
+		Click on the <%= link_to "My shifts", '/shifts' %> link under the schedules 
+		menu (<i class="icon-calendar"></i>) to see your shifts. 
+
+</div>
+
+<% end %>
+
+<% if @offeredshifts.length > 0 %>
+<div class="alert alert-success">
+	<h4>Shift Offers (<%= @offeredshifts.length %>)</h4>
+		Click on the <%= link_to "Offers", '/offers' %> link to see available shifts in your network. 
+		You have been offered <%= @offeredshifts.length %> shift(s).
+
+</div>
+<% end %>
+
+
 <div class="alert alert-info" style="background-color:white">
 	<h4>Find Shifts</h4>
 		Click on the <%= link_to "Get Shifts", '/availableshifts' %> link to see available shifts in your network. 

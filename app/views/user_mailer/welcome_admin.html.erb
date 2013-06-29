@@ -4,13 +4,14 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Welcome to ShiftCloud, <%= @user.name %></h1>
+    <h1>Hi <%= @user.name %></h1>
     <p>
-      You have successfully signed up to ....,
-      Sign in using your email address <%= @user.email %> and the password you chose.<br/>
+      You have successfully signed up to ShiftCloud. The next stage is to enter your business details.
+      If you lose your place you can return to <%= @url %>firms/new to complete the signup.<br><br>
+      To sign in to ShiftCloud use your email address <%= @user.email %> and the password you chose.<br/>
     </p>
     <p>
-      To login to the site, just follow this link: <%= @url %>.
+      To get started, check out the home page <%= @url %>.
     </p>
     <p></p>
   </body>

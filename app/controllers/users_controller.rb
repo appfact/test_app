@@ -161,6 +161,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @permission = @user.firm_permissions.find(params[:permissionid])
     @permission.toggle!(:status)
+    @user.shift_requests.all.each do |request|
+      request.destroy
+    end
     redirect_to @user
   end
 

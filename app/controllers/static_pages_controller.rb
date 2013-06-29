@@ -23,6 +23,10 @@ class StaticPagesController < ApplicationController
                 Time.now.to_datetime, Time.now.end_of_day + 7.days)
         @availableshifts = Shift.where(fk_user_worker: nil).where('start_datetime > ?',Time.now.to_datetime)
               .where('firm_id in (?)', @permissionsarray)
+        @offeredshifts = sp_available_shifts_offers
+        @myshifts = Shift.where('fk_user_worker = ? AND end_datetime > ? AND start_datetime < ?',
+                current_user.id, Time.now.to_datetime, Time.now.to_datetime + 7.days)
+        @allmyshifts = Shift.where('fk_user_worker = ? AND start_datetime > ?', current_user.id, Time.now.to_datetime)
       end
     end
   end
@@ -57,4 +61,15 @@ class StaticPagesController < ApplicationController
     return Shift.where("firm_id in (?) AND fk_user_worker is ? 
                   AND start_datetime > ? AND allocation_type in (1,2)", @permissionsarray, nil, Time.now.to_datetime)
   end
+
+  def sp_available_shifts_offers
+    @user = current_user
+    @offersarray = []
+    @useroffers = @user.shift_requests.where(worker_status: nil, manager_status: true)
+    @useroffers.each do |offer|
+      @offersarray.push(offer.shift_id)
+    end
+    return Shift.where('id in (?) AND fk_user_worker is ?', @offersarray, nil)
+  end
+
 end

@@ -65,6 +65,9 @@ def create
     @firm.firm_permissions.find_by_user_id(params[:userid]).toggle!(:status)
     @user = User.find(params[:userid])
     flash[:success] = "You have removed #{@user.name} from your network"
+    @firm.shift_requests.where(worker_id: @user.id).each do |request|
+      request.destroy
+    end
     redirect_to permissions_firm_path(@firm)
   end
 
