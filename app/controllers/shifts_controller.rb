@@ -34,6 +34,10 @@ class ShiftsController < ApplicationController
 
   def destroy
     @shift.destroy
+    if !@shift.fk_user_worker.nil?
+      @worker = User.find(@shift.fk_user_worker)
+      ShiftMailer.cancelled_shift(@worker,@shift).deliver
+    end
     flash[:success] = "You deleted the shift ##{@shift.id} - #{@shift.role}"
     @firm = Firm.find(current_user.business_id)
     redirect_to shifts_firm_path(@firm)
