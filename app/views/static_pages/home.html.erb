@@ -38,7 +38,8 @@
 			<%= form_for(:session, url: sessions_path) do |f| %>
 			<div style="margin:5px 10px -5px; width:90%"><%= f.text_field :email, placeholder: "email address" %></div>
 			<div style="margin:0px 10px; width:90%"><%= f.password_field :password, placeholder: "password" %></div>
-			<div style="margin:0px 20px 5px; width:90%; height:15px"><%= f.submit "Sign in", class: "btn btn-medium btn-primary pull-right" %></div>
+			<div style="margin:0px 20px 5px; width:90%; height:15px">
+				<span style="margin-left:-8px"><a href="resetpassword">Forgot password?</a></span><%= f.submit "Sign in", class: "btn btn-medium btn-primary pull-right" %></div>
     		<% end %>
 		
 		</div>

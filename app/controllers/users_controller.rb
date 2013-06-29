@@ -205,6 +205,8 @@ class UsersController < ApplicationController
     redirect_to '/home'
   end
 
+
+
   private
 
     def correct_user

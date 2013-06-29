@@ -15,10 +15,10 @@
 
 
 
-<h3>
+<h4>
 	<%= @shift.role %> @ <%= Firm.find(@shift.firm_id).name %>
 	<%= @shift.fk_user_worker.nil? ? "(Open)" : "(Assigned to #{User.find(@shift.fk_user_worker).name})" %>
-</h3>
+</h4>
 
 <table class="table table-bordered">
 	<tbody>

@@ -80,6 +80,8 @@ TestApp::Application.routes.draw do
   match '/switchbusiness', to: 'users#switch_business_account', via: 'get'
   match '/newshift', to: 'shifts#newshift', via: 'get'
   match '/newshiftclone', to: 'shifts#newshiftclone', via: 'get'
+  match '/resetpassword', to: 'static_pages#resetpassword', via: 'get'
+  match '/resetpasswordaction', to: 'static_pages#resetpasswordaction', via: 'get'
 
   
   root to: 'static_pages#home'

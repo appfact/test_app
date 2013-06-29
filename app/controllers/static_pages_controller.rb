@@ -41,7 +41,28 @@ class StaticPagesController < ApplicationController
   	@shift = current_user.shifts.build if signed_in?
   end
 
+  def resetpassword
+  end
+
+  def resetpasswordaction
+    @user = User.find_by_email(params[:email])
+    if @user.nil?
+      flash[:error] = "Email not recognised"
+      render 'resetpassword'
+    else
+      password_reset(@user)
+      flash[:success] = "Your password was reset - please check your email for your new password"
+      redirect_to '/home'
+    end
+  end
+
   private
+
+  def password_reset(user)
+    @password = ('a'..'z').to_a.shuffle[0..7].join
+    user.update_attributes(password: @password, password_confirmation: @password)
+    UserMailer.password_reset(user,@password).deliver
+  end
 
   def admin_user
   	unless current_user.admin?
