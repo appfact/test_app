@@ -68,7 +68,7 @@
 		</td>
 		</tr>
 		<tr>
-			<td><span style="color:#0088cc"><%= "More info"%></span></td><td><%= "#{@shiftdescription}" %></td>
+			<td><span style="color:#0088cc"><%= "More info"%></span></td><td><%= @shiftdescription.blank? ? "(none given)" : @shiftdescription %></td>	
 		</tr>
 	</tbody>
 </table>
