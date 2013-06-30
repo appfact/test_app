@@ -217,6 +217,10 @@ class ShiftsController < ApplicationController
     @shift = Shift.find(params[:id])
     @shifts_series = Shift.where('series_id = ?',@shift.series_id)
     @shifts_series.each do |sshift| 
+        if !sshift.fk_user_worker.nil? 
+          @suser = User.find(sshift.fk_user_worker)
+          ShiftMailer.cancelled_shift(@suser,sshift).deliver
+        end
         sshift.destroy
       end
     flash[:success] = "You deleted all shifts in series #{@shift.series_id}"
@@ -231,13 +235,20 @@ class ShiftsController < ApplicationController
       redirect_to series_shift_path(@shift)
     else
       @shifts_array.split(',').each do |shift|
-        Shift.find(shift).destroy
+        @sshift = Shift.find(shift)
+        if !@sshift.fk_user_worker.nil?
+          @suser = User.find(@sshift.fk_user_worker)
+          ShiftMailer.cancelled_shift(@suser,@sshift).deliver
+        end
+        @sshift.destroy
       end
       if Shift.where('id = ?',params[:id]).any?
-        flash[:success] = "You deleted #{@shifts_array.split(',').length} shifts from this series."
+        flash[:success] = "You deleted #{@shifts_array.split(',').length} shifts from this series. Any people who were assigned 
+        shifts in this series have been informed."
         redirect_to series_shift_path(params[:id])
       else
-        flash[:success] = "You deleted #{@shifts_array.split(',').length} shift(s)."
+        flash[:success] = "You deleted #{@shifts_array.split(',').length} shift(s). Any people who were assigned 
+        shifts in this series have been informed."
         redirect_to shifts_firm_path(current_user.business_id)
       end
     end
