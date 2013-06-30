@@ -18,4 +18,12 @@ default from: 'ShiftCloud <notifications@shiftcloud.co.uk>'
     mail(to: @user.email, subject: "Your shift on #{@shift.start_datetime.strftime("%d %b")} @ #{@firm.name} #{@firm.branch} has been cancelled")
   end
 
+  def offered_shift(user,shift)
+    @user = user
+    @shift = shift
+    @firm = Firm.find(shift.firm_id)
+    @url  = 'https://www.shiftcloud.co.uk/offers'
+    mail(to: @user.email, subject: "You have been assigned a #{@shift.role} shift @ #{@firm.name} #{@firm.branch} on #{@shift.start_datetime.strftime("%a %d %b")}")
+  end
+
 end

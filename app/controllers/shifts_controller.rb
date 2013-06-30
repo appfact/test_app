@@ -99,6 +99,7 @@ class ShiftsController < ApplicationController
         @shift.shift_requests.find_by_worker_id(@worker.id).delete
         @shift.update_attributes(fk_user_worker: params[:workerid])
         flash[:success] = "You offered shift to user and the user accepted the request. Shift now allocated to user."
+        ShiftMailer.assigned_shift(@worker,@shift).deliver
         redirect_to @shift
       else
         flash[:error] = "You cannot offer this worker this shift because they have already rejected a request."
@@ -107,6 +108,7 @@ class ShiftsController < ApplicationController
     else
       @shift.shift_requests.create(manager_status: true, manager_id: current_user.id, worker_id: @worker.id)
       flash[:success] = "You offered shift to #{@worker.name}"
+      ShiftMailer.offered_shift(@worker,@shift).deliver
       redirect_to offers_shift_path(@shift)
     end
   end
