@@ -56,6 +56,9 @@ class StaticPagesController < ApplicationController
     end
   end
 
+  def findoutmore
+  end
+
   private
 
   def password_reset(user)

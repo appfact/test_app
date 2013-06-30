@@ -82,6 +82,7 @@ TestApp::Application.routes.draw do
   match '/newshiftclone', to: 'shifts#newshiftclone', via: 'get'
   match '/resetpassword', to: 'static_pages#resetpassword', via: 'get'
   match '/resetpasswordaction', to: 'static_pages#resetpasswordaction', via: 'get'
+  match '/findoutmore', to: 'static_pages#findoutmore', via: 'get'
 
   
   root to: 'static_pages#home'
