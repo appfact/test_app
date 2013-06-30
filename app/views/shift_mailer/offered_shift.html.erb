@@ -9,12 +9,12 @@
       You have been offered a shift on ShiftCloud.<br>
       Where: <%= "#{@firm.name} #{@firm.branch}" %><br>
       When: <%= "#{@shift.start_datetime.strftime("%a %d %b")} at #{@shift.start_datetime.strftime("%H:%M")} - #{@shift.end_datetime.strftime("%H:%M")}" %><br>
-      Shift type: <%= @shift.role %>
+      Shift type: <%= @shift.role %><br>
       More information: <%= @shift.description.empty? ? "(none given)" : @shift.description %>
       <br/>
     </p>
     <p>
-      Go to  http://www.shiftcloud.co.uk/offers to accept or reject this offer.
+      Go to  https://www.shiftcloud.co.uk/offers to accept or reject this offer.
     </p>
     <p></p>
   </body>

@@ -153,7 +153,7 @@ class ShiftsController < ApplicationController
     if @shift.save
       flash[:success] = "You cleared this shift, user has been informed"
       ShiftMailer.cancelled_shift(@worker,@shift).deliver
-      redirect_back_or @shift
+      redirect_to @shift
     else
       flash[:error] = "Something went wrong, worker not removed, please try again"
       redirect_back_or @shift
