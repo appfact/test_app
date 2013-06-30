@@ -98,7 +98,7 @@ class StaticPagesController < ApplicationController
   end
 
   def business_user_not_completed_signup
-    if signed_in_user?
+    if !current_user.nil?
     if current_user.business_id = "ASSA{}{}{345345[]]]"
       flash[:info] = "Please complete your sign up"
       redirect_to new_firm_path
