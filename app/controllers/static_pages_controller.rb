@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
   before_filter :signed_in_user,  only: [:shifts, :newshift]
   before_filter :admin_user,     only: :newshift
-  before_filter :business_user_not_completed_signup
+ # before_filter :business_user_not_completed_signup
 
 
   def home
