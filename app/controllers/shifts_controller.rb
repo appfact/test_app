@@ -310,11 +310,8 @@ class ShiftsController < ApplicationController
     end
     @worker = User.find(params[:workerid])
     @shifts_array.each do |ashift|
-      if !ashift.fk_user_worker.nil?
-          @suser = User.find(ashift.fk_user_worker)
-          ShiftMailer.assigned_shift(@suser,ashift).deliver
-        end
       ashift.update_attributes(:fk_user_worker => @worker.id)
+      ShiftMailer.assigned_shift(@worker,ashift).deliver
     end
     flash[:success] = "You assigned shifts in this series to #{@worker.name}"
     redirect_to series_shift_path(@shift)
