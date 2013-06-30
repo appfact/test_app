@@ -312,7 +312,7 @@ class ShiftsController < ApplicationController
     @shifts_array.each do |ashift|
       if !ashift.fk_user_worker.nil?
           @suser = User.find(ashift.fk_user_worker)
-          ShiftMailer.cancelled_shift(@suser,ashift).deliver
+          ShiftMailer.assigned_shift(@suser,ashift).deliver
         end
       ashift.update_attributes(:fk_user_worker => @worker.id)
     end
