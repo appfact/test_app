@@ -1,8 +1,12 @@
 <% provide(:title, 'Sign up') %>
 
-
+<body background="clouds1.jpg">
+<div class="visible-phone">
+  <br><br>
+</div>
 <div class="row-fluid">
-  <div class="span4 offset4">
+  <div class="span6 offset3">
+    <a href="home"><span class="lead" style="font-size:3em">ShiftCloud</span></a> <br><br>
     <h2>Sign up for new business account</h2>
 
       <div class="alert alert-block alert-info">
@@ -14,15 +18,15 @@
       If you are a shift worker and your manager has asked you to join the site, please
       <a href="/signupuser">click here</a> to sign up as a new USER.
       </div>
-
+      <div class="alert alert-block alert-info" style="background-color:white">
     <%= form_for(@user) do |f| %>
           <%= render 'shared/error_messages', object: f.object %>
 
-      <%= f.label :name %>
+      <%= f.label :name, "Your name" %>
       <%= f.text_field :name %>
 
-      <%= f.label :email %>
-      <%= f.text_field :email %>
+      <%= f.label :email, "Your email" %>
+      <%= f.email_field :email %>
 
       <%= f.label :phone %>
       <%= f.text_field :phone %>
@@ -37,7 +41,8 @@
 
 
 
-      <%= f.submit "Create my account", class: "btn btn-large btn-primary" %>
+      <%= f.submit "Step 1 - save your contact details", class: "btn btn-medium btn-primary" %>
     <% end %>
+  </div>
   </div>
 </div>

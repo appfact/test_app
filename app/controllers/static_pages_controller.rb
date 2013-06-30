@@ -1,6 +1,7 @@
 class StaticPagesController < ApplicationController
   before_filter :signed_in_user,  only: [:shifts, :newshift]
   before_filter :admin_user,     only: :newshift
+  before_filter :business_user_not_completed_signup
 
 
   def home
@@ -94,6 +95,13 @@ class StaticPagesController < ApplicationController
       @offersarray.push(offer.shift_id)
     end
     return Shift.where('id in (?) AND fk_user_worker is ?', @offersarray, nil)
+  end
+
+  def business_user_not_completed_signup
+    if current_user.business_id = "ASSA{}{}{345345[]]]"
+      flash[:info] = "Please complete your sign up"
+      redirect_to new_firm_path
+    end
   end
 
 end
