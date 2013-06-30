@@ -308,6 +308,13 @@ class ShiftsController < ApplicationController
     else
       @shifts_array = Shift.where('id in (?)',params[:shifts].split(','))
     end
+    @shifts_array.each do |ashift|
+      if !ashift.fk_user_worker.nil?
+        flash[:error] = "Please remove workers before trying to assign shifts. Can only assign open shifts"
+        redirect_to series_shift_path(@shift)
+        return
+      end
+    end
     @worker = User.find(params[:workerid])
     @shifts_array.each do |ashift|
       ashift.update_attributes(:fk_user_worker => @worker.id)
