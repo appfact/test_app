@@ -223,7 +223,8 @@ class ShiftsController < ApplicationController
         end
         sshift.destroy
       end
-    flash[:success] = "You deleted all shifts in series #{@shift.series_id}"
+    flash[:success] = "You deleted all shifts in series #{@shift.series_id}. Any people who were assigned 
+        shifts in this series have been informed."
     redirect_to shifts_firm_path(current_user.business_id)
   end
 
@@ -258,6 +259,10 @@ class ShiftsController < ApplicationController
     @shift = Shift.find(params[:id])
     @shifts_series = Shift.where('series_id = ?',@shift.series_id)
     @shifts_series.each do |rshift|
+      if !rshift.fk_user_worker.nil?
+          @suser = User.find(rshift.fk_user_worker)
+          ShiftMailer.cancelled_shift(@suser,rshift).deliver
+        end
       rshift.update_attributes(fk_user_worker: nil)
     end
     flash[:success] = "You removed worker from all shifts in the series"
@@ -271,8 +276,13 @@ class ShiftsController < ApplicationController
       flash[:error] = "Please select some shifts first"
       redirect_to series_shift_path(@shift)
     else
-      @shifts_array.split(',').each do |shiftid|
-        Shift.find(shiftid).update_attributes(fk_user_worker: nil)
+      @shifts_array.split(',').each do |rshift|
+        @sshift = Shift.find(rshift)
+        if !@sshift.fk_user_worker.nil?
+          @suser = User.find(@sshift.fk_user_worker)
+          ShiftMailer.cancelled_shift(@suser,@sshift).deliver
+        end
+        @sshift.update_attributes(fk_user_worker: nil)
       end
       flash[:success] = "You removed worker from #{@shifts_array.split(',').length} shifts"
       redirect_to series_shift_path(@shift)
@@ -299,8 +309,12 @@ class ShiftsController < ApplicationController
       @shifts_array = Shift.where('id in (?)',params[:shifts].split(','))
     end
     @worker = User.find(params[:workerid])
-    @shifts_array.each do |shift|
-      shift.update_attributes(:fk_user_worker => @worker.id)
+    @shifts_array.each do |ashift|
+      if !ashift.fk_user_worker.nil?
+          @suser = User.find(ashift.fk_user_worker)
+          ShiftMailer.cancelled_shift(@suser,ashift).deliver
+        end
+      ashift.update_attributes(:fk_user_worker => @worker.id)
     end
     flash[:success] = "You assigned shifts in this series to #{@worker.name}"
     redirect_to series_shift_path(@shift)
