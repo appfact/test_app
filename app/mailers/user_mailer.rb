@@ -19,14 +19,14 @@ default from: 'ShiftCloud <notifications@shiftcloud.co.uk>'
 
   def welcome_admin(user)
     @user = user
-    @url  = 'https://www.shiftcloud.co.uk'
-    mail(to: @user.email, subject: 'Welcome to My Awesome Site')
+    @url  = 'https://www.shiftcloud.co.uk/'
+    mail(to: @user.email, subject: 'Welcome to ShiftCloud!')
   end
 
   def password_reset(user,password)
     @user = user
     @password = password
-    @url = 'https://www.shiftcloud.co.uk'
+    @url = 'https://www.shiftcloud.co.uk/'
     mail(to: @user.email, subject: 'Your password has been reset')
   end
 
