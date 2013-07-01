@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :switch_from_user_to_admin, :shifts, :offers, :requests]
+  before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :switch_from_user_to_admin, :shifts]
   before_filter :correct_user,   only: [:edit, :update]
   # correct_user private method ensures users can only edit their own info
   before_filter :admin_user,     only: [:destroy, :invite, :switch_business_account]
