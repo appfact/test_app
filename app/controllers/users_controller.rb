@@ -312,12 +312,11 @@ class UsersController < ApplicationController
   def can_view_user_profile
     @userprofile = User.find(params[:id])
     if current_user != @userprofile
-      if current_user.admin?
-        if @userprofile.firm_permissions.where(:status => true).
-                  where('firm_id = ?', current_user.business_id.to_i).nil?
+      if !current_user.admin? || @userprofile.firm_permissions.where(status: true).
+                  where('firm_id = ?', current_user.business_id.to_i).length == 0
           flash[:error] = "You don't have permission to view that page"
           redirect_to current_user
-        end
+        
       end
     end
   end
