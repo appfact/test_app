@@ -35,4 +35,19 @@ module FirmsHelper
 		return (@span_intervals.join(':00 ') + ":00").to_s
 	end
 
+	def employee_shifts_number(employee, from, to)
+		 return Shift.where(fk_user_worker: employee.id).
+		 			where('start_datetime >= ? AND start_datetime <= ?',from.beginning_of_day, to.end_of_day).length
+	end
+
+	def employee_shifts_hours(employee, from, to)
+		@shifts_array = Shift.where(fk_user_worker: employee.id).
+		 			where('start_datetime >= ? AND start_datetime <= ?',from.beginning_of_day, to.end_of_day)
+		@hours = 0
+		@shifts_array.each do |shift|
+			@hours += (shift.end_datetime - shift.start_datetime)
+		end
+		return Time.at(@hours.to_i).strftime("%H:%M")
+	end
+
 end

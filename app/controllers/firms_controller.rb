@@ -129,8 +129,15 @@ def create
       @s_end_hour = [@s_hash_items3.end_datetime, @s_date.end_of_day].sort.first.seconds_since_midnight.to_i
       @s_end_hour % 3600 == 0 ? @s_end_hour : @s_end_hour += (3600 - (@s_end_hour % 3600))
       @s_day_length = @s_end_hour.to_f - @s_start_hour.to_f
-    end                  
-                          
+    end                                     
+  end
+
+  def hourscalculator
+    @firm = Firm.find(params[:id])
+    params[:from].nil? ? @from = @firm.created_at : @from = Date.parse(params[:from])
+    params[:to].nil? ? @to = Time.now.end_of_day : @to = Date.parse(params[:to])
+    @employees_hours_items = @firm.shifts.where('start_datetime > ? AND start_datetime < ? AND fk_user_worker is not ?',
+          @from.beginning_of_day,@to.end_of_day, nil).group(:fk_user_worker)
   end
 
   private

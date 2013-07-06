@@ -44,6 +44,7 @@ TestApp::Application.routes.draw do
       get :makeadmin
       get :removeadmin
       get :edit
+      get :hourscalculator
     end
   end
 

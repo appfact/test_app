@@ -1,0 +1,10 @@
+<% @employee = User.find(employee_hours_item.fk_user_worker) %>
+
+<% @employee_hours = 0 %>
+<%  %>
+<tr>
+				<td><%= @employee.name %></td>
+				<td><%= employee_shifts_number(@employee, @from, @to) %></td>
+				<td><%= employee_shifts_hours(@employee, @from, @to) %></td>
+				
+			</tr>

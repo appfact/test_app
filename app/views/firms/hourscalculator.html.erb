@@ -1,0 +1,40 @@
+<div class="span6 offset3">
+
+<h4>Showing Employee Hours Worked</h4>
+<!-- <div class="row-fluid" style="border:1px solid blue;border-radius:3px;padding:5px"> -->
+	<table class="table table-bordered">
+		<tr>
+			<td>
+				<div class="span6">
+					From:  <%= render 'datepicker2' %>
+				</div>
+				<div class="span6">
+					To: <%= render 'datepicker3' %>
+				</div>
+			</td>
+		</tr>
+	</table>
+<!-- </div> -->
+
+<% if @employees_hours_items.any? %>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>Team member</th>
+			<th>Shifts worked</th>
+			<th>Hours worked</th>
+		</tr>
+
+<tbody>
+<%= render partial: 'employee_hours_item', collection: @employees_hours_items %>
+
+		</tbody>
+	</thead>
+</table>
+
+
+
+<% end %>
+
+</div>
