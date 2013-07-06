@@ -136,7 +136,7 @@ def create
     @firm = Firm.find(params[:id])
     params[:from].nil? ? @from = @firm.created_at : @from = Date.parse(params[:from])
     params[:to].nil? ? @to = Time.now.end_of_day : @to = Date.parse(params[:to])
-    @employees_hours_items = @firm.shifts.select("sum(id) as firm_id, fk_user_worker").
+    @employees_hours_items = @firm.shifts.select("count(id) as number, fk_user_worker, sum(end_datetime - start_datetime) as timex").
       where('start_datetime > ? AND start_datetime < ? AND fk_user_worker is not ?',
           @from.beginning_of_day,@to.end_of_day, nil).group(:fk_user_worker)
   end

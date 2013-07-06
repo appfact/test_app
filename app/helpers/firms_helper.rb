@@ -47,7 +47,7 @@ module FirmsHelper
 		@shifts_array.each do |shift|
 			@hours += (shift.end_datetime - shift.start_datetime)
 		end
-		return Time.at(@hours.to_i).strftime("%H:%M")
+		return "#{(@hours.to_i - @hours.to_i % 3600)/3600} hours #{(@hours.to_i % 3600)/60} minutes"
 	end
 
 end
