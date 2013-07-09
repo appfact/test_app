@@ -43,8 +43,12 @@ module ShiftsHelper
 
 	def user_available(shiftx, userx)
 		if Shift.where('(fk_user_worker = ? AND start_datetime >= ? AND start_datetime <= ?) 
-						OR (fk_user_worker = ? AND end_datetime >= ? AND end_datetime <= ?)',
-						userx.id, shiftx.start_datetime, shiftx.end_datetime, userx.id, shiftx.start_datetime, shiftx.end_datetime).any?
+						OR (fk_user_worker = ? AND end_datetime >= ? AND end_datetime <= ?)
+						OR (fk_user_worker = ? AND start_datetime <= ? AND end_datetime >= ?)',
+						userx.id, shiftx.start_datetime, shiftx.end_datetime, 
+						userx.id, shiftx.start_datetime, shiftx.end_datetime,
+						userx.id, shiftx.start_datetime, shiftx.end_datetime
+						).any?
 			return "unavailable"
 		else
 			return ""

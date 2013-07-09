@@ -205,6 +205,60 @@ class UsersController < ApplicationController
     redirect_to '/home'
   end
 
+  def userholiday
+    # the variables are in the users helper
+  end
+
+  def userholidayrequests
+    @holidays_requests = Shift.where(fk_user_worker: current_user.id, status: nil).
+        where('end_datetime > ? AND allocation_type = ?', Time.now.to_datetime, 10)
+  end
+
+  def userpastholidays
+  end
+
+  def userunavailable
+    # variables in the users helper
+  end
+
+  def cancelunavailable
+    @shift = Shift.find(params[:unavailableid]) rescue nil
+    if @shift.nil?
+      flash[:error] = "There was a problem, please try again"
+      redirect_to userunavailable_user_path(current_user)
+    elsif (@shift.fk_user_worker == current_user.id && @shift.allocation_type == 12)
+      @shift.destroy
+      flash[:success] = "You cancelled this unavailable time"
+      redirect_to userunavailable_user_path(current_user)
+    else
+      flash[:error] = "There was a problem, please try again"
+      redirect_to userunavailable_user_path(current_user)
+    end
+  end
+
+    def cancelholidayrequest
+    @shift = Shift.find(params[:requestid])
+    if @shift.nil?
+      flash[:error] = "There was a problem, please try again"
+      redirect_to userholidayrequests_user_path(current_user)
+    elsif (@shift.fk_user_worker == current_user.id && @shift.allocation_type == 10 && @shift.status == nil)
+      @shift.destroy
+      flash[:success] = "You cancelled your holiday request"
+      redirect_to userholidayrequests_user_path(current_user)
+    else
+      flash[:error] = "There was a problem, please try again"
+      redirect_to userholidayrequests_user_path(current_user)
+    end
+  end
+
+  def newholiday
+    @shift = Shift.new
+  end
+
+  def newunavailable
+    @shift = Shift.new
+  end
+
 
 
   private

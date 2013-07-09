@@ -1,0 +1,6 @@
+<tr>
+	<td><%= unavailable.start_datetime.strftime("%a %d %b") %></td>
+	<td><%= unavailable.start_datetime.strftime("%H:%M") %> - <%= unavailable.end_datetime.strftime("%H:%M") %></td>
+	<td><%= unavailable.description %></td>
+	<td style="text-align:center"><%= link_to "x", "#{cancelunavailable_user_path}?unavailableid=#{unavailable.id}" %></td>
+</tr>

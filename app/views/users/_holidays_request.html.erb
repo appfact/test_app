@@ -1,0 +1,8 @@
+
+<tr>
+	<td><%= holidays_request.start_datetime.strftime("%a %d %b") %></td>
+	<td><%= Time.at(holidays_request.end_datetime - holidays_request.start_datetime).strftime("%H:%M") %> </td>
+	<td><%= holidays_request.description %> </td>
+	<td style="text-align:center"><%= link_to "x", "cancelholidayrequest?requestid=#{holidays_request.id}" %></td>
+
+</tr>

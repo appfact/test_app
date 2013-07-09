@@ -1,6 +1,6 @@
 class ShiftsController < ApplicationController
   before_filter :signed_in_user
-  before_filter :admin_user, only: [:destroy, :create, :remove_worker, :series, :dais, :dsis, :rsis, :rais, :ais, :ais_to_worker,
+  before_filter :admin_user, only: [:destroy, :remove_worker, :series, :dais, :dsis, :rsis, :rais, :ais, :ais_to_worker,
                                     :newshift, :newshiftclone, :requests, :approve_request, :offers, :offer_shift_to_worker,
                                     :unoffer_shift_to_worker, :assign, :assign_worker, :edit, :update, :clone]
   before_filter :correct_user, except: [:newshift, :newshiftclone, :create]
@@ -12,6 +12,13 @@ class ShiftsController < ApplicationController
   end
 
  def create
+  if params[:shift][:allocation_type] == "10"
+    create_holiday(params[:shift])
+    return
+  elsif params[:shift][:allocation_type] == "12"
+    create_unavailability(params[:shift])
+    return
+  end
     @firm = Firm.find(current_user.business_id)
     @shift = @firm.shifts.build(params[:shift])
     @shift.user_id = current_user.id
@@ -30,6 +37,33 @@ class ShiftsController < ApplicationController
      # taking out the flash error because think it interferes with validation errors
       render 'newshift'
     end
+ end
+
+ def create_holiday(shift_params)
+  @firm = Firm.find(shift_params[:firm_id])
+  shift_params = shift_params.except(:firm_id)
+  @shift = @firm.shifts.build(shift_params)
+  @shift.user_id = current_user.id
+  @shift.save
+  if @shift.repeat_until.to_date > @shift.start_datetime.to_date
+    @shift.series_id = @shift.id
+    create_repeat_shifts(@shift)
+  end
+  flash[:success] = "You created a new paid holiday request"
+  redirect_to userholidayrequests_user_path(current_user)
+ end
+
+ def create_unavailability(shift_params)
+  @firm = Firm.find(shift_params[:firm_id])
+  shift_params = shift_params.except(:firm_id)
+  @shift = @firm.shifts.build(shift_params)
+  @shift.user_id = current_user.id
+  @shift.save
+  if @shift.repeat_until.to_date > @shift.start_datetime.to_date
+    @shift.series_id = @shift.id
+    create_repeat_shifts(@shift)
+  end
+  redirect_to userunavailable_user_path(current_user)
  end
 
   def destroy

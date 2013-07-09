@@ -19,4 +19,30 @@ module UsersHelper
     return Shift.where("firm_id in (?) AND fk_user_worker is ? 
                   AND start_datetime > ?", @permissionsarray, nil, Time.now.to_datetime)
     end
+
+  def confirmed_holidays
+    Shift.where(fk_user_worker: current_user.id, status: "true").
+        where('end_datetime > ? AND allocation_type = ?', Time.now.to_datetime, 10)
+  end
+
+  def holidays_past
+       Shift.where(fk_user_worker: current_user.id, status: true).
+        where('end_datetime < ? AND allocation_type = ?', Time.now.to_datetime, 10)
+  end
+
+  def holidays_requests
+       Shift.where(fk_user_worker: current_user.id, status: nil).
+        where('end_datetime > ? AND allocation_type = ?', Time.now.to_datetime, 10)
+  end
+
+  def unavailables
+    Shift.where(fk_user_worker: current_user.id).
+        where('end_datetime > ? AND allocation_type = ?', Time.now.to_datetime, 12)
+  end
+
+  def user_permissions
+    return current_user.firm_permissions.where(:status => true)
+  end
+
+
 end

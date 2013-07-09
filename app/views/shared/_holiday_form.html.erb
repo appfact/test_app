@@ -1,0 +1,133 @@
+<% # logic for which radio button is checked for shift allocation type %>
+
+
+<%= form_for(@shift) do |f| %>
+  <%= render 'shared/error_messages', object: f.object %>
+  
+   <h4 style="margin-bottom:10px">Request paid holiday</h4>
+  
+   <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td style="padding-left:18px;width:20%"><span style="margin-top:2px;color:#0088cc">From*</span></td>
+          <td>
+              <select name="shift[firm_id]" style="padding:4px; width:130px">
+                  <% user_permissions.each do |firm| %>
+                  <% @firmx = Firm.find(firm.firm_id) %>
+                  <option value=<%= @firmx.id %>> <%= @firmx.name %> </option>
+                  <% end %>
+              </select>
+
+          </td>
+      </tr>
+    </tbody>
+  </table>
+
+  
+
+
+   <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td style="padding-left:18px;width:20%"><span style="margin-top:2px;color:#0088cc">Date*</span><br>
+          <span style="margin-top:2px;color:#0088cc;font-size:0.75em">(@start time*)</span></td>
+          <td><%= f.datetime_select :start_datetime, order: [:day,:month,:year], 
+          minute_step: 5, use_short_month: true, datetime_separator: " @  " %>
+          </td>
+      </tr>
+    </tbody>
+  </table>  
+  
+
+
+  <table class="table table-bordered">
+    <tbody>
+      <tr>
+        <td style="padding-left:18px;width:20%"><span style="margin-top:2px;color:#0088cc">Length*</span><br>
+          <span style="margin-top:2px;color:#0088cc;font-size:0.75em">(hours:mins)</span></td>
+          <td><%= f.time_select :duration_mins, minute_step: 5, time_separator: " : ", value: Time.now.beginning_of_day %>
+          </td>
+      </tr>
+    </tbody>
+  </table>  
+
+
+
+  
+
+<div class="accordion" id="accordion2">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+          Reason (optional)
+        </a>
+      </div>
+      <div id="collapseOne" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <%= f.text_area :description, placeholder: "Describe the reason for this break", class: "shift_description" %>
+        </div>
+      </div>
+    </div>
+<br>
+
+ 
+<% if @shift.id.nil? %>  
+
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapsetwo">
+          Holiday of more than 1 day
+        </a>
+      </div>
+      <div id="collapsetwo" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <div class="span6">
+            <strong>Continue holiday on</strong><br>
+            
+          Mo <%= f.check_box :r_mo %>
+          Tu <%= f.check_box :r_tu %>
+          We <%= f.check_box :r_we %>
+          Th <%= f.check_box :r_th %>
+          Fr <%= f.check_box :r_fr %>
+          Sa <%= f.check_box :r_sa %>
+          Su <%= f.check_box :r_su %><br><br>
+           
+          </div>
+          
+          <div class="span6">
+            <strong>Until</strong><br>
+            <%= f.date_select :repeat_until, order: [:day,:month,:year], 
+          use_short_month: true %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  <br>
+  
+    
+  <% end %>
+
+  <%= f.hidden_field :allocation_type, value: 10 %>
+  <%= f.hidden_field :role, value: "Paid holiday" %>
+  <%= f.hidden_field :repeat_type, value: 0 %>
+  <%= f.hidden_field :fk_user_worker, value: current_user.id %>
+
+  <br>
+  
+  <% if @shift.id.nil? %>
+    <%= f.submit "Submit request", class: "btn btn-large btn-primary pull-right" %>
+  <% else %>
+    
+    <% if ((Shift.find_all_by_series_id(@shift.series_id).length > 1) && (!@shift.series_id.nil?)) %>
+    <div class="btn-group pull-right dropup">
+    <%= f.submit "Save Changes", class: "btn btn-primary" %>
+    </div>
+    <% else %>
+
+    <%= f.submit "Save changes", class: "btn btn-large btn-primary pull-right" %>
+    <% end %>
+  <% end %>
+
+<% end %>

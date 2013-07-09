@@ -3,6 +3,14 @@ TestApp::Application.routes.draw do
   resources :users do
     member do
       get :user_remove_network
+      get :userholiday
+      get :userholidayrequests
+      get :userpastholidays
+      get :newholiday
+      get :newunavailable
+      get :userunavailable
+      get :cancelunavailable
+      get :cancelholidayrequest
     end
   end
 

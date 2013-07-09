@@ -32,6 +32,7 @@
 									
 				<ul class="dropdown-menu">
 					<li><%= link_to "My Shifts", '/shifts' %></li>
+					<li><%= link_to "My Availability", userholiday_user_path(current_user) %></li>
 
 					<% @user_permissions = current_user.firm_permissions.where(:status => true) %>
 					<% if @user_permissions.any? %>

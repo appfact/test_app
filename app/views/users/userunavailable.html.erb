@@ -1,0 +1,46 @@
+<div class="span3">
+    <ul class="nav nav-pills nav-stacked">
+    <li>
+    <a href="userholiday">Confirmed Holidays (<%= confirmed_holidays.length %>)</a>
+    </li>
+    <li><%= link_to "Holiday Requests (#{holidays_requests.length})", "userholidayrequests" %></li>
+    <li class="active"><%= link_to "Unavailable times (#{unavailables.length})", "#" %></li>
+    </ul>
+</div>
+
+<div class="span6">
+<div class="row-fluid">
+	
+	<div class="span8">
+		<i>You can mark time unavailable if you do not wish to be assigned or offered shifts during this time.
+		 You will be marked as unavailable to work but this will not count as paid holiday.</i>
+	</div>	
+
+	<div class="span4">
+		<%= link_to "Mark time unavailable", "newunavailable", class: "btn btn-primary" %>
+	</div>
+</div>
+
+
+<% if unavailables.any? %>
+
+		<table class="table">
+    			<thead>
+    				<tr>
+    					<th>Date</th><th>Time</th><th>Reason</th><th style="text-align:center">Cancel</th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<%= render partial: 'unavailable', collection: unavailables %>
+    			</tbody>
+    		</table>
+
+<% else %>
+
+<div class="alert alert-info">
+	You have no upcoming periods marked unavailable.
+</div>
+
+<% end %>
+
+</div>

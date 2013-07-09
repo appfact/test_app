@@ -1,0 +1,40 @@
+<div class="span3">
+    <ul class="nav nav-pills nav-stacked">
+    <li>
+    <a href="userholiday">Confirmed Holidays (<%= confirmed_holidays.length %>)</a>
+    </li>
+    <li class="active"><%= link_to "Holiday Requests (#{holidays_requests.length})", "#" %></li>
+    <li><%= link_to "Unavailable times (#{unavailables.length})", "userunavailable" %></li>
+    </ul>
+</div>
+
+<div class="span6">
+	<div class="row-fluid" style="margin-bottom:5px">
+		
+		<div class="span8">
+		<i>Paid holidays need to be approved by a manager before they are active.
+		 You will be marked as unavailable for new shifts when you are on holiday.</i>
+		</div>
+        <div class="span4">
+            <%= link_to "Request paid holiday", "newholiday", class: "btn btn-primary" %>
+        </div>
+	</div>
+
+		<% if @holidays_requests.any? %>
+		    <table class="table">
+    			<thead>
+    				<tr>
+    					<th>Date</th><th>Hours</th><th>Reason</th><th style="text-align:center">Cancel</th>
+    				</tr>
+    			</thead>
+    			<tbody>
+    				<%= render partial: 'holidays_request', collection: @holidays_requests %>
+    			</tbody>
+    		</table>
+
+    <% else %>
+    <div class="alert alert-info">You have no outstanding requests</div>
+    <% end %>
+	</div>
+
+</div>

@@ -1,0 +1,7 @@
+
+<tr>
+	<td><%= confirmed_holiday.start_datetime.strftime("%a %d %b") %></td>
+	<td><%= Time.at(confirmed_holiday.end_datetime - confirmed_holiday.start_datetime).strftime("%H:%M") %></td>
+	<td><%= confirmed_holiday.description %></td>
+
+</tr>
