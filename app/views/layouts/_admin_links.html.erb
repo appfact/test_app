@@ -10,6 +10,7 @@
 				<ul class="dropdown-menu">
 					<li class="visible-phone"><a><strong><%= " #{Firm.find(current_user.business_id).name}" %></strong></a></li>
 					<li><%= link_to "Network", network_firm_path(current_user.business_id) %></li>
+					<li><%= link_to "Hours Calculator", hourscalculator_firm_path(current_user.business_id) %></li>
 					<li><%= link_to "Business Profile", firm_path(current_user.business_id) %></li>
 					<li class="divider"></li>
 					<li><a href=<%= user_path(current_user.id) %>><i class="icon-user"></i> <%= current_user.name %> (settings)</a></li>
